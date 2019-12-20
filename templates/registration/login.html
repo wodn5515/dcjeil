@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="subject" content="덕천제일교회">
+        <meta name="title" content="덕천제일교회">
+        <meta name="author" content="덕천제일교회">
+        <meta name="description" content="부산시 북구 덕천동 위치, 김대환 담임목사, 예배안내, 설교자료 등 제공">
+        <meta name="keywords" content="교회, 덕천동교회, 덕천동 교회, 김대환 목사, 덕천동, 북구">
+        <meta name="copyright" content="덕천제일교회">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="덕천제일교회">
+        <meta property="og:description" content="덕천제일교회에 오신 것을 환영합니다.">
+        <meta property="og:image" content="">
+        <meta property="og:url" content="http://www.dcjeil.net">
+        <title>로그인 | 덕천제일교회</title>
+        <link rel="stylesheet" href="{% static 'css/common.css' %}">
+        <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+        <link rel="stylesheet" href="{% static 'css/login.css' %}">
+        <script src="{% static 'js/vue.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://kit.fontawesome.com/41217280d3.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div id="header">
+            <h1>
+                <a style="display:block; height:150px;" href="/">
+                    <img src="{% static 'img/toplogo.png' %}" alt="메인탑로고" width="250px" height="150px">
+                </a>
+            </h1>
+        </div>
+        <div id="container">
+            <div class="wrap">
+                <form name="login" action="" method="POST">
+                    {% csrf_token %}
+                    <input autocomplete="off" placeholder="아이디" name="username" type="text" autofocus>
+                    <input autocomplete="off" placeholder="비밀번호" name="password" type="password">
+                    <input class="login_submit" type="submit" value="로그인">
+                </form>
+            </div>
+        </div>
+        <div id="footer">
+            <div class="wrap">
+                <a href="/login/findusername" target="_blank" id="find_username">아이디 찾기</a>
+                <span class="bar">|</span>
+                <a href="/login/findpassword" target="_blank" id="find_password">비밀번호 찾기</a>
+                <span class="bar">|</span>
+                <a href="/register">회원가입</a>
+            </div>
+        </div>
+    </body>
+    <script>
+    $("#find_username, #find_password").click(function(){
+        window.open(this.href, "", "top=100, left=100, width=500, height=330, scrollbars=no")
+        return false;
+    })
+    </script>
+</html>

@@ -1,0 +1,14 @@
+{% load static %}
+<div id="pic_table" class="after">
+    {% for post in post_list %}
+    <a href="/board/{{post.div}}/{{post.id}}">
+        <div class="container">
+            <img src="{{post.image.first.thumbnail.url}}">
+            <div class="con_title">
+                {{post.title}}
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% include "pagination.html" %}

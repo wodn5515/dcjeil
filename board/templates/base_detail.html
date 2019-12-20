@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div id="title">
+    <div>
+        {{title}}
+    </div>
+</div>
+<div id="wrapper" class="after">
+    <div id="side_nav_wrap">
+        {% include sidenav %}
+    </div>
+    <div id="content">
+        {% include content %}
+    </div>
+</div>
+{% endblock content %}

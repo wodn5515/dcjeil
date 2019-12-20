@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+회원가입약관 | 덕천제일교회
+{% endblock title%}
+{% block head %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock head %}
+{% block content %}
+<div id="title">
+    <div>
+        <h1>회원가입약관</h1>
+    </div>
+</div>
+<div id="wrapper">
+    <h2>회원가입약관</h2>
+    <form action="" method="POST" name="register_term">
+    <h4 style="color:#0093e9; margin-top:30px;">회원가입약관에 동의하셔야만 회원가입을 하실 수 있습니다.</h4>
+    <div class="register_term">
+        <textarea readonly>{% include "registration/register_term.html" %}</textarea>
+        <div class="agree_wrap">
+            {% csrf_token %}
+            <input type="checkbox" name="agree" id="term_agree" value="agree">
+            <label for="term_agree">회원가입약관의 내용에 동의합니다.</label>
+        </div>
+    </div>
+    <div class="btn_confirm">
+        <input type="submit" value="다음">
+    </div>
+    </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+{{title}} | 덕천제일교회
+{% endblock title %}
+{% block content %}
+<div id="title">
+    <div>
+        <h1>{{title}}</h1>
+    </div>
+</div>
+<div id="wrapper" class="after">
+    <div id="side_nav_wrap">
+        {% include sidenav %}
+    </div>
+    <div id="content">
+        {% include content %}
+    </div>
+</div>
+{% endblock content %}

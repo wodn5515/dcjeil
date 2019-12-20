@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+회원가입 | 덕천제일교회
+{% endblock title%}
+{% block head %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock head %}
+{% block content %}
+<div id="title">
+    <div>
+        <h1>회원가입</h1>
+    </div>
+</div>
+<div id="wrapper">
+    <form action="" method="POST" autocomplete="off">
+        {% csrf_token %}    
+        <section>
+            {% for field in form1 %}
+            <div class="field_wrap">
+                {{ field.label_tag }}
+                {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
+                {{ field }}
+                {% if field.help_text %}
+                <p class="help">{{ field.help_text|safe }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+        </section>
+        <section>
+            {% for field in form2 %}
+            <div class="field_wrap">
+                {{ field.label_tag }}
+                {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
+                {{ field }}
+                {% if field.help_text %}
+                <p class="help">{{ field.help_text|safe }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+        </section>
+    </form>
+</div>
+{% endblock content %}

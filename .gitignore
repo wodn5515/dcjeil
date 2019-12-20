@@ -1,0 +1,10 @@
+*.pyc
+*~
+__pycache__
+venv
+db.sqlite3
+/static
+/static-dev
+/uploads
+.DS_Store
+server_info.json
