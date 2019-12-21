@@ -15,6 +15,9 @@ from board.models import Post
 from .forms import FindUsernameForm, FindPasswordForm, RegisterForm1, RegisterForm2
 import string, os
 
+def not_logged_in(user):
+    return not user.is_authenticated
+
 def home(request):
     notice = Post.objects.filter(div='401').filter(published=True).order_by('-upload_date')[:8]
     news_church = Post.objects.filter(div='402').filter(published=True).order_by('-upload_date')[:8]
@@ -59,12 +62,14 @@ def findpassword(request):
 def findpassword2(request):
     return render(request, 'registration/findpassword2.html')
 
+@user_passes_test(not_logged_in, 'home')
 def register(request):
     if request.method == "POST":
         if request.POST.get("agree", "") == "agree":
             return redirect(reverse('registerform'))
     return render(request, 'registration/register.html')
 
+@user_passes_test(not_logged_in, 'home')
 def registerform(request):
     form1 = RegisterForm1()
     form2 = RegisterForm2()
