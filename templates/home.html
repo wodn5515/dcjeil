@@ -126,46 +126,16 @@
             <a href="#">교회 앨범</a>
         </p>
         <div id="photowrap">
+            {% for post in photo %}
             <div class="photobox">
-                <a href="#">
+                <a href="/board/{{post.div}}/{{post.id}}">
                     <div class="photo">
-                        <img src="{% static 'img/tab_01.png' %}" alt="1번사진" width="200px" height="150px">
+                        <img src="{{ post.image.first.thumbnail.url }}" alt="photo" width="200px" height="150px">
                     </div>
-                    <p>1번사진1번사진1번사진</p>
+                    <p>{{post.title}}</p>
                 </a>
             </div>
-            <div class="photobox">
-                <a href="#">
-                    <div class="photo">
-                        <img src="{% static 'img/tab_01.png' %}" alt="2번사진" width="200px" height="150px">
-                    </div>
-                    <p>2번사진</p>
-                </a>
-            </div>
-            <div class="photobox">
-                <a href="#">
-                    <div class="photo">
-                        <img src="{% static 'img/tab_01.png' %}" alt="3번사진" width="200px" height="150px">
-                    </div>
-                    <p>3번사진</p>
-                </a>
-            </div>
-            <div class="photobox">
-                <a href="#">
-                    <div class="photo">
-                        <img src="{% static 'img/tab_01.png' %}" alt="4번사진" width="200px" height="150px">
-                    </div>
-                    <p>4번사진</p>
-                </a>
-            </div>
-            <div class="photobox">
-                <a href="#">
-                    <div class="photo">
-                        <img src="{% static 'img/tab_01.png' %}" alt="5번사진" width="200px" height="150px">
-                    </div>
-                    <p>5번사진</p>
-                </a>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

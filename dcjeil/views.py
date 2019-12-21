@@ -21,12 +21,14 @@ def home(request):
     news_mate = Post.objects.filter(div='403').filter(published=True).order_by('-upload_date')[:8]
     prayrequest = Post.objects.filter(div='407').filter(published=True).order_by('-upload_date')[:8]
     weekly = Post.objects.filter(div='803').filter(published=True).order_by('-upload_date')[:8]
+    photo = Post.objects.filter(div='405').filter(published=True).order_by('-upload_date')[:5]
     return render(request, 'home.html', {
         'notice' : notice,
         'news_church' : news_church,
         'news_mate' : news_mate,
         'prayrequest' : prayrequest,
-        'weekly' : weekly
+        'weekly' : weekly,
+        'photo' : photo
         })
 
 def findusername(request):

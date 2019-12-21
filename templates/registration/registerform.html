@@ -16,7 +16,7 @@
 <div id="wrapper">
     <form action="" method="POST" autocomplete="off">
         {% csrf_token %}    
-        <section>
+        <section class="reg_form">
             {% for field in form1 %}
             <div class="field_wrap">
                 {{ field.label_tag }}
@@ -28,7 +28,7 @@
             </div>
         {% endfor %}
         </section>
-        <section>
+        <section class="reg_form">
             {% for field in form2 %}
             <div class="field_wrap">
                 {{ field.label_tag }}

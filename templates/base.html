@@ -35,16 +35,19 @@
                     <div id="top_frame" class="after">
                         <div id="top_navbar">
                             <ul>
+                                {% if user.is_active %}
                                 <li>
-                                    {% if user.is_active %}
                                     <a href="/logout?next={{request.path}}">로그아웃</a>
-                                    {% else %}
+                                </li>
+                                {% else %}
+                                <li>
                                     <a href="/login?next={{request.path}}">로그인</a>
-                                    {% endif %}
+                                </li>
                                 </li>
                                 <li>
                                     <a href="/register">회원가입</a>
                                 </li>
+                                {% endif %}
                                 <li>
                                     <a href="/board/207">예배시간</a>
                                 </li>
