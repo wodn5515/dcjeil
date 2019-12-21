@@ -18,7 +18,7 @@ mccabe==0.6.1
 mysql==0.0.2
 mysqlclient==1.4.4
 pilkit==2.0
-Pillow==5.3.0
+Pillow==6.2.0
 pylint==2.1.1
 pytz==2018.6
 requests==2.21.0
