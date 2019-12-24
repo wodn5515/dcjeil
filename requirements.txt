@@ -4,7 +4,7 @@ bs4==0.0.1
 certifi==2019.3.9
 chardet==3.0.4
 colorama==0.4.0
-Django==2.1.2
+Django==2.1.15
 django-appconf==1.0.3
 django-el-pagination==3.2.4
 django-haystack==2.8.1
@@ -24,6 +24,6 @@ pytz==2018.6
 requests==2.21.0
 six==1.11.0
 soupsieve==1.9
-urllib3==1.24.1
+urllib3==1.24.2
 Whoosh==2.7.4
 wrapt==1.10.11
