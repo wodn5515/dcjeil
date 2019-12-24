@@ -1,7 +1,8 @@
 *.pyc
 *~
+*.zip
 __pycache__
-venv
+venvdcjeil
 db.sqlite3
 /static
 /uploads
