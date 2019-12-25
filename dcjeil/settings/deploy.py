@@ -4,7 +4,7 @@ from dcjeil.util import get_server_info_value
 
 SETTING_PRD_DIC = get_server_info_value("production")
 
-DEBUG = False
+DEBUG = True
 
 SECRET_KEY = SETTING_PRD_DIC["SECRET_KEY"]
 
