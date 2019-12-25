@@ -5,6 +5,8 @@ DEBUG = False
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
+ALLOWED_HOSTS = ['15.165.117.228']
+
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.mysql'),
