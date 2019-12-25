@@ -1,19 +1,15 @@
 from .base import *
+from dcjeil.util import get_server_info_value
 
+
+SETTING_PRD_DIC = get_server_info_value("production")
 
 DEBUG = False
 
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = SETTING_PRD_DIC["SECRET_KEY"]
 
-ALLOWED_HOSTS = ['15.165.117.228']
+ALLOWED_HOSTS = ['*']
 
 DATABASES = {
-    'default': {
-        'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.mysql'),
-        'HOST': os.environ['DB_HOST'],
-        'USER': os.environ['DB_USER'],
-        'PASSWORD': os.environ['DB_PASSWORD'],
-        'NAME': os.environ['DB_NAME'],
-        'PORT': os.environ['DB_PORT']
-    }
+    'default': SETTING_PRD_DIC['DATABASES']["default"]
 }

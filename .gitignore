@@ -11,3 +11,4 @@ server_info.json
 uwsgi.ini
 uwsgi.sock
 django.log
+mysql
