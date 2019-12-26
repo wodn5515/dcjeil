@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="ko">
     <head>
+        <!--================================= Meta =================================-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="subject" content="덕천제일교회">
         <meta name="title" content="덕천제일교회">
@@ -13,7 +14,7 @@
         <meta property="og:title" content="덕천제일교회">
         <meta property="og:description" content="덕천제일교회에 오신 것을 환영합니다.">
         <meta property="og:image" content="">
-        <meta property="og:url" content="http://www.dcjeil.net">
+        <meta property="og:url" content="{{ request.get_full_path }}">
         <title>{% block title %}덕천제일교회-dev{% endblock title %}</title>
         {% block head %}
         <link rel="stylesheet" href="{% static 'css/common.css' %}">
@@ -63,7 +64,7 @@
                     <div id="menu_frame" class="after">
                         <div id="top_logo">
                             <a href="/">
-                                <img src="{% static 'img/toplogo.png' %}" alt="메인탑로고" width="250px" height="150px">
+                                <img src="{% static 'img/toplogo.png' %}" alt="Main Top Logo" width="250px" height="150px">
                             </a>
                         </div>
                         <div id="menu_nav" class="after">
