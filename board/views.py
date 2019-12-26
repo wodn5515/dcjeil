@@ -35,7 +35,7 @@ def board(request, pk):
     pic_list = ['404','405','408']
     view = ['101','102','103','104','105','106','207','501','502','503','504','505','506','507','508','509','510','511','701']
     if pk in view:
-        content = 'fixedview.html'
+        content = 'fixedboard/fixedboard_' + pk + '.html'
         div = FixedView.objects.get(div=pk)
         return render(request, 'base_board.html', {
             'sidenav' : 'side_nav/side_nav_' + pk[0] + '.html',
