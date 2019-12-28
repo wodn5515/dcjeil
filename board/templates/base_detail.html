@@ -1,17 +1,21 @@
 {% extends "base.html" %}
 {% load static %}
-
+{% block title %}
+{{post.title}} | 덕천제일교회
+{% endblock title %}
 {% block content %}
 <div id="title">
     <div>
-        {{title}}
+        <h2>
+            {{title}}
+        </h2>
     </div>
 </div>
 <div id="wrapper" class="after">
     <div id="side_nav_wrap">
         {% include sidenav %}
     </div>
-    <div id="content">
+    <div id="content" class="detail">
         {% include content %}
     </div>
 </div>

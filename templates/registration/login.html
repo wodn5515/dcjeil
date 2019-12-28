@@ -43,7 +43,7 @@
         </div>
         <div id="footer">
             <div class="wrap">
-                <a href="/login/findusername" target="_blank" id="find_username">아이디 찾기</a>
+                <a href="/login/finduid" target="_blank" id="find_uid">아이디 찾기</a>
                 <span class="bar">|</span>
                 <a href="/login/findpassword" target="_blank" id="find_password">비밀번호 찾기</a>
                 <span class="bar">|</span>
@@ -52,7 +52,7 @@
         </div>
     </body>
     <script>
-    $("#find_username, #find_password").click(function(){
+    $("#find_uid, #find_password").click(function(){
         window.open(this.href, "", "top=100, left=100, width=500, height=330, scrollbars=no")
         return false;
     })

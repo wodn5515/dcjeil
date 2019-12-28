@@ -18,11 +18,16 @@ def post_audio_save(instance, filename):
     extension = filename.split('.')[-1]
     return f'{instance.title}/file/audio.{extension}'
 
+'''--------------------------- Abandoned ----------------------------'''
+
 def post_image_save(instance, filename):
     arr = [choice(string.ascii_letters) for _ in range(8)]
     pid = ''.join(arr)
     extension = filename.split('.')[-1]
     return f'{instance.post.title}/image/{pid}.{extension}'
+
+def set_defautwriter_when_deleted():
+    return account.objects.get(name='관리자')
 
 # Create your models here.
 class Post(models.Model):
@@ -47,9 +52,8 @@ class Post(models.Model):
     upload_date = models.DateTimeField(_('등록일'), default=timezone.now)
     title = models.CharField(_('제목'), max_length=50, blank=True)
     preacher = models.CharField(_('설교자'), max_length=20, blank=True)
-    writer = models.CharField(_('작성자'), max_length=10, blank=True)
-    video = models.FileField(_('동영상'), upload_to=post_video_save, blank=True)
-    audio = models.FileField(_('오디오파일'), upload_to=post_audio_save, blank=True)
+    writer = models.ForeignKey(account, on_delete=models.SET(set_defautwriter_when_deleted), related_name='post')
+    video = models.CharField(_('동영상'), max_length=255, blank=True)
     words = models.CharField(_('오늘의 말씀'), max_length=50, blank=True)
     content = models.TextField(_('내용'), blank=True)
     views = models.IntegerField(_('조회수'), default=0)

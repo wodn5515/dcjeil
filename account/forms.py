@@ -13,7 +13,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'name', 'email', 'password', 'is_active', 'is_superuser')
+        fields = '__all__'
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -23,4 +23,18 @@ class UserChangeForm(forms.ModelForm):
 
 #사용자 생성 폼
 class UserCreationForm(forms.ModelForm):
-    pass
+    
+    password = forms.CharField(label = _('Password'), widget = forms.PasswordInput())
+
+    class Meta:
+            model = User
+            fields = ('uid', 'password', 'name', 'email', 'tp', 'birthday', 'parish', 'office')
+
+    def save(self, commit=True):
+        # Save the provided password in hashed format
+        user = super(UserCreationForm, self).save(commit=False)
+        user.email = UserManager.normalize_email(self.cleaned_data['email'])
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user

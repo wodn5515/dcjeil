@@ -7,9 +7,9 @@ from django.utils.translation import ugettext_lazy as _
 # Create your models here.
 
 class UserManager(BaseUserManager):
-    def create_user(self, username, name, tp, birthday, email, office, password):
+    def create_user(self, uid, name, tp, birthday, email, office, password):
         user = self.model(
-            username=username,
+            uid=uid,
             name=name,
             tp=tp,
             birthday=birthday,
@@ -21,13 +21,13 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, name, tp, birthday, email, office, password):
+    def create_superuser(self, uid, name, tp, birthday, email, office, password):
         """
         주어진 이메일, 닉네임, 비밀번호 등 개인정보로 User 인스턴스 생성
         단, 최상위 사용자이므로 권한을 부여한다. 
         """
         user = self.create_user(
-            username=username,
+            uid=uid,
             name=name,
             password=password,
             tp=tp,
@@ -52,7 +52,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     date_joined = models.DateTimeField(_('가입날짜'), default=timezone.now)
-    username = models.CharField(_('ID'), max_length = 15, unique = True,
+    uid = models.CharField(_('ID'), max_length = 15, unique = True,
         error_messages = {
             'unique' : _("이미 가입된 아이디 입니다."),
         },
@@ -70,7 +70,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'username'
+    USERNAME_FIELD = 'uid'
     REQUIRED_FIELDS = ['name', 'tp', 'email', 'birthday', 'office']
 
     class Meta:

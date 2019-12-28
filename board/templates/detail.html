@@ -1,3 +1,23 @@
+{% load static %}
+{% load board_tag %}
 <div id="invisible">
 {{post.viewsup}}
 </div>
+<!-- 헤더 시작 -->
+<div id="detail_header" class="after">
+    <div style="float:left;">
+        <h3>{{post.title}}</h3>
+    </div>
+    <div style="float:right; margin-top:10px; font-size:12px;">
+        <span>작성자</span>
+        <span style="margin-right:10px;"><strong>{{post.writer}}</strong></span>
+        <span>작성일</span>
+        <span><strong>{{post.upload_date|date:"y-m-d"}}</strong></span>
+    </div>
+</div>
+<!-- 헤더 끝 -->
+<!-- 내용 시작 -->
+<div id="detail_content">
+{{post.content|linebreaksbr|urlize|url_target_blank}}
+</div>
+<!-- 내용 끝 -->

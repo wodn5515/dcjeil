@@ -38,7 +38,7 @@
 #sub_menu > ul > .mission:hover > ul{display:block!important;}
 
 #main_wrap{margin-bottom:100px; min-width:1250px;}
-#content{border:1px solid #cccccc; border-radius:10px; padding:50px 20px; float:left; margin-left:30px; width:1010px; min-height:500px;}
+#content.list{padding:30px; float:left; margin-left:30px; width:1010px; min-height:500px;}
 
 #footer_wrap{position:relative; bottom:0; min-width:1250px; margin-top:30px; background-color:#999999; height:150px;}
 
@@ -57,15 +57,16 @@
 .tab_item > img{position:relative;}
 #maingrid{display:grid; height:490px; margin-top:10px; grid:240px 240px / 300px 235px 235px; gap:10px;}
 #maingrid > div{border:1px solid #e3e3e3; border-radius:5px;}
-.listbox{padding:10px 15px 0 10px;}
+.listbox{padding:10px 10px 0 10px;}
 .listbox a:hover{color:#6b6b6b; text-decoration:underline;}
 .listbox p{font-weight:600;}
 .listbox ul{padding:10px 0 0 0; font-size:12px;}
 .listbox li{padding:3px 0;}
 .listbox li::after{clear:both; visibility:hidden; display:block; content:""}
 .listbox li:first-child{padding-top:0px;}
-.listbox li > a{display:block; float:left; max-width:200px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
+.listbox li > a{display:block; float:left; max-width:150px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
 .listbox:first-child li > a{max-width:220px;}
+.listbox .icon{margin-left:2px; vertical-align:text-top;}
 .listbox .date{float:right;}
 #main4{display:grid; gap:10px; border:none!important;}
 #main4 > a{display:block;}
@@ -98,13 +99,14 @@
 #list_table th{padding:10px 0; border-top:3px solid #666666;}
 #list_table tbody tr{border-top:1px solid #e3e3e3;}
 #list_table td{padding:10px 5px; line-height:1.5em; font-size:12px;}
+#list_table .td_title a{display:block; max-width:490px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden; float:left; margin-right:5px;}
 #list_table td:not(.td_title){text-align:center;}
 #list_table .th_no{width:60px;}
 #list_table .th_title{width:500px;}
 #list_table .th_writer{width:100px;}
 #list_table .th_date{width:150px;}
 #list_table .th_views{width:60px;}
-#list_table .newicon{margin-left:5px;}
+#list_table .icon{vertical-align:text-top;}
 #list_table .td_title > a:hover{text-decoration:underline; color:#6b6b6b;}
 
 #pic_table{margin:0 0 50px 50px;}
@@ -120,3 +122,8 @@
 #pagination > li.active > span{color:#ffffff; font-weight:bold; background-color:#303030;}
 
 /* board style - detail */
+#content.detail{padding:10px 80px; float:left; margin-left:30px; width:1010px; min-height:500px;}
+#detail_header{border-bottom:2px solid #666666; padding:5px 10px;}
+#detail_content{padding:30px 10px 10px 10px; font-size:16px;}
+#detail_content > a{text-decoration:underline;}
+#detail_content > a:hover{color:#999999;}

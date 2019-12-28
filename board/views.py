@@ -16,9 +16,7 @@ import string, os
 
 # Create your views here.
 
-def board(request, pk):
-
-    def get_title(pk):
+def get_title(pk):
         div_arr = {'101':'인사말', '102':'교회연혁', '103':'우리의 비젼',
         '104':'담임목사소개', '105':'섬기는 사람들', '106':'찾아오시는 길',
         '201':'금주의 말씀', '202':'주일오후예배', '203':'수요예배', '207':'예배안내',
@@ -37,6 +35,7 @@ def board(request, pk):
         }
         return div_arr[pk]
 
+def board(request, pk):
     pic_list = ['404','405','408']
     fixedboard = ['101','102','103','104','105','106','207','501','502','503','504','505','506','507','508','509','510','511','701']
     if pk in fixedboard:
@@ -88,5 +87,6 @@ def detail(request, menu, pk):
         'content' : 'detail.html',
         'menu_nav' : menu[0],
         'menu_no' : menu[1:],
-        'post' : Post.objects.get(pk=pk)
+        'post' : Post.objects.get(pk=pk),
+        'title' : get_title(menu)
     })

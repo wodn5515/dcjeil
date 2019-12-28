@@ -9,13 +9,13 @@
         <div id="carouselIndicators" class="carousel slide" data-ride="false">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="d-block w-100" src="{% static 'img/slide_01.png' %}" width="400px" height="798px" alt="First slide">
+                    <img class="d-block w-100" src="http://www.dcjeil.net/uploadfolder/notice/2019102918054.png" width="400px" height="798px" alt="First slide">
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="{% static 'img/slide_02.png' %}" width="400px" height="798px" alt="Second slide">
+                    <img class="d-block w-100" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARMAAAC3CAMAAAAGjUrGAAAAIVBMVEX/s7r//7q64f//37q6/8n/r7r/4rr/3Lq0/8q6/8W63/96SiiNAAABBklEQVR4nO3QSQHAIBAEsOUoLfgXjIf59JNISFXkWSPxtsw3E/v0SFbixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixMm/JxfE8J319hr+XwAAAABJRU5ErkJggg==" width="400px" height="798px" alt="Second slide">
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="{% static 'img/slide_03.png' %}" width="400px" height="798px" alt="Third slide">
+                    <img class="d-block w-100" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtimGw02fDLcUs-DMSb83NKmOIvrYtno7Mol52qnOhFdaTlvA5&s" width="400px" height="798px" alt="Third slide">
                 </div>
             </div>
             <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
@@ -38,17 +38,17 @@
             <div id="tabevent_inner">
                 <div id="tabevent_01" class="tab_item active">
                     <a href="#">
-                        <img src="{% static 'img/tab_01.jpg' %}" width="790px" height="299px" alt="Tab Event_01">
+                        <img src="https://images.squarespace-cdn.com/content/v1/56b609afd210b80dc90b6653/1494437851252-AFYEF9Q6AA1U2WLNG7D3/ke17ZwdGBToddI8pDm48kFYQKuRgh_jKxbR6OYX_UPAUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYy7Mythp_T-mtop-vrsUOmeInPi9iDjx9w8K4ZfjXt2duQ-Eynr_yAzt1IZiD244suuf91rECrVfn3vGAt9kwPeZtJ3qR9G2BYeA0wOAaeYNg/sermon.jpg?format=2500w" width="790px" height="299px" alt="Tab Event_01">
                     </a>
                 </div>
                 <div id="tabevent_02" class="tab_item">
                     <a href="#">
-                        <img src="{% static 'img/tab_02.png' %}" width="790px" height="299px" alt="Tab Event_02">
+                        <img src="https://catalinamethodist.org/wp-content/uploads/sites/488/2018/08/join-the-choir.jpg" width="790px" height="299px" alt="Tab Event_02">
                     </a>
                 </div>
                 <div id="tabevent_03" class="tab_item">
                     <a href="#">
-                        <img src="{% static 'img/tab_03.jpg' %}" width="790px" height="299px" alt="Tab Event_03">
+                        <img src="https://www.schoenstatt.org/wp-content/uploads/2017/02/Praying-Hands-537214654_2124x1416.jpeg" width="790px" height="299px" alt="Tab Event_03">
                     </a>
                 </div>
             </div>
@@ -71,14 +71,23 @@
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
                     {% for i in notice %}
-                    <li><a href="/board/401/{{i.id}}">{{i.title}}</a><span class="date">
-                    {% if todays_date == i.upload_date|date:"y-m-d" %}
-                    {{ i.upload_date|date:"H:i" }}
-                    {% elif this_year == i.upload_date|date:"y" %}
-                    {{ i.upload_date|date:"m-d"}}
-                    {% else %}
-                    {{ i.upload_date|date:"y-m-d" }}
-                    {% endif %}</span></li>
+                    <li>
+                        <a href="/board/401/{{i.id}}">{{i.title}}</a>
+                        <span>
+                            {% if todays_date == i.upload_date|date:"y-m-d" %}
+                            <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
+                            {% endif %}
+                        </span>
+                        <span class="date"><!--
+                            -->{% if todays_date == i.upload_date|date:"y-m-d" %}<!--
+                            -->{{ i.upload_date|date:"H:i" }}<!--
+                            -->{% elif this_year == i.upload_date|date:"y" %}<!--
+                            -->{{ i.upload_date|date:"m-d"}}<!--
+                            -->{% else %}<!--
+                            -->{{ i.upload_date|date:"y-m-d" }}<!--
+                            -->{% endif %}<!--
+                        --></span>
+                    </li>
                     {% endfor %}
                 </ul>
             </div>
@@ -86,7 +95,23 @@
                 <p class="after"><a href="board/402">교회소식</a></p>
                 <ul>
                     {% for i in news_church %}
-                    <li><a href="board/402/{{i.id}}">{{i.title}}</a></li>
+                    <li>
+                        <a href="board/402/{{i.id}}">{{i.title}}</a>
+                        <span>
+                            {% if todays_date == i.upload_date|date:"y-m-d" %}
+                            <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
+                            {% endif %}
+                        </span>
+                        <span class="date"><!--
+                            -->{% if todays_date == i.upload_date|date:"y-m-d" %}<!--
+                            -->{{ i.upload_date|date:"H:i" }}<!--
+                            -->{% elif this_year == i.upload_date|date:"y" %}<!--
+                            -->{{ i.upload_date|date:"m-d"}}<!--
+                            -->{% else %}<!--
+                            -->{{ i.upload_date|date:"y-m-d" }}<!--
+                            -->{% endif %}<!--
+                        --></span>
+                    </li>
                     {% endfor %}
                 </ul>
             </div>
@@ -94,7 +119,23 @@
                 <p class="after"><a href="board/403">교우소식</a></p>
                 <ul>
                     {% for i in news_mate %}
-                    <li><a href="board/403/{{i.id}}">{{i.title}}</a></li>
+                    <li>
+                        <a href="board/403/{{i.id}}">{{i.title}}</a>
+                        <span>
+                            {% if todays_date == i.upload_date|date:"y-m-d" %}
+                            <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
+                            {% endif %}
+                        </span>
+                        <span class="date"><!--
+                            -->{% if todays_date == i.upload_date|date:"y-m-d" %}<!--
+                            -->{{ i.upload_date|date:"H:i" }}<!--
+                            -->{% elif this_year == i.upload_date|date:"y" %}<!--
+                            -->{{ i.upload_date|date:"m-d"}}<!--
+                            -->{% else %}<!--
+                            -->{{ i.upload_date|date:"y-m-d" }}<!--
+                            -->{% endif %}<!--
+                        --></span>
+                    </li>
                     {% endfor %}
                 </ul>
             </div>
@@ -107,7 +148,23 @@
                 <p class="after"><a href="board/407">기도요청</a></p>
                 <ul>
                     {% for i in prayrequest %}
-                    <li><a href="board/407/{{i.id}}">{{i.title}}</a></li>
+                    <li>
+                        <a href="board/407/{{i.id}}">{{i.title}}</a>
+                        <span>
+                            {% if todays_date == i.upload_date|date:"y-m-d" %}
+                            <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
+                            {% endif %}
+                        </span>
+                        <span class="date"><!--
+                            -->{% if todays_date == i.upload_date|date:"y-m-d" %}<!--
+                            -->{{ i.upload_date|date:"H:i" }}<!--
+                            -->{% elif this_year == i.upload_date|date:"y" %}<!--
+                            -->{{ i.upload_date|date:"m-d"}}<!--
+                            -->{% else %}<!--
+                            -->{{ i.upload_date|date:"y-m-d" }}<!--
+                            -->{% endif %}<!--
+                        --></span>
+                    </li>
                     {% endfor %}
                 </ul>
             </div>
@@ -115,7 +172,23 @@
                 <p class="after"><a href="board/803">주보게시판</a></p>
                 <ul>
                     {% for i in weekly %}
-                    <li><a href="board/803/{{i.id}}">{{i.title}}</a></li>
+                    <li>
+                        <a href="board/803/{{i.id}}">{{i.title}}</a>
+                        <span>
+                            {% if todays_date == i.upload_date|date:"y-m-d" %}
+                            <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
+                            {% endif %}
+                        </span>
+                        <span class="date"><!--
+                            -->{% if todays_date == i.upload_date|date:"y-m-d" %}<!--
+                            -->{{ i.upload_date|date:"H:i" }}<!--
+                            -->{% elif this_year == i.upload_date|date:"y" %}<!--
+                            -->{{ i.upload_date|date:"m-d"}}<!--
+                            -->{% else %}<!--
+                            -->{{ i.upload_date|date:"y-m-d" }}<!--
+                            -->{% endif %}<!--
+                        --></span>
+                    </li>
                     {% endfor %}
                 </ul>
             </div>

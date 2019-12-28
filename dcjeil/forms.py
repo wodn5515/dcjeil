@@ -7,10 +7,10 @@ def email_check(value):
     except:
         raise forms.ValidationError("존재하지않는 회원입니다.")
 
-class FindUsernameForm(forms.Form):
+class FinduidForm(forms.Form):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label_suffix', '')
-        super(FindUsernameForm, self).__init__(*args, **kwargs)
+        super(FinduidForm, self).__init__(*args, **kwargs)
 
     email = forms.EmailField(label='이메일', help_text="회원가입시 입력한 이메일을 입력해주세요.", validators=[email_check], widget=forms.EmailInput(attrs={
         'autofocus' : 'on'
@@ -21,7 +21,7 @@ class FindPasswordForm(forms.Form):
         kwargs.setdefault('label_suffix', '')
         super(FindPasswordForm, self).__init__(*args, **kwargs)
 
-    username = forms.CharField(label="아이디", widget=forms.TextInput(attrs={
+    uid = forms.CharField(label="아이디", widget=forms.TextInput(attrs={
         'autofocus' : 'on'
     }))
     email = forms.EmailField(label='이메일', validators=[email_check], widget=forms.EmailInput(attrs={
@@ -37,14 +37,14 @@ class RegisterForm1(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'password')
+        fields = ('uid', 'password')
         widget = {
-            'username' : forms.TextInput(attrs={
+            'uid' : forms.TextInput(attrs={
                 'autofocus' : 'on'
             }),
         }
         labels = {
-            'username' : '아이디',
+            'uid' : '아이디',
         }
 
     def clean(self):

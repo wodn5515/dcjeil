@@ -17,15 +17,19 @@
         <tr>
             <td class="td_no">{% td_no forloop.counter0 total post_list.start_index%}</td>
             <td class="td_title">
-                <a href="/board/{{post.div}}/{{post.id}}">
-                    {{post.title}}
-                    {% if todays_date == post.upload_date|date:"y-m-d" %}
-                    <img class="newicon" src="{% static 'img/newicon.gif' %}" height="14px">
-                    {% endif %}
-                    {% if post.video %}
-                    <img class="videoicon" src="{% static '' %}">
-                    {% endif %}
-                </a>
+                <a href="/board/{{post.div}}/{{post.id}}">{{post.title}}</a>
+                <span><!--
+                    -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
+                    --><img class="icon" src="{% static 'img/newicon.png' %}" height="16px"><!--
+                    -->{% endif %}<!--
+                    -->{% if post.video %}<!--
+                    --><img class="icon" src="{% static 'img/videoicon.png' %}" height="16px"><!--
+                    -->{% endif %}<!--
+                    -->{% if post.image.first %}<!--
+                    --><img class="icon" src="{% static 'img/picicon.png' %}" height="16px"><!--
+                    -->{% else %}<!--
+                    -->{% endif %}<!--
+                --></span>
             </td>
             <td class="td_writer">{{post.writer}}</td>
             <td class="td_date">

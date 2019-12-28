@@ -12,7 +12,7 @@ from imagekit.utils import get_cache
 from random import choice
 from account.models import User
 from board.models import Post
-from .forms import FindUsernameForm, FindPasswordForm, RegisterForm1, RegisterForm2
+from .forms import FinduidForm, FindPasswordForm, RegisterForm1, RegisterForm2
 import string, os
 
 def not_logged_in(user):
@@ -34,19 +34,19 @@ def home(request):
         'photo' : photo
         })
 
-def findusername(request):
+def finduid(request):
     if request.method == "POST":
-        forms = FindUsernameForm(request.POST)
+        forms = FinduidForm(request.POST)
         if forms.is_valid():
-            return redirect(reverse('findusername2'))
+            return redirect(reverse('finduid2'))
     else:
-        forms = FindUsernameForm()
-    return render(request, 'registration/findusername.html', {
+        forms = FinduidForm()
+    return render(request, 'registration/finduid.html', {
         'forms' : forms,
         })
 
-def findusername2(request):
-    return render(request, 'registration/findusername2.html')
+def finduid2(request):
+    return render(request, 'registration/finduid2.html')
 
 def findpassword(request):
     if request.method == "POST":
