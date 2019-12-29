@@ -5,19 +5,27 @@
 </div>
 <!-- 헤더 시작 -->
 <div id="detail_header" class="after">
-    <div style="float:left;">
-        <h3>{{post.title}}</h3>
+    <div>
+        <h2>{{post.title}}</h2>
     </div>
     <div style="float:right; margin-top:10px; font-size:12px;">
         <span>작성자</span>
         <span style="margin-right:10px;"><strong>{{post.writer}}</strong></span>
         <span>작성일</span>
-        <span><strong>{{post.upload_date|date:"y-m-d"}}</strong></span>
+        <span><strong>{{post.upload_date|date:"y-m-d  h:m"}}</strong></span>
     </div>
 </div>
 <!-- 헤더 끝 -->
 <!-- 내용 시작 -->
 <div id="detail_content">
-{{post.content|linebreaksbr|urlize|url_target_blank}}
+    {% if post.video %}
+    <iframe src="http://www.youtube.com/embed/{{post.video}}" frameborder="0" allowfullscreen></iframe>
+    {% endif %}
+    {% if post.image %}
+    {% for i in post.image.all %}
+    <img src="{{i.image.url}}">
+    {% if i.desc %}<p>{{i.desc|linebreaksbr}}</p><br>{% endif %}
+    {% endfor %}
+    {% endif %}<p>{{post.content|linebreaksbr|urlize|url_target_blank}}</p>
 </div>
 <!-- 내용 끝 -->

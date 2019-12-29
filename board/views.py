@@ -57,7 +57,7 @@ def board(request, pk):
         else:
             content = 'list.html'
             post_list_all = Post.objects.filter(div=pk).filter(published=1).order_by('-upload_date')
-            paginator = Paginator(post_list_all, 15)
+            paginator = Paginator(post_list_all, 10)
         try:
             post_list = paginator.page(page)
         except PageNotAnInteger:

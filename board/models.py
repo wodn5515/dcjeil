@@ -75,6 +75,7 @@ class PostImage(models.Model):
 
     post = models.ForeignKey(Post, on_delete=models.CASCADE, default='', verbose_name='게시글', related_name='image')
     image = models.ImageField(_('사진'), upload_to=post_image_save)
+    desc = models.TextField(_('설명'), blank=True)
     thumbnail = ImageSpecField(
         source='image',
         processors=[Thumbnail(200,150)],
