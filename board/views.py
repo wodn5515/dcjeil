@@ -1,6 +1,7 @@
 import logging
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.core import serializers
 from django.views.decorators.http import require_POST, require_GET
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404
@@ -11,8 +12,9 @@ from django.db import IntegrityError
 from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
-from .models import Post,FixedView
-import string, os
+from .models import Post, FixedView, Comment
+from .forms import AddCommentForm
+import string, os, json
 
 # Create your views here.
 
@@ -88,5 +90,21 @@ def detail(request, menu, pk):
         'menu_nav' : menu[0],
         'menu_no' : menu[1:],
         'post' : Post.objects.get(pk=pk),
-        'title' : get_title(menu)
+        'title' : get_title(menu),
+        'board_pk' : pk
     })
+
+def comments(request, pk):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode("utf-8"))
+        content = data['content']
+        new_comment = Comment(
+            post=Post.objects.get(pk=pk),
+            writer=request.user,
+            content=content
+        )
+        new_comment.save()
+        return HttpResponse(content)
+    else:
+        comments = list(Comment.objects.filter(post=pk).values())
+        return JsonResponse(comments, safe=False)

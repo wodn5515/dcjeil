@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, FixedView, PostImage
+from .models import Post, FixedView, PostImage, Comment
 
 class PostImageInline(admin.StackedInline):
     model = PostImage
@@ -30,3 +30,4 @@ class PostImageadmin(admin.ModelAdmin):
 admin.site.register(Post, Postadmin)
 admin.site.register(FixedView)
 admin.site.register(PostImage, PostImageadmin)
+admin.site.register(Comment)

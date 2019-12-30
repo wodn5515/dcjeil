@@ -1,0 +1,42 @@
+{% load static %}
+<html>
+<head>
+<script src="{% static 'js/vue.js' %}"></script>
+</head>
+
+<body>
+<div id="app">
+    <p>[[message]]</p>
+    <p :title="message2">bind테스트</p>
+    <ol>
+        <li v-for='todo in todos'>
+            [[todo.text]]
+        </li>
+    </ol>
+    <p v-if="seen">[[seentext]]</p>
+    <input v-model="seentext">
+    <button @click="reverseMessage">메시지 뒤집기</button>
+</div>
+<script>
+var app =new Vue({
+    el:'#app',
+    delimiters:['[[',']]'],
+    data:{
+        message:'Hello Vue.js!',
+        message2:'bind테스트',
+        todos:[
+            {text:'test1'},
+            {text:'test2'},
+            {text:'test3'}
+        ],
+        seen:true,
+        seentext:"show if seen is true"
+    },
+    methods:{
+        reverseMessage:function(){
+            this.seentext = this.seentext.split('').reverse().join('');
+        }
+    }
+})
+</script>
+</body>

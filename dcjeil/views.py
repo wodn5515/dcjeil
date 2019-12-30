@@ -15,6 +15,9 @@ from board.models import Post
 from .forms import FinduidForm, FindPasswordForm, RegisterForm1, RegisterForm2
 import string, os
 
+def test(request):
+    return render(request, 'test/vue_test.html')
+
 def not_logged_in(user):
     return not user.is_authenticated
 
