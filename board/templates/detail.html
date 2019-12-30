@@ -12,7 +12,9 @@
         <span>작성자</span>
         <span style="margin-right:10px;"><strong>{{post.writer}}</strong></span>
         <span>작성일</span>
-        <span><strong>{{post.upload_date|date:"y-m-d  h:m"}}</strong></span>
+        <span style="margin-right:10px;"><strong>{{post.upload_date|date:"Y.m.d   H:m"}}</strong></span>
+        <span>조회수</span>
+        <span><strong>{{post.views}}</strong></span>
     </div>
 </div>
 <!-- 헤더 끝 -->
@@ -29,3 +31,54 @@
     {% endif %}<p>{{post.content|linebreaksbr|urlize|url_target_blank}}</p>
 </div>
 <!-- 내용 끝 -->
+<!-- 댓글 시작-->
+<div id="comment_wrap">
+{% csrf_token %}
+<input v-model="content" id="comment_write" type="text" placeholder="댓글을 입력해주세요.">
+<button @click="AddComment">작성</button>
+<ul>
+    <li v-for="comment in comments">
+        <p>[[comment.content]]</p>
+    </li>
+</ul>
+</div>
+<script>
+var comment = new Vue({
+    el:'#comment_wrap',
+    delimiters:['[[',']]'],
+    data:{
+        content:'',
+        comments:[]
+    },
+    created:function(){
+        this.getComments();
+    },
+    methods:{
+        getComments:function(){
+            axios.get('/comments/{{board_pk}}')
+            .then((response) => {
+                this.comments = response.data;
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        },
+        AddComment:function(){
+            var postData = {content:this.content}
+            axios.post('/comments/{{board_pk}}', postData, {xsrfCookieName: 'csrftoken', xsrfHeaderName: 'X-CSRFToken'})
+            .then((response) => {
+                this.getComments();
+                document.getElementById('comment_write').value = '';
+                this.content = ''
+                //console.log(response.data);
+                //console.log(this.content);
+            })
+            .catch((err) => {
+                alert(err.data)
+                console.log(err);
+                //console.log(this.content);
+            })
+        }
+    }
+})
+</script>

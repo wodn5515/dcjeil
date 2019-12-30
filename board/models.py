@@ -27,7 +27,7 @@ def post_image_save(instance, filename):
     return f'{instance.post.title}/image/{pid}.{extension}'
 
 def set_defautwriter_when_deleted():
-    return account.objects.get(name='관리자')
+    return account.objects.get(is_superuser=True)
 
 # Create your models here.
 class Post(models.Model):

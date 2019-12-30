@@ -1,5 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
+<!-- 20191230 -->
 <html lang="ko">
     <head>
         <!--================================= Meta =================================-->
@@ -26,6 +27,7 @@
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script src="https://kit.fontawesome.com/41217280d3.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         {% endblock head %}
     </head>
     <body>
@@ -309,7 +311,7 @@
                 </div>
             </div>
             <!-- 중단(메인) -->
-            <div id="main_wrap" class="after">
+            <div id="main_wrap">
                 {% block content %}
                 {% endblock content %}
             </div>

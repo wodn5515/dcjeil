@@ -1,0 +1,17 @@
+덕천제일교회 웹사이트 Commit Message
+
+20191228
+-django-admin 회원가입
+-username >> uid 변경
+-비디오 유튜브 연계로 변경
+-작성자 user FK로 연결
+-detail 창 50%구현
+-new,video,picture icon 변경
+
+20191229
+-detail 창 유튜브연동, 사진,사진설명 구현
+
+20191230
+-detail 창 조회수표시
+-user 삭제시 연동된 Post.writer is_superuser 로 변경
+

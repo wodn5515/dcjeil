@@ -19,6 +19,7 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from . import views
+from board import views as board_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,5 +32,7 @@ urlpatterns = [
     path('login/findpassword', views.findpassword, name='findpassword'),
     path('login/findpassword2', views.findpassword2, name='findpassword2'),
     path('register', views.register, name='register'),
-    path('registerform', views.registerform, name='registerform')
+    path('registerform', views.registerform, name='registerform'),
+    path('test', views.test, name='test'),
+    path('comments/<str:pk>', board_views.comments, name='comments')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
