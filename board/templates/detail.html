@@ -26,7 +26,7 @@
     {% if post.image %}
     {% for i in post.image.all %}
     <img src="{{i.image.url}}">
-    {% if i.desc %}<p>{{i.desc|linebreaks}}</p><br>{% endif %}
+    {% if i.desc %}<p>{{i.desc|linebreaksbr}}</p><br>{% endif %}
     {% endfor %}
     {% endif %}<p>{{post.content|linebreaksbr|urlize|url_target_blank}}</p>
 </div>
