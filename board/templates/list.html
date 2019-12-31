@@ -18,7 +18,7 @@
             <td class="td_no">{% td_no forloop.counter0 total post_list.start_index%}</td>
             <td class="td_title">
                 <a href="/board/{{post.div}}/{{post.id}}">{{post.title}}</a>
-                <span><!--
+                <span class="icons after"><!--
                     -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
                     --><img class="icon" src="{% static 'img/newicon.png' %}" height="16px"><!--
                     -->{% endif %}<!--
@@ -30,6 +30,9 @@
                     -->{% else %}<!--
                     -->{% endif %}<!--
                 --></span>
+                {% if post.comment.all|length %}
+                <span class="cmt_count">({{post.comment.count}})</span>
+                {% endif %}
             </td>
             <td class="td_writer">{{post.writer}}</td>
             <td class="td_date">

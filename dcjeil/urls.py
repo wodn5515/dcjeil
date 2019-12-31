@@ -34,5 +34,6 @@ urlpatterns = [
     path('register', views.register, name='register'),
     path('registerform', views.registerform, name='registerform'),
     path('test', views.test, name='test'),
-    path('comments/<str:pk>', board_views.comments, name='comments')
+    path('comments/<str:pk>', board_views.comments, name='comments'),
+    path('comments/<str:pk>/delete', board_views.comment_delete, name='comment_delete')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

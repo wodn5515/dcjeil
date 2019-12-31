@@ -38,5 +38,15 @@ var app =new Vue({
         }
     }
 })
+var today = new Date()
+var month = today.getMonth()+1
+var year = today.getFullYear()
+var day = today.getDate()
+console.log(month)
+console.log(year)
+console.log(day)
+console.log(today)
+today = year + '-' + month + '-' + day
+console.log(today)
 </script>
 </body>
