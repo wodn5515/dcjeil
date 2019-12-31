@@ -26,21 +26,30 @@
     {% if post.image %}
     {% for i in post.image.all %}
     <img src="{{i.image.url}}">
-    {% if i.desc %}<p>{{i.desc|linebreaksbr}}</p><br>{% endif %}
+    {% if i.desc %}<p>{{i.desc|linebreaks}}</p><br>{% endif %}
     {% endfor %}
     {% endif %}<p>{{post.content|linebreaksbr|urlize|url_target_blank}}</p>
 </div>
 <!-- 내용 끝 -->
 <!-- 댓글 시작-->
 <div id="comment_wrap">
-{% csrf_token %}
-<input v-model="content" id="comment_write" type="text" placeholder="댓글을 입력해주세요.">
-<button @click="AddComment">작성</button>
-<ul>
-    <li v-for="comment in comments">
-        <p>[[comment.content]]</p>
-    </li>
-</ul>
+    <div id="comment_write_wrap" class="after">
+        {% csrf_token %}
+        <textarea v-model="content" id="comment_write" type="text" placeholder="댓글을 입력해주세요."></textarea>
+        <button id="comment_submit" @click="addComment">등 록</button>
+    </div>
+    <div id="comment_opener_wrap">
+        <button @click="commentOpener" id="comment_opener">
+            <em>댓글 {{post.comment.count}}</em><span><img id="cmt_toggle" src="{% static 'img/cmt_opener.png' %}"></span>
+        </button>
+    </div>
+    <ul v-show="comment_token" id="comment_list_wrap">
+        <li v-for="comment in comments" class="cmt_wrap after">
+            <div class="cmt name">[[comment.name]]</div>
+            <div class="cmt content">[[comment.content]]</div>
+            <div class="cmt date_del"><span style="margin-right:10px;">[[comment.date|dateFilter]]</span><span @click="deleteComment(comment.id)"><img src="{% static 'img/cmt_delete.png' %}"></span></div>
+        </li>
+    </ul>
 </div>
 <script>
 var comment = new Vue({
@@ -48,37 +57,136 @@ var comment = new Vue({
     delimiters:['[[',']]'],
     data:{
         content:'',
-        comments:[]
+        comments:[],
+        comment_token:true
     },
     created:function(){
         this.getComments();
     },
     methods:{
         getComments:function(){
-            axios.get('/comments/{{board_pk}}')
+            axios.get('/comments/{{post.id}}')
             .then((response) => {
                 this.comments = response.data;
+                //console.log(this.comments[0].date);
             })
             .catch((err) => {
-                console.log(err);
+                //console.log(err);
             })
         },
-        AddComment:function(){
+        addComment:function(){
             var postData = {content:this.content}
-            axios.post('/comments/{{board_pk}}', postData, {xsrfCookieName: 'csrftoken', xsrfHeaderName: 'X-CSRFToken'})
+            axios.post('/comments/{{post.id}}', postData, {xsrfCookieName: 'csrftoken', xsrfHeaderName: 'X-CSRFToken'})
             .then((response) => {
+                var str = response.data.split('||')
+                if(str[0]=='false'){
+                    alert(str[1])
+                }else{
                 this.getComments();
                 document.getElementById('comment_write').value = '';
                 this.content = ''
                 //console.log(response.data);
                 //console.log(this.content);
+                }
             })
             .catch((err) => {
-                alert(err.data)
-                console.log(err);
+                alert('알수없는 오류가 발생했습니다. 관리자에게 문의해주세요.');
+                //alert(err.data);
+                //console.log(err);
                 //console.log(this.content);
             })
+        },
+        deleteComment:function(id){
+            console.log('delete')
+            if(confirm('삭제하시겠습니까?')){
+                axios.post('/comments/'+id+'/delete', {}, {xsrfCookieName: 'csrftoken', xsrfHeaderName: 'X-CSRFToken'})
+                .then((response) => {
+                    var str = response.data.split('||')
+                    if(str[0]=='false'){
+                        alert(str[1])
+                    }else{
+                    this.getComments();
+                    alert(response.data);
+                    }
+                })
+                .catch((err) => {
+                    alert('알수없는 오류가 발생했습니다. 관리자에게 문의해주세요.');
+                })
+            }
+        },
+        commentOpener:function(){
+            var token = this.comment_token
+            var toggle = document.getElementById('cmt_toggle');
+            if(token){
+                toggle.className = 'up';
+            }else{
+                toggle.className = '';
+            }
+            this.comment_token = !this.comment_token
+        }
+    },
+    filters:{
+        dateFilter:function(value){
+            var today = new Date();
+            var month = today.getMonth()+1
+            var year = today.getFullYear()
+            var day = today.getDate()
+            today = year + '-' + month + '-' + day
+            if(today==value.split('T')[0]){
+                //console.log('today');
+                return value.split('T')[1].split('.')[0];
+            }else if(year==value.split('-')[0]){
+                return value.split('T')[0].slice(5,10);
+            }else{
+                return value.split('T')[0].slice(2,10);
+            }
         }
     }
 })
 </script>
+<!-- 다음,이전글 시작 -->
+<div id="prev_next_wrap">
+    {% now "y-m-d" as todays_date %}
+    {% now "y" as this_year %}
+    <div id="next_wrap" class="after">
+        <div class="next desc"><img src="{% static 'img/up_arrow.png' %}"></div>
+        <div class="next title">
+            {% if next_post %}
+                <a href="/board/{{board_pk}}/{{next_post.id}}">
+                {{next_post.title}}
+                </a>
+            {% else %}
+            <em class="disabled">가장 최신글입니다.</em>
+            {% endif %}
+        </div>
+        <div class="next date">
+            {% if todays_date == next_post.upload_date|date:"y-m-d" %}
+            {{ next_post.upload_date|date:"H:i" }}
+            {% elif this_year == next_post.upload_date|date:"y" %}
+            {{ next_post.upload_date|date:"m-d"}}
+            {% else %}
+            {{ next_post.upload_date|date:"Y-m-d" }}
+            {% endif %}</div>
+    </div>
+    <div id="prev_wrap" class="after">
+        <div class="prev desc"><img src="{% static 'img/down_arrow.png' %}"></div>
+        <div class="prev title">
+            <a href="/board/{{board_pk}}/{{prev_post.id}}">
+            {% if prev_post %}
+                {{prev_post.title}}
+            </a>
+            {% else %}
+            <em class="disabled">마지막 글입니다.</em>
+            {% endif %}
+        </div>
+        <div class="prev date">
+            {% if todays_date == prev_post.upload_date|date:"y-m-d" %}
+            {{ prev_post.upload_date|date:"H:i" }}
+            {% elif this_year == prev_post.upload_date|date:"y" %}
+            {{ prev_post.upload_date|date:"m-d"}}
+            {% else %}
+            {{ prev_post.upload_date|date:"Y-m-d" }}
+            {% endif %}</div>
+    </div>
+</div>
+<!-- 다음,이전글 끝 -->

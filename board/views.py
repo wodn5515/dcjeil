@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core import serializers
 from django.views.decorators.http import require_POST, require_GET
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404
 from django.urls import reverse
@@ -84,27 +85,56 @@ def board(request, pk):
         })
 
 def detail(request, menu, pk):
+    post = Post.objects.get(pk=pk)
+    try:
+        prev_post = Post.objects.filter(div=menu, upload_date__lt=post.upload_date).order_by('-upload_date')[0]
+    except:
+        prev_post = None
+    try:
+        next_post = Post.objects.filter(div=menu, upload_date__gt=post.upload_date).order_by('upload_date')[0]
+    except:
+        next_post = None
     return render(request, 'base_detail.html', {
         'sidenav' : 'side_nav/side_nav_' + menu[0] + '.html',
         'content' : 'detail.html',
         'menu_nav' : menu[0],
         'menu_no' : menu[1:],
-        'post' : Post.objects.get(pk=pk),
+        'post' : post,
         'title' : get_title(menu),
-        'board_pk' : pk
+        'board_pk' : menu,
+        'prev_post' : prev_post,
+        'next_post' : next_post
     })
 
 def comments(request, pk):
     if request.method == 'POST':
         data = json.loads(request.body.decode("utf-8"))
         content = data['content']
+        if content == '':
+            return HttpResponse('false||내용을 입력해주세요.')
         new_comment = Comment(
             post=Post.objects.get(pk=pk),
             writer=request.user,
             content=content
         )
         new_comment.save()
-        return HttpResponse(content)
+        return HttpResponse('등록완료')
     else:
-        comments = list(Comment.objects.filter(post=pk).values())
-        return JsonResponse(comments, safe=False)
+        comments = Comment.objects.filter(post=pk).order_by('-date')
+        comments_list = []
+        for i in comments:
+            comment = {}
+            comment['id'] = i.id
+            comment['content'] = i.content
+            comment['date'] = i.date
+            comment['name'] = i.writer.name
+            comments_list.append(comment)
+        return JsonResponse(comments_list, safe=False)
+
+def comment_delete(request, pk):
+    if request.method == "POST":
+        comment = Comment.objects.get(pk=pk)
+        if comment.writer == request.user or request.user.is_superuser:
+            comment.delete()
+            return HttpResponse('삭제했습니다.')
+        return HttpResponse('false||권한이 없습니다.')
