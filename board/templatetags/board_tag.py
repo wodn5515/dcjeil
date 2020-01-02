@@ -11,3 +11,7 @@ def td_no(value, total, start):
 def url_target_blank(text):
     return text.replace('<a ', '<a target="_blank" ')
 url_target_blank = register.filter(url_target_blank, is_safe = True)
+
+@register.filter
+def filename(value):
+    return value.split('/')[-1]

@@ -1,8 +1,16 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.utils.translation import ugettext_lazy as _
-
+from .choice import *
 from .models import User, UserManager
+
+        
+def email_user_check(value):
+    try:
+        User.objects.get(email=value)
+    except:
+        raise forms.ValidationError("존재하지않는 회원입니다.")
+
 
 class UserChangeForm(forms.ModelForm):
     # 비밀번호 변경 폼
@@ -38,3 +46,62 @@ class UserCreationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+class FinduidForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
+        super(FinduidForm, self).__init__(*args, **kwargs)
+
+    email = forms.EmailField(label='이메일', help_text="회원가입시 입력한 이메일을 입력해주세요.", validators=[email_user_check], widget=forms.EmailInput(attrs={
+        'autofocus' : 'on'
+    }))
+
+class FindPasswordForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
+        super(FindPasswordForm, self).__init__(*args, **kwargs)
+
+    uid = forms.CharField(label="아이디", widget=forms.TextInput(attrs={
+        'autofocus' : 'on'
+    }))
+    email = forms.EmailField(label='이메일', validators=[email_user_check], widget=forms.EmailInput(attrs={
+    }))
+
+class RegisterForm1(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
+        super(RegisterForm1, self).__init__(*args, **kwargs)
+
+    password = forms.CharField(label="비밀번호", widget=forms.PasswordInput())
+    confirm_password = forms.CharField(label="비밀번호 확인", widget=forms.PasswordInput())
+
+    class Meta:
+        model = User
+        fields = ('uid', 'password')
+        widget = {
+            'uid' : forms.TextInput(attrs={
+                'autofocus' : 'on'
+            }),
+        }
+        labels = {
+            'uid' : '아이디',
+        }
+
+    def clean_confirm_password(self):
+        password = self.cleaned_data.get('password')
+        confirm_password = self.cleaned_data.get('confirm_password')
+        if password != confirm_password:
+            raise forms.ValidationError('비밀번호가 일치하지 않습니다.')
+        return confirm_password
+
+
+class RegisterForm2(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
+        super(RegisterForm2, self).__init__(*args, **kwargs)
+
+    birthday = forms.DateField(label="생년월일", required=False, widget=forms.SelectDateWidget(empty_label=("-년도-", "--월--", "--일--"), years=range(1900, 2020)))
+
+    class Meta:
+        model = User
+        fields = ('name', 'email', 'tp', 'birthday', 'office',)

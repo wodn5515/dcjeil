@@ -3,7 +3,7 @@
 <div id="invisible">
 {{post.viewsup}}
 </div>
-<!-- 헤더 시작 -->
+<!---------- 헤더 ----------->
 <div id="detail_header" class="after">
     <div>
         <h2>{{post.title}}</h2>
@@ -17,8 +17,19 @@
         <span><strong>{{post.views}}</strong></span>
     </div>
 </div>
-<!-- 헤더 끝 -->
-<!-- 내용 시작 -->
+<!--------------------------->
+<!-------- 첨부파일 --------->
+<div id="file_wrap">
+{% for file in post.file.all %}
+    <div class="container">
+        <img class="icon" src="{% static 'img/fileicon.png' %}" height="16px">
+        <a href="{{file.file.url}}" download>{{file.file.name|filename}}</a>
+        <span>[{{file.file.size|filesizeformat}}]</span>
+    </div>
+{% endfor %}
+</div>
+<!--------------------------->
+<!---------- 내용 ----------->
 <div id="detail_content">
     {% if post.video %}
     <iframe src="http://www.youtube.com/embed/{{post.video}}" frameborder="0" allowfullscreen></iframe>
@@ -30,8 +41,7 @@
     {% endfor %}
     {% endif %}<p>{{post.content|linebreaksbr|urlize|url_target_blank}}</p>
 </div>
-<!-- 내용 끝 -->
-<!-- 댓글 시작-->
+<!---------- 댓글 ----------->
 <div id="comment_wrap">
     <div id="comment_write_wrap" class="after">
         {% csrf_token %}
@@ -40,15 +50,16 @@
     </div>
     <div id="comment_opener_wrap">
         <button @click="commentOpener" id="comment_opener">
-            <em>댓글 {{post.comment.count}}</em><span><img id="cmt_toggle" src="{% static 'img/cmt_opener.png' %}"></span>
+            <em>댓글 [[comments.length]]</em><span><img id="cmt_toggle" src="{% static 'img/cmt_opener.png' %}"></span>
         </button>
     </div>
-    <ul v-show="comment_token" id="comment_list_wrap">
-        <li v-for="comment in comments" class="cmt_wrap after">
+    <ul v-if="comment_token" id="comment_list_wrap">
+        <li v-for="comment in comments" class="container after">
             <div class="cmt name">[[comment.name]]</div>
             <div class="cmt content">[[comment.content]]</div>
             <div class="cmt date_del"><span style="margin-right:10px;">[[comment.date|dateFilter]]</span><span @click="deleteComment(comment.id)"><img src="{% static 'img/cmt_delete.png' %}"></span></div>
         </li>
+        <li class="no_comment" v-if="!comments.length">등록된 댓글이 없습니다.</li>
     </ul>
 </div>
 <script>
@@ -144,7 +155,8 @@ var comment = new Vue({
     }
 })
 </script>
-<!-- 다음,이전글 시작 -->
+<!--------------------------->
+<!------- 다음,이전글 ------->
 <div id="prev_next_wrap">
     {% now "y-m-d" as todays_date %}
     {% now "y" as this_year %}
@@ -189,4 +201,4 @@ var comment = new Vue({
             {% endif %}</div>
     </div>
 </div>
-<!-- 다음,이전글 끝 -->
+<!--------------------------->

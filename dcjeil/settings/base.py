@@ -83,8 +83,14 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = 'account.User'
-
 LOGIN_URL = '/login/'
+
+# Session management
+# https://docs.djangoproject.com/en/3.0/ref/settings/#settings-sessions
+
+SESSION_COOKIE_AGE = 60*10
+SESSION_SAVE_EVERY_REQUEST = True
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

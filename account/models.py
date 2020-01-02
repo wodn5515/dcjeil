@@ -3,6 +3,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from .choice import *
 
 # Create your models here.
 
@@ -44,8 +45,8 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(_('이름'), max_length = 5)
-    birthday = models.CharField(_('생년월일'), max_length = 8)
-    office = models.CharField(_('직분'),max_length = 10)
+    birthday = models.DateField(_('생년월일'))
+    office = models.CharField(_('직분'), choices=OFFICE_CHOICES, max_length = 10)
     parish = models.CharField(_('교구'), max_length = 10, blank = True)
     address = models.CharField(_('주소'), max_length = 255, blank = True)
     is_active = models.BooleanField(default=False)

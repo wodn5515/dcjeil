@@ -22,7 +22,6 @@
         <link rel="stylesheet" href="{% static 'css/common.css' %}">
         <link rel="stylesheet" href="{% static 'css/reset.css' %}">
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
-        <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
         <script src="{% static 'js/vue.js' %}"></script>
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -39,12 +38,17 @@
                     <div id="top_frame" class="after">
                         <div id="top_navbar">
                             <ul>
-                                {% if user.is_active %}
+                                {% if user.is_superuser %}
                                 <li>
+                                    <a href="/admin">관리자 페이지로..</a>
+                                </li>
+                                {% endif %}
+                                {% if user.is_active %}
+                                <li class="log">
                                     <a href="/logout?next={{request.path}}">로그아웃</a>
                                 </li>
                                 {% else %}
-                                <li>
+                                <li class="log">
                                     <a href="/login?next={{request.path}}">로그인</a>
                                 </li>
                                 </li>

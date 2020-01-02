@@ -13,33 +13,36 @@
         <h1>회원가입</h1>
     </div>
 </div>
-<div id="wrapper">
+<div id="reg_wrapper">
     <form action="" method="POST" autocomplete="off">
-        {% csrf_token %}    
+        {% csrf_token %}
+        <h2 class="sec_title">회원정보</h2>
         <section class="reg_form">
-            {% for field in form1 %}
+            {% for field in forms1 %}
             <div class="field_wrap">
                 {{ field.label_tag }}
-                {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
                 {{ field }}
+                {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
                 {% if field.help_text %}
                 <p class="help">{{ field.help_text|safe }}</p>
                 {% endif %}
             </div>
         {% endfor %}
         </section>
+        <h2 class="sec_title">개인정보</h2>
         <section class="reg_form">
-            {% for field in form2 %}
+            {% for field in forms2 %}
             <div class="field_wrap">
                 {{ field.label_tag }}
-                {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
                 {{ field }}
+                {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
                 {% if field.help_text %}
                 <p class="help">{{ field.help_text|safe }}</p>
                 {% endif %}
             </div>
         {% endfor %}
         </section>
+        <input type="submit" value="회원가입">
     </form>
 </div>
 {% endblock content %}
