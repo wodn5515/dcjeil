@@ -25,3 +25,6 @@
 -detail 첨부파일 구현
 -session expire age 10분 설정
 -user group으로 묶어서 권한 부여
+
+20200102
+-회원가입 구현
