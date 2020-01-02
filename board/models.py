@@ -26,6 +26,9 @@ def post_image_save(instance, filename):
     extension = filename.split('.')[-1]
     return f'{instance.post.title}/image/{pid}.{extension}'
 
+def post_file_save(instance, filename):
+    return f'{instance.post.title}/file/{filename}'
+
 def set_defautwriter_when_deleted():
     return account.objects.get(is_superuser=True)
 
@@ -86,6 +89,15 @@ class PostImage(models.Model):
     def __str__(self):
         temp = self.image.name.split('/')[-1]
         return f'{self.post.title} - {temp}'
+
+class PostFile(models.Model):
+
+    class Meta:
+        verbose_name = ('첨부파일')
+        verbose_name_plural = ('첨부파일')
+
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, default='', verbose_name='게시글', related_name='file')
+    file = models.FileField(_('첨부파일'), upload_to=post_file_save)
 
 class Comment(models.Model):
 

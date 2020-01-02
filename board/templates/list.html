@@ -18,7 +18,7 @@
             <td class="td_no">{% td_no forloop.counter0 total post_list.start_index%}</td>
             <td class="td_title">
                 <a href="/board/{{post.div}}/{{post.id}}">{{post.title}}</a>
-                <span class="icons after"><!--
+                <span class="icon_wrap after"><!--
                     -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
                     --><img class="icon" src="{% static 'img/newicon.png' %}" height="16px"><!--
                     -->{% endif %}<!--
@@ -27,7 +27,9 @@
                     -->{% endif %}<!--
                     -->{% if post.image.first %}<!--
                     --><img class="icon" src="{% static 'img/picicon.png' %}" height="16px"><!--
-                    -->{% else %}<!--
+                    -->{% endif %}<!--
+                    -->{% if post.file.first %}<!--
+                    --><img class="icon" src="{% static 'img/fileicon.png' %}" height="16px"><!--
                     -->{% endif %}<!--
                 --></span>
                 {% if post.comment.all|length %}

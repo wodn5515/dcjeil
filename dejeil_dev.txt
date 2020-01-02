@@ -14,4 +14,14 @@
 20191230
 -detail 창 조회수표시
 -user 삭제시 연동된 Post.writer is_superuser 로 변경
+-comment vue.js를 이용한 비동기처리
 
+20191231
+-comment 화면 구현
+-다음글,이전글 구현
+-comment 삭제 구현
+
+20200101
+-detail 첨부파일 구현
+-session expire age 10분 설정
+-user group으로 묶어서 권한 부여

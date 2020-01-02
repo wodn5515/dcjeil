@@ -10,16 +10,11 @@ from django.db import IntegrityError
 from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
-from account.models import User
 from board.models import Post
-from .forms import FinduidForm, FindPasswordForm, RegisterForm1, RegisterForm2
 import string, os
 
 def test(request):
     return render(request, 'test/vue_test.html')
-
-def not_logged_in(user):
-    return not user.is_authenticated
 
 def home(request):
     notice = Post.objects.filter(div='401').filter(published=True).order_by('-upload_date')[:8]
@@ -36,47 +31,3 @@ def home(request):
         'weekly' : weekly,
         'photo' : photo
         })
-
-def finduid(request):
-    if request.method == "POST":
-        forms = FinduidForm(request.POST)
-        if forms.is_valid():
-            return redirect(reverse('finduid2'))
-    else:
-        forms = FinduidForm()
-    return render(request, 'registration/finduid.html', {
-        'forms' : forms,
-        })
-
-def finduid2(request):
-    return render(request, 'registration/finduid2.html')
-
-def findpassword(request):
-    if request.method == "POST":
-        forms = FindPasswordForm(request.POST)
-        if forms.is_valid():
-            return redirect(reverse('findpassword2'))
-    else:
-        forms = FindPasswordForm()
-    return render(request, 'registration/findpassword.html', {
-        'forms' : forms
-        })
-
-def findpassword2(request):
-    return render(request, 'registration/findpassword2.html')
-
-@user_passes_test(not_logged_in, 'home')
-def register(request):
-    if request.method == "POST":
-        if request.POST.get("agree", "") == "agree":
-            return redirect(reverse('registerform'))
-    return render(request, 'registration/register.html')
-
-@user_passes_test(not_logged_in, 'home')
-def registerform(request):
-    form1 = RegisterForm1()
-    form2 = RegisterForm2()
-    return render(request, 'registration/registerform.html', {
-        'form1' : form1,
-        'form2' : form2
-    })
