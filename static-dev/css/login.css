@@ -38,8 +38,8 @@
 .sec_title{margin-left:10px;}
 .field_wrap{border-top:1px solid #c5c5c5; padding:10px;}
 .field_wrap:last-child{border-bottom:1px solid #c5c5c5;}
-#reg_wrapper label{width:100px; padding:5px; display:inline-block; font-size:13px; border-right:1px solid #c5c5c5;}
-#reg_wrapper input{padding:8px; border:1px solid #c5c5c5; height:30px; font-size:14px; line-height:14px; margin-left:10px;}
-#reg_wrapper select[name='office']{border:1px solid #c5c5c5; height:30px; font-size:14px; line-height:14px; margin-left:10px; width:100px;}
-#reg_wrapper select{border:1px solid #c5c5c5; height:30px; font-size:14px; line-height:14px; margin-left:10px;}
-#reg_wrapper .error{font-size:12px; color:#fa5555; margin-left:10px;}
+.reg_form label{width:100px; padding:5px; display:inline-block; font-size:13px; border-right:1px solid #c5c5c5;}
+.reg_form input{padding:8px; border:1px solid #c5c5c5; height:30px; font-size:14px; line-height:14px; margin-left:10px;}
+.reg_form select[name='office']{border:1px solid #c5c5c5; height:30px; font-size:14px; line-height:14px; margin-left:10px; width:100px;}
+.reg_form select{border:1px solid #c5c5c5; height:30px; font-size:14px; line-height:14px; margin-left:10px;}
+.reg_form .error{font-size:12px; color:#fa5555; margin-left:10px;}
