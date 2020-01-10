@@ -17,6 +17,7 @@ def test(request):
     return render(request, 'test/vue_test.html')
 
 def home(request):
+    recent = Post.objects.filter(published=True).order_by('-upload_date')[:8]
     notice = Post.objects.filter(div='401').filter(published=True).order_by('-upload_date')[:8]
     news_church = Post.objects.filter(div='402').filter(published=True).order_by('-upload_date')[:8]
     news_mate = Post.objects.filter(div='403').filter(published=True).order_by('-upload_date')[:8]
@@ -24,6 +25,7 @@ def home(request):
     weekly = Post.objects.filter(div='803').filter(published=True).order_by('-upload_date')[:8]
     photo = Post.objects.filter(div='405').filter(published=True).order_by('-upload_date')[:5]
     return render(request, 'home.html', {
+        'recent' : recent,
         'notice' : notice,
         'news_church' : news_church,
         'news_mate' : news_mate,

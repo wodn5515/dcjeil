@@ -36,7 +36,6 @@
     </div>
     <div id="find_container">
         <form action="" method="POST" name="finduid" autocomplete="off">
-        {% csrf_token %}
         {% for field in forms %}
         <div class="field_wrap">
             {{ field.label_tag }}
@@ -47,6 +46,7 @@
             {% endif %}
         </div>
         {% endfor %}
+        {% csrf_token %}
         <div id="button_wrap">
             <input id="find_submit" class="button" type="submit" value="확인">
             <input id="find_close" class="button" type="button" onclick="window.close();" value="창닫기">

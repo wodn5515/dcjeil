@@ -17,24 +17,43 @@
         <tr>
             <td class="td_no">{% td_no forloop.counter0 total post_list.start_index%}</td>
             <td class="td_title">
-                <a href="/board/{{post.div}}/{{post.id}}">{{post.title}}</a>
-                <span class="icon_wrap after"><!--
-                    -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
-                    --><img class="icon" src="{% static 'img/newicon.png' %}" height="16px"><!--
-                    -->{% endif %}<!--
-                    -->{% if post.video %}<!--
-                    --><img class="icon" src="{% static 'img/videoicon.png' %}" height="16px"><!--
-                    -->{% endif %}<!--
-                    -->{% if post.image.first %}<!--
-                    --><img class="icon" src="{% static 'img/picicon.png' %}" height="16px"><!--
-                    -->{% endif %}<!--
-                    -->{% if post.file.first %}<!--
-                    --><img class="icon" src="{% static 'img/fileicon.png' %}" height="16px"><!--
-                    -->{% endif %}<!--
-                --></span>
-                {% if post.comment.all|length %}
-                <span class="cmt_count">({{post.comment.count}})</span>
-                {% endif %}
+                <a href="/board/{{post.div}}/{{post.id}}">
+                    <div class="td_title_title after">
+                        <div><em>{{post.title}}</em></div>
+                        {% if post.comment.all|length %}
+                        <span class="icon_wrap after"><!--
+                        -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
+                        --><img class="icon" src="{% static 'img/newicon.png' %}" height="16px"><!--
+                        -->{% endif %}<!--
+                        -->{% if post.video %}<!--
+                        --><img class="icon" src="{% static 'img/videoicon.png' %}" height="16px"><!--
+                        -->{% endif %}<!--
+                        -->{% if post.image.first %}<!--
+                        --><img class="icon" src="{% static 'img/picicon.png' %}" height="16px"><!--
+                        -->{% endif %}<!--
+                        -->{% if post.file.first %}<!--
+                        --><img class="icon" src="{% static 'img/fileicon.png' %}" height="16px"><!--
+                        -->{% endif %}<!--
+                    --></span>
+                        <span class="cmt_count">({{post.comment.count}})</span>
+                        {% endif %}
+                    </div>
+                    <div id="mob_list_info">
+                        <em>{{post.writer}}</em>
+                        <span class="bar">|</span>
+                        <em>
+                        {% if todays_date == post.upload_date|date:"y-m-d" %}
+                        {{ post.upload_date|date:"H:i" }}
+                        {% elif this_year == post.upload_date|date:"y" %}
+                        {{ post.upload_date|date:"m-d"}}
+                        {% else %}
+                        {{ post.upload_date|date:"Y-m-d" }}
+                        {% endif %}
+                        </em>
+                        <span class="bar">|</span>
+                        <em>조회수 : {{post.views}}</em>
+                    </div>
+                </a>
             </td>
             <td class="td_writer">{{post.writer}}</td>
             <td class="td_date">
