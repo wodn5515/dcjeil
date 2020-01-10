@@ -1,0 +1,10 @@
+{% load static %}
+<div id="title_wrap">
+    <div id="mob_menu_btn">
+        <img @click="menuShowHide" src="{% static 'img/mob_menu.png' %}">
+    </div>
+    <div id="mob_home_btn">
+        <a href="/"><img src="{% static 'img/mob_home.png' %}"></a>
+    </div>
+    <div id="title"><h1>{{title}}</h1></div>
+</div>

@@ -34,6 +34,7 @@ urlpatterns = [
     path('login/findpassword2', account_views.findpassword2, name='findpassword2'),
     path('register', account_views.register, name='register'),
     path('registerform', account_views.registerform, name='registerform'),
+    path('registersubmit', account_views.registersubmit, name='registersubmit'),
     path('test', views.test, name='test'),
     path('comments/<str:pk>', board_views.comments, name='comments'),
     path('comments/<str:pk>/delete', board_views.comment_delete, name='comment_delete')

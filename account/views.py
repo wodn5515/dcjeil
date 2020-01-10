@@ -52,8 +52,12 @@ def findpassword2(request):
 def register(request):
     if request.method == "POST":
         if request.POST.get("agree", "") == "agree":
+            request.session['register_agree'] = True
             return redirect(reverse('registerform'))
-    return render(request, 'registration/register.html')
+    else:
+        request.session['register_agree'] = False
+        request.session['register_submit'] = False
+        return render(request, 'registration/register.html')
 
 @user_passes_test(not_logged_in, 'home')
 def registerform(request):
@@ -64,11 +68,26 @@ def registerform(request):
             temp_new_account = forms1.save(commit=False)
             new_account = RegisterForm2(request.POST, instance=temp_new_account)
             new_account.save()
-            return HttpResponse('성공')
+            request.session['register_submit'] = True
+            return redirect(reverse('registersubmit'))
+        return render(request, 'registration/registerform.html', {
+            'forms1' : forms1,
+            'forms2' : forms2
+        })
     else:
+        if not request.session.get('register_agree', False):
+            return redirect(reverse('register'))
         forms1 = RegisterForm1()
         forms2 = RegisterForm2()
-    return render(request, 'registration/registerform.html', {
-        'forms1' : forms1,
-        'forms2' : forms2
-    })
+        request.session['register_agree'] = False
+        return render(request, 'registration/registerform.html', {
+            'forms1' : forms1,
+            'forms2' : forms2
+        })
+
+@user_passes_test(not_logged_in, 'home')
+def registersubmit(request):
+    if not request.session.get('register_submit', False):
+        return redirect(reverse('register'))
+    request.session['register_submit'] = False
+    return render(request, 'registration/registerresult.html')

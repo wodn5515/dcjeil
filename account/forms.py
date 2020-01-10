@@ -94,13 +94,19 @@ class RegisterForm1(forms.ModelForm):
             raise forms.ValidationError('비밀번호가 일치하지 않습니다.')
         return confirm_password
 
+    def save(self, commit=True):
+        # Save the provided password in hashed format
+        user = super(RegisterForm1, self).save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        return user
+
 
 class RegisterForm2(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label_suffix', '')
         super(RegisterForm2, self).__init__(*args, **kwargs)
 
-    birthday = forms.DateField(label="생년월일", required=False, widget=forms.SelectDateWidget(empty_label=("-년도-", "--월--", "--일--"), years=range(1900, 2020)))
+    birthday = forms.DateField(label="생년월일", required=False, widget=forms.SelectDateWidget(empty_label=("-년도-", "--월--", "--일--"), years=range(2020, 1900, -1)))
 
     class Meta:
         model = User

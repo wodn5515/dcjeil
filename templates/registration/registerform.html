@@ -8,10 +8,14 @@
 <link rel="stylesheet" href="{% static 'css/login.css' %}">
 {% endblock head %}
 {% block content %}
-<div id="title">
-    <div>
-        <h1>회원가입</h1>
+<div id="title_wrap">
+    <div id="mob_menu_btn">
+        <img @click="menuShowHide" src="{% static 'img/mob_menu.png' %}">
     </div>
+    <div id="mob_home_btn">
+        <a href="/"><img src="{% static 'img/mob_home.png' %}"></a>
+    </div>
+    <div id="title"><h1>회원가입</h1></div>
 </div>
 <div id="reg_wrapper">
     <form action="" method="POST" autocomplete="off">
@@ -42,7 +46,9 @@
             </div>
         {% endfor %}
         </section>
-        <input type="submit" value="회원가입">
+        <div class="btn_confirm">
+            <input type="submit" value="회원가입">
+        </div>
     </form>
 </div>
 {% endblock content %}

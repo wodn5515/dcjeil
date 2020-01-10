@@ -108,17 +108,20 @@ def detail(request, menu, pk):
 
 def comments(request, pk):
     if request.method == 'POST':
-        data = json.loads(request.body.decode("utf-8"))
-        content = data['content']
-        if content == '':
-            return HttpResponse('false||내용을 입력해주세요.')
-        new_comment = Comment(
-            post=Post.objects.get(pk=pk),
-            writer=request.user,
-            content=content
-        )
-        new_comment.save()
-        return HttpResponse('등록완료')
+        if request.user.is_authenticated:
+            data = json.loads(request.body.decode("utf-8"))
+            content = data['content']
+            if content == '':
+                return HttpResponse('false||0||내용을 입력해주세요.')
+            new_comment = Comment(
+                post=Post.objects.get(pk=pk),
+                writer=request.user,
+                content=content
+            )
+            new_comment.save()
+            return HttpResponse('true||등록완료')
+        else:
+            return HttpResponse('false||redirect||로그인 후 이용해주세요.')
     else:
         comments = Comment.objects.filter(post=pk).order_by('-date')
         comments_list = []

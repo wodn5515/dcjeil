@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+회원가입완료 | 덕천제일교회
+{% endblock title%}
+{% block head %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock head %}
+{% block content %}
+<div id="title_wrap">
+    <div id="mob_menu_btn">
+        <img @click="menuShowHide" src="{% static 'img/mob_menu.png' %}">
+    </div>
+    <div id="mob_home_btn">
+        <a href="/"><img src="{% static 'img/mob_home.png' %}"></a>
+    </div>
+    <div id="title"><h1>환영합니다</h1></div>
+</div>
+<div id="reg_wrapper" class="result">
+    <h2>가입신청이 완료되었습니다.</h2>
+    <div style="margin-top:100px;">
+        <p>관리자의 승인후에 로그인 하실 수 있습니다.</p>
+        <br>
+        <em>승인까지는 최대 1~2일 정도 소요될 수 있습니다.</em>
+    </div>
+    <div style="margin-top:50px;" class="btn_confirm">
+        <a href="/">
+            <input type="button" value="메인으로...">
+        </a>
+        <a href="/login?next=/">
+            <input style="margin-left:20px;" type="button" value="로그인">
+        </a>
+    </div>
+</div>
+{% endblock content %}
