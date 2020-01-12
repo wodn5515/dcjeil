@@ -19,12 +19,12 @@
 #top_logo{float:left;}
 #top_logo > a{margin:30px 0 0 10px; display:inline-block;}
 #menu_nav{float:right; margin:64px 0 0 0;}
-#menu_nav:hover #sub_menu{display:block!important;}
+#menu_nav:hover #sub_menu{display:block;}
 #main_menu li{float:left; font-size:17px;}
 #main_menu li a{height:50px; line-height:50px; display:inline-block; padding:0 24px; color:#6b6b6b; font-weight:bold;}
 #main_menu li a:hover{color:#0093e9}
 #main_menu li.on > a{background-image:radial-gradient(#0093e9, white 75%); color:white; text-shadow:1px 1px #a5a5a5}
-#sub_menu{width:965.8px; z-index:10; position:absolute; border:3px double #e3e3e3; border-top:none; border-radius:0 0 10px 10px; padding:10px 0; margin-top:0px; background-color:white; box-shadow:0px 5px 4px 2px rgba(107, 107, 107, 0.5);}
+#sub_menu{display:none; width:965.8px; z-index:10; position:absolute; border:3px double #e3e3e3; border-top:none; border-radius:0 0 10px 10px; padding:10px 0; background-color:white; box-shadow:0px 5px 4px 2px rgba(107, 107, 107, 0.5);}
 #sub_menu > ul{float:left; border-left:1px solid #e3e3e3; height:303.6px;}
 #sub_menu > ul:first-child{border:none;}
 #sub_menu > ul:nth-child(1),
@@ -107,17 +107,17 @@
 #list_table td:not(.td_title){text-align:center; font-size:12px;}
 #list_table .th_no{width:50px;}
 #list_table .th_title{width:500px;}
+#list_table .th_writer{width:60px;}
+#list_table .th_date{width:100px;}
+#list_table .th_views{width:60px;}
 #list_table .td_title #mob_list_info{display:none;}
 #list_table .td_title a{width:100%; display:block;}
 #list_table .td_title > a:hover .td_title_title > div{text-decoration:underline; color:#6b6b6b;}
 #list_table .td_title .td_title_title div:first-child{float:left; max-width:calc(100% - 100px); text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
-#list_table .th_writer{width:60px;}
-#list_table .th_date{width:100px;}
-#list_table .th_views{width:60px;}
 #list_table .icon_wrap{margin-left:5px; float:left;}
 #list_table .icon{vertical-align:sub; float:left;}
 #list_table .cmt_count{float:left; vertical-align:sub; margin-left:5px; color:#aaaaaa;}
-
+#list_table td.no_list{font-size:14px;}
 #pic_table{margin:0 0 50px 50px;}
 #pic_table > a > .container{float:left; height:200px; width:200px; margin-right:23px; margin-top:20px;}
 #pic_table > a:hover > .container > .con_title{text-decoration:underline; color:#6b6b6b;}
@@ -262,7 +262,7 @@
     #content.detail{width:90%; margin:0 auto; float:none;}
     #title_wrap{position:sticky; top:0px; box-shadow:0px 1px 3px 1px #8f8f8f; height:80px; border:none;}
     #title{margin:0 auto!important; vertical-align:middle; line-height:80px;}
-    #fixedview{width:100%; margin:0 auto;}
+    #fixedview{width:95%; margin:0 auto;}
     #list_table{margin:0 auto;}
 }
 
@@ -278,6 +278,7 @@
     #list_table td{padding:3px 5px;}
     #list_table .td_title .td_title_title{padding:5px 0;}
     #list_table .td_title #mob_list_info{display:block; font-size:12px;}
+    #list_table td.no_list{padding:20px 5px;}
     #detail_header h2{word-break:break-all;}
     #post_info{float:left;}
     #file_wrap{padding-right:10px;}

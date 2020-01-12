@@ -111,3 +111,6 @@ class RegisterForm2(forms.ModelForm):
     class Meta:
         model = User
         fields = ('name', 'email', 'tp', 'birthday', 'office',)
+        help_texts = {
+            'tp': "'-'를 제외한 숫자만 입력해주세요."
+        }

@@ -104,7 +104,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div id="sub_menu" style="display:none;" class="after">
+                            <div id="sub_menu" class="after">
                                 <ul class="sub1">
                                     <li>
                                         <a href="/board/101">인사말</a>
@@ -556,17 +556,62 @@
         </div>
         {% block js %}
         <script>
+        var comment = {
+            delimiters:['[[',']]'],
+            data: function () {
+                return {
+                    'content' : ''
+                }
+            },
+            props:['comments', 'comment_token'],
+            created:function(){
+                this.$emit('getcmt');
+            },
+            methods:{
+                addComment:function(){
+                    this.$emit('addcmt', this.content);
+                    this.content = ''
+                },
+                deleteComment:function(){
+                    this.$emit('delcmt');
+                },
+                commentOpener:function(){
+                    this.$emit('cmtopn');
+                }
+            },
+            filters:{
+                dateFilter:function(value){
+                    var today = new Date();
+                    var month = ((today.getMonth()+1) < 10 ? '0' : '') + (today.getMonth()+1)
+                    var year = today.getFullYear()
+                    var day = (today.getDate() < 10 ? '0' : '') + today.getDate()
+                    today = year + '-' + month + '-' + day
+                    //console.log(month);
+                    //console.log(today);
+                    //console.log(value);
+                    if(today==value.split('T')[0]){
+                        return value.split('T')[1].split('.')[0];
+                    }else if(year==value.split('-')[0]){
+                        return value.split('T')[0].slice(5,10);
+                    }else{
+                        return value.split('T')[0].slice(2,10);
+                    }
+                }
+            }
+        }
+
         var mob_menu = new Vue({
             el:'#main_wrap',
             delimiters:['[[',']]'],
             data:{
                 menu_token:false,
-                content:'',
-                comments:[],
-                comment_token:true
+                comment_data:{
+                    comments:[],
+                    comment_token:true
+                }
             },
-            created:function(){
-                this.getComments();
+            components:{
+                'comment':comment
             },
             methods:{
                 menuShowHide:function(){
@@ -581,22 +626,23 @@
                 getComments:function(){
                     axios.get('/comments/{{post.id}}')
                     .then((response) => {
-                        this.comments = response.data;
+                        this.comment_data.comments = response.data;
                         //console.log(this.comments[0].date);
+                        //console.log(this.comments);
                     })
                     .catch((err) => {
                         //console.log(err);
                     })
                 },
-                addComment:function(){
-                    var postData = {content:this.content}
+                addComment:function(message){
+                    var postData = {content:message};
+                    console.log(postData);
                     axios.post('/comments/{{post.id}}', postData, {xsrfCookieName: 'csrftoken', xsrfHeaderName: 'X-CSRFToken'})
                     .then((response) => {
                         var str = response.data.split('||')
                         if(str[0]=='true'){
                             this.getComments();
                             document.getElementById('comment_write').value = '';
-                            this.content = ''
                             //console.log(response.data);
                             //console.log(this.content);
                         }else{
@@ -634,33 +680,15 @@
                     }
                 },
                 commentOpener:function(){
-                    var token = this.comment_token
+                    var token = this.comment_data.comment_token
                     var toggle = document.getElementById('cmt_toggle');
                     if(token){
                         toggle.className = 'up';
                     }else{
                         toggle.className = '';
                     }
-                    this.comment_token = !this.comment_token
-                }
-            },
-            filters:{
-                dateFilter:function(value){
-                    var today = new Date();
-                    var month = ((today.getMonth()+1) < 10 ? '0' : '') + (today.getMonth()+1)
-                    var year = today.getFullYear()
-                    var day = (today.getDate() < 10 ? '0' : '') + today.getDate()
-                    today = year + '-' + month + '-' + day
-                    //console.log(month);
-                    //console.log(today);
-                    //console.log(value);
-                    if(today==value.split('T')[0]){
-                        return value.split('T')[1].split('.')[0];
-                    }else if(year==value.split('-')[0]){
-                        return value.split('T')[0].slice(5,10);
-                    }else{
-                        return value.split('T')[0].slice(2,10);
-                    }
+                    this.comment_data.comment_token = !this.comment_data.comment_token
+                    //console.log(this.comment_token)
                 }
             }
         })

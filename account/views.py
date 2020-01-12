@@ -20,6 +20,7 @@ import string, os
 def not_logged_in(user):
     return not user.is_authenticated
 
+# 아이디 찾기 입력창
 def finduid(request):
     if request.method == "POST":
         forms = FinduidForm(request.POST)
@@ -31,9 +32,11 @@ def finduid(request):
         'forms' : forms,
         })
 
+# 아이디 찾기 결과창
 def finduid2(request):
     return render(request, 'registration/finduid2.html')
 
+# 비밀번호 찾기 입력창
 def findpassword(request):
     if request.method == "POST":
         forms = FindPasswordForm(request.POST)
@@ -45,9 +48,11 @@ def findpassword(request):
         'forms' : forms
         })
 
+# 비밀번호 찾기 결과창
 def findpassword2(request):
     return render(request, 'registration/findpassword2.html')
 
+# 회원가입 약관
 @user_passes_test(not_logged_in, 'home')
 def register(request):
     if request.method == "POST":
@@ -59,6 +64,7 @@ def register(request):
         request.session['register_submit'] = False
         return render(request, 'registration/register.html')
 
+# 회원가입 입력창
 @user_passes_test(not_logged_in, 'home')
 def registerform(request):
     if request.method == "POST":
@@ -85,6 +91,7 @@ def registerform(request):
             'forms2' : forms2
         })
 
+# 회원가입 결과창
 @user_passes_test(not_logged_in, 'home')
 def registersubmit(request):
     if not request.session.get('register_submit', False):
