@@ -26,11 +26,10 @@
         <script src="https://unpkg.com/vue-router@3.1.3/dist/vue-router.js"></script>
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script src="https://kit.fontawesome.com/41217280d3.js" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         {% endblock head %}
     </head>
-    <body>
+    <body id="body">
         <div id="wrap">
             <!-- 상단 -->
             <div id="header_wrap" class="after">
@@ -322,7 +321,7 @@
                         <img @click="menuShowHide" src="{% static 'img/mob_menu_close.png' %}">
                     </div>
                     <div id="mob_menu" class="after">
-                        <ul id="sub1">
+                        <ul id="sub1"{% if  menu_nav == '1' %} class="on"{% endif %}>
                             <h3 @click="submenuShowHide">교회소개<img class="mob_menu_toggle down" src="{% static 'img/cmt_opener.png' %}"></h3>
                             <li>
                                 <a href="/board/101">인사말</a>
@@ -343,7 +342,7 @@
                                 <a href="/board/106">찾아오시는 길</a>
                             </li>
                         </ul>
-                        <ul id="sub2">
+                        <ul id="sub2"{% if  menu_nav == '2' %} class="on"{% endif %}>
                             <h3 @click="submenuShowHide">예배와말씀<img class="mob_menu_toggle down" src="{% static 'img/cmt_opener.png' %}"></h3>
                             <li>
                                 <a href="/board/201">금주의 말씀</a>
@@ -367,7 +366,7 @@
                                 <a href="/board/207">예배안내</a>
                             </li>
                         </ul>
-                        <ul id="sub3">
+                        <ul id="sub3"{% if  menu_nav == '3' %} class="on"{% endif %}>
                             <h3 @click="submenuShowHide">찬양과경배<img class="mob_menu_toggle down" src="{% static 'img/cmt_opener.png' %}"></h3>
                             <li>
                                 <a href="/board/301">할렐루야 찬양대</a>
@@ -379,7 +378,7 @@
                                 <a href="/board/303">찬양, 간증 집회</a>
                             </li>
                         </ul>
-                        <ul id="sub4">
+                        <ul id="sub4"{% if  menu_nav == '4' %} class="on"{% endif %}>
                             <h3 @click="submenuShowHide">성도의교제<img class="mob_menu_toggle down" src="{% static 'img/cmt_opener.png' %}"></h3>
                             <li>
                                 <a href="/board/401">공지사항</a>
@@ -409,7 +408,7 @@
                                 <a href="/board/409">큐티나눔방</a>
                             </li>
                         </ul>
-                        <ul id="sub5">
+                        <ul id="sub5"{% if  menu_nav == '5' %} class="on"{% endif %}>
                             <h3 @click="submenuShowHide">커뮤니티<img class="mob_menu_toggle down" src="{% static 'img/cmt_opener.png' %}"></h3>
                             <li>
                                 <a href="/board/501">영아부</a>
@@ -445,7 +444,7 @@
                                 <a href="/board/511">어린이집</a>
                             </li>
                         </ul>
-                        <ul id="sub6">
+                        <ul id="sub6"{% if  menu_nav == '6' %} class="on"{% endif %}>
                             <h3 @click="submenuShowHide">선교부<img class="mob_menu_toggle down" src="{% static 'img/cmt_opener.png' %}"></h3>
                             <li>
                                 <a href="/board/601">선교위원회</a>
@@ -511,7 +510,7 @@
                                 <a href="/board/616">단기선교</a>
                             </li>
                         </ul>
-                        <ul id="sub7">
+                        <ul id="sub7"{% if  menu_nav == '7' %} class="on"{% endif %}>
                             <h3 @click="submenuShowHide">양육시스템<img class="mob_menu_toggle down" src="{% static 'img/cmt_opener.png' %}"></h3>
                             <li>
                                 <a href="/board/701">양육시스템</a>
@@ -523,7 +522,7 @@
                                 <a href="/board/703">확신반 자료실</a>
                             </li>
                         </ul>
-                        <ul id="sub8">
+                        <ul id="sub8"{% if  menu_nav == '8' %} class="on"{% endif %}>
                             <h3 @click="submenuShowHide">자료실<img class="mob_menu_toggle down" src="{% static 'img/cmt_opener.png' %}"></h3>
                             <li>
                                 <a href="/board/801">문서자료실</a>
@@ -553,11 +552,11 @@
             <div id="footer_wrap" v-bind:class="{mob_menu_on:menu_token}">
                 
             </div>
+            <div id="modal" :class="{mob_menu_on:menu_token}" @click="menuShowHide"></div>
         </div>
         {% block js %}
         <script>
-        var comment = {
-            delimiters:['[[',']]'],
+        Vue.component('comment-com', {
             data: function () {
                 return {
                     'content' : ''
@@ -568,18 +567,22 @@
                 this.$emit('getcmt');
             },
             methods:{
+                // 댓글 등록
                 addComment:function(){
                     this.$emit('addcmt', this.content);
                     this.content = ''
                 },
-                deleteComment:function(){
-                    this.$emit('delcmt');
+                // 댓글 삭제
+                deleteComment:function(id){
+                    this.$emit('delcmt', id);
                 },
+                // 댓글 접기/펴기
                 commentOpener:function(){
                     this.$emit('cmtopn');
                 }
             },
             filters:{
+                // 날짜 표시 filter
                 dateFilter:function(value){
                     var today = new Date();
                     var month = ((today.getMonth()+1) < 10 ? '0' : '') + (today.getMonth()+1)
@@ -598,31 +601,53 @@
                     }
                 }
             }
-        }
+        });
+
+        Vue.component('history-com', {
+            data:function () {
+                return {
+                    'decade' : '0'
+                }
+            },
+            props:['history_data'],
+            created:function(){
+                this.$emit('history');
+            },
+            methods:{
+                history_change:function(decade){
+                    this.decade = decade;
+                }
+            }
+        });
 
         var mob_menu = new Vue({
-            el:'#main_wrap',
+            el:'#wrap',
             delimiters:['[[',']]'],
             data:{
                 menu_token:false,
+                history_data:'asd',
                 comment_data:{
                     comments:[],
                     comment_token:true
                 }
             },
-            components:{
-                'comment':comment
-            },
             methods:{
+                // 모바일 사이드메뉴 methods
                 menuShowHide:function(){
                     this.menu_token = !this.menu_token;
+                    document.getElementsByTagName("BODY")[0].classList.toggle('mob_menu_on');
                 },
                 submenuShowHide:function(e){
+                    var temp = document.getElementById('mob_menu').getElementsByClassName('show')[0]
+                    if(temp && temp != e.currentTarget.parentElement){
+                        temp.classList.remove('show')
+                    }
                     e.currentTarget.parentElement.classList.toggle('show');
                 },
                 missionShowHide:function(e){    
                     e.currentTarget.parentElement.classList.toggle('show');
                 },
+                // 댓글화면 methods
                 getComments:function(){
                     axios.get('/comments/{{post.id}}')
                     .then((response) => {
@@ -634,6 +659,7 @@
                         //console.log(err);
                     })
                 },
+                //댓글 등록 methods
                 addComment:function(message){
                     var postData = {content:message};
                     console.log(postData);
@@ -648,7 +674,7 @@
                         }else{
                             if(str[1]=='redirect'){
                                 alert(str[2])
-                                location.href='/login/?next={{request.path}}'
+                                location.href=str[3]
                             }else{
                                 alert(str[2])
                             }
@@ -661,10 +687,11 @@
                         //console.log(this.content);
                     })
                 },
+                // 댓글 삭제 methods
                 deleteComment:function(id){
                     console.log('delete')
                     if(confirm('삭제하시겠습니까?')){
-                        axios.post('/comments/'+id+'/delete', {}, {xsrfCookieName: 'csrftoken', xsrfHeaderName: 'X-CSRFToken'})
+                        axios.post('/comments/' + id + '/delete', {}, {xsrfCookieName: 'csrftoken', xsrfHeaderName: 'X-CSRFToken'})
                         .then((response) => {
                             var str = response.data.split('||')
                             if(str[0]=='false'){
@@ -679,6 +706,7 @@
                         })
                     }
                 },
+                // 댓글 접기/펴기 methods
                 commentOpener:function(){
                     var token = this.comment_data.comment_token
                     var toggle = document.getElementById('cmt_toggle');
@@ -689,6 +717,13 @@
                     }
                     this.comment_data.comment_token = !this.comment_data.comment_token
                     //console.log(this.comment_token)
+                },
+                // 교회연혁 표시 methods
+                history:function(){
+                    axios.get('/data/history')
+                    .then((response) => {
+                        this.history_data = response.data;
+                    })
                 }
             }
         })

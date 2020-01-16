@@ -1,2 +1,27 @@
+{% load static %}
 <!--교회연혁-->
-교회연혁
+<div id="fixed_pics">
+    <img src="{% static 'img/history.jpg' %}" width="100%" height="200px;">
+</div>
+<history-com inline-template v-bind:history_data='history_data' v-on:history="history">
+    <div id="history" class="fixedview">
+        <div id="history_btn_wrap">
+            <div class="container" :class="{active:decade=='0'}" @click="history_change('0')">~1979</div>
+            <div class="container" :class="{active:decade=='1'}" @click="history_change('1')">1980~1989</div>
+            <div class="container" :class="{active:decade=='2'}" @click="history_change('2')">1990~1999</div>
+            <div class="container" :class="{active:decade=='3'}" @click="history_change('3')">2000~2009</div>
+            <div class="container" :class="{active:decade=='4'}" @click="history_change('4')">2010~</div>
+        </div>
+        <div id="history_wrap">
+            <div v-for="(history_decade, index) in history_data" class="history_table" :class="{active:decade==index}">
+                <table>
+                    <tr v-for="history in history_decade">
+                        <td class="year">[[history.year]]</td>
+                        <td class="date">[[history.date]]</td>
+                        <td class="content" v-html="history.content"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</history-com>

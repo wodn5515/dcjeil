@@ -1,5 +1,5 @@
 {% load static %}
-<comment inline-template v-bind='comment_data' v-on:addcmt="addComment" v-on:delcmt="deleteComment" v-on:cmtopn="commentOpener" v-on:getcmt="getComments">
+<comment-com inline-template v-bind='comment_data' v-on:addcmt="addComment" v-on:delcmt="deleteComment" v-on:cmtopn="commentOpener" v-on:getcmt="getComments">
 <div id="comment_wrap">
     <div id="comment_write_wrap" class="after">
         {% csrf_token %}
@@ -20,4 +20,4 @@
         <li class="no_comment" v-if="!comments.length">등록된 댓글이 없습니다.</li>
     </ul>
 </div>
-</comment>
+</comment-com>

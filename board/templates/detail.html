@@ -30,7 +30,7 @@
 <!---------- 내용 ----------->
 <div id="detail_content">
     {% if post.video %}
-    <p><iframe src="http://www.youtube.com/embed/{{post.video}}" frameborder="0" allowfullscreen></iframe></p>
+    <div class="youtube_container"><iframe src="http://www.youtube.com/embed/{{post.video}}" frameborder="0" allowfullscreen></iframe></div>
     <p><a href="http://www.youtube.com/watch?v={{post.video}}" target="_blank">http://www.youtube.com/watch?v={{post.video}}</a></p>
     {% endif %}
     {% if post.image %}
