@@ -43,7 +43,7 @@ def board(request, pk):
     fixedboard = ['101','102','103','104','105','106','207','501','502','503','504','505','506','507','508','509','510','511','701']
     if pk in fixedboard:
         content = 'fixedboard/fixedboard_' + pk + '.html'
-        return render(request, 'base_board.html', {
+        return render(request, 'base_detail.html', {
             'sidenav' : 'side_nav/side_nav_' + pk[0] + '.html',
             'content' : content,
             'menu_nav' : pk[0],
@@ -121,7 +121,7 @@ def comments(request, pk):
             new_comment.save()
             return HttpResponse('true||등록완료')
         else:
-            return HttpResponse('false||redirect||로그인 후 이용해주세요.')
+            return HttpResponse('false||redirect||로그인 후 이용해주세요.||/login/?next=' + request.path)
     else:
         comments = Comment.objects.filter(post=pk).order_by('-date')
         comments_list = []
