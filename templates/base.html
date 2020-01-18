@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<!-- 20190104 -->
+<!-- 20190118 -->
 <html lang="ko">
     <head>
         <!--================================= Meta =================================-->
@@ -27,6 +27,9 @@
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://kit.fontawesome.com/41217280d3.js" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
         {% endblock head %}
     </head>
     <body id="body">
@@ -50,7 +53,6 @@
                                 {% else %}
                                 <li class="log">
                                     <a href="/login?next={{request.path}}">로그인</a>
-                                </li>
                                 </li>
                                 <li>
                                     <a href="/register">회원가입</a>
@@ -555,7 +557,7 @@
             <div id="modal" :class="{mob_menu_on:menu_token}" @click="menuShowHide"></div>
         </div>
         {% block js %}
-        <script>
+        <script type="text/javascript">
         Vue.component('comment-com', {
             data: function () {
                 return {
@@ -649,25 +651,27 @@
                 },
                 // 댓글화면 methods
                 getComments:function(){
+                    var self = this;
                     axios.get('/comments/{{post.id}}')
-                    .then((response) => {
-                        this.comment_data.comments = response.data;
+                    .then(function(response){
+                        self.comment_data.comments = response.data;
                         //console.log(this.comments[0].date);
                         //console.log(this.comments);
                     })
-                    .catch((err) => {
+                    .catch(function(err){
                         //console.log(err);
                     })
                 },
                 //댓글 등록 methods
                 addComment:function(message){
+                    var self = this;
                     var postData = {content:message};
                     console.log(postData);
                     axios.post('/comments/{{post.id}}', postData, {xsrfCookieName: 'csrftoken', xsrfHeaderName: 'X-CSRFToken'})
-                    .then((response) => {
+                    .then(function(response){
                         var str = response.data.split('||')
                         if(str[0]=='true'){
-                            this.getComments();
+                            self.getComments();
                             document.getElementById('comment_write').value = '';
                             //console.log(response.data);
                             //console.log(this.content);
@@ -680,7 +684,7 @@
                             }
                         }
                     })
-                    .catch((err) => {
+                    .catch(function(err){
                         alert('알수없는 오류가 발생했습니다. 관리자에게 문의해주세요.');
                         //alert(err.data);
                         //console.log(err);
@@ -689,19 +693,20 @@
                 },
                 // 댓글 삭제 methods
                 deleteComment:function(id){
+                    var self = this;
                     console.log('delete')
                     if(confirm('삭제하시겠습니까?')){
                         axios.post('/comments/' + id + '/delete', {}, {xsrfCookieName: 'csrftoken', xsrfHeaderName: 'X-CSRFToken'})
-                        .then((response) => {
+                        .then(function(response){
                             var str = response.data.split('||')
                             if(str[0]=='false'){
                                 alert(str[1])
                             }else{
-                            this.getComments();
+                            self.getComments();
                             alert(response.data);
                             }
                         })
-                        .catch((err) => {
+                        .catch(function(err){
                             alert('알수없는 오류가 발생했습니다. 관리자에게 문의해주세요.');
                         })
                     }
@@ -720,9 +725,10 @@
                 },
                 // 교회연혁 표시 methods
                 history:function(){
+                    var self = this;
                     axios.get('/data/history')
-                    .then((response) => {
-                        this.history_data = response.data;
+                    .then(function(response){
+                        self.history_data = response.data;
                     })
                 }
             }

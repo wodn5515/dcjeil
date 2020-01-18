@@ -10,6 +10,8 @@ from random import choice
 from account.models import User as account
 import string
 
+'''--------------------------- Abandoned ----------------------------'''
+
 def post_video_save(instance, filename):
     extension = filename.split('.')[-1]
     return f'{instance.title}/file/video.extention'
@@ -18,7 +20,7 @@ def post_audio_save(instance, filename):
     extension = filename.split('.')[-1]
     return f'{instance.title}/file/audio.{extension}'
 
-'''--------------------------- Abandoned ----------------------------'''
+'''------------------------------------------------------------------'''
 
 def post_image_save(instance, filename):
     arr = [choice(string.ascii_letters) for _ in range(8)]
@@ -53,6 +55,7 @@ class Post(models.Model):
     )
     div = models.CharField(_("분류"), max_length=10, choices=Divs)
     upload_date = models.DateTimeField(_('등록일'), default=timezone.now)
+    date = models.DateField(_('일시'), blank=True, null=True, help_text='설교, 찬양, 기도에만 작성하세요.')
     title = models.CharField(_('제목'), max_length=50, blank=True)
     preacher = models.CharField(_('설교자'), max_length=20, blank=True)
     writer = models.ForeignKey(account, on_delete=models.SET(set_defautwriter_when_deleted), related_name='post')
@@ -133,3 +136,16 @@ class FixedView(models.Model):
 
     def __str__(self):
         return f'{self.get_div_display()}'
+
+# 쿼리삭제시 이미지, 비디오, 파일 삭제 #
+@receiver(post_delete, sender=PostFile)
+def submission_delete(sender, instance, **kwargs):
+    instance.file.delete(False)
+
+@receiver(post_delete, sender=PostFile)
+def submission_delete(sender, instance, **kwargs):
+    instance.image.delete(False)
+
+@receiver(post_delete, sender=PostImage)
+def submission_delete(sender, instance, **kwargs):
+    instance.image.delete(False)

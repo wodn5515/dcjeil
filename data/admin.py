@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import History
+from .models import History, Carousel, Server
 # Register your models here.
 
 class HistoryAdmin(admin.ModelAdmin):
@@ -8,3 +8,5 @@ class HistoryAdmin(admin.ModelAdmin):
     ordering = ['-date',]
 
 admin.site.register(History, HistoryAdmin)
+admin.site.register(Carousel)
+admin.site.register(Server)

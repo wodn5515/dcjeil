@@ -105,6 +105,7 @@ img {
   text-align: center;
   opacity: .5;
   border:2px solid #0093e9;
+  border-radius:25px;
 }
 .carousel-control-next-icon, .carousel-control-prev-icon {
   display: inline-block;
