@@ -11,6 +11,24 @@ import string
 
 # Create your models here.
 
+# 슬라이드쇼 이미지 저장 #
+def carousel_image_save(instance, filename):
+    return f'home_carousel/{filename}'
+
+# 홈화면 왼쪽 슬라이드쇼 #
+class Carousel(models.Model):
+    
+    class Meta:
+        verbose_name = ('홈페이지 슬라이드')
+        verbose_name_plural = ('홈페이지 슬라이드')
+
+    title = models.CharField(_('한줄설명'), max_length=15)
+    image = models.ImageField(_('사진'), upload_to=carousel_image_save)
+    order = models.IntegerField(_('순서'), help_text='낮을수록 먼저나옵니다.', default=0)
+
+    def __str__(self):
+        return f'{self.title}'
+
 # 교회연혁 #
 class History(models.Model):
 
@@ -22,4 +40,15 @@ class History(models.Model):
     content = models.TextField(_('내용'))
 
     def __str__(self):
-        return f'{{content}}'
+        return f'{self.content}'
+
+# 섬기는 사람들 #
+class Server(models.Model):
+
+    class Meta:
+        verbose_name = ('섬기는 사람들')
+        verbose_name_plural = ('섬기는 사람들')
+
+@receiver(post_delete, sender=Carousel)
+def submission_delete(sender, instance, **kwargs):
+    instance.image.delete(False)

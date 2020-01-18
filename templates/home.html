@@ -19,15 +19,11 @@
     <div id="main_left">
         <div id="carouselIndicators" class="carousel slide" data-ride="false">
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img class="d-block w-100" src="http://www.dcjeil.net/uploadfolder/notice/2019102918054.png" width="400px" height="798px" alt="First slide">
+                {% for carousel in carousel_list %}
+                <div class="carousel-item{% if forloop.counter == 1 %} active{% endif %}">
+                    <img class="d-block w-100" src="{{carousel.image.url}}" width="400px" height="798px" alt="{{carousel.title}}">
                 </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARMAAAC3CAMAAAAGjUrGAAAAIVBMVEX/s7r//7q64f//37q6/8n/r7r/4rr/3Lq0/8q6/8W63/96SiiNAAABBklEQVR4nO3QSQHAIBAEsOUoLfgXjIf59JNISFXkWSPxtsw3E/v0SFbixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixIkTJ06cOHHixMm/JxfE8J319hr+XwAAAABJRU5ErkJggg==" width="400px" height="798px" alt="Second slide">
-                </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtimGw02fDLcUs-DMSb83NKmOIvrYtno7Mol52qnOhFdaTlvA5&s" width="400px" height="798px" alt="Third slide">
-                </div>
+                {% endfor %}
             </div>
             <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"><i class="fas fa-chevron-left"></i></span>
@@ -42,24 +38,37 @@
     <div id="main_right">
         <div id="maintabevent">
             <div id="tabbtnlist">
-                <div id="tabbtn_01" class="tabbtn active">주일오후예배</div>
+                <div id="tabbtn_01" class="tabbtn active">금주의 말씀</div>
                 <div id="tabbtn_02" class="tabbtn">찬양대</div>
                 <div id="tabbtn_03" class="tabbtn">새벽기도</div>
             </div>
             <div id="tabevent_inner">
                 <div id="tabevent_01" class="tab_item active">
-                    <a href="#">
+                    <a href="/board/{{tab1.div}}/{{tab1.id}}">
                         <img src="https://images.squarespace-cdn.com/content/v1/56b609afd210b80dc90b6653/1494437851252-AFYEF9Q6AA1U2WLNG7D3/ke17ZwdGBToddI8pDm48kFYQKuRgh_jKxbR6OYX_UPAUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYy7Mythp_T-mtop-vrsUOmeInPi9iDjx9w8K4ZfjXt2duQ-Eynr_yAzt1IZiD244suuf91rECrVfn3vGAt9kwPeZtJ3qR9G2BYeA0wOAaeYNg/sermon.jpg?format=2500w" height="100%" width="100%" alt="Tab Event_01">
+                        <div class="container">
+                            <p class="tab_title">{{tab1.title}}</p>
+                            <p class="tab_date">{{tab1.date|date:"Y-m-d"}}</p>
+                            <p class="tab_words">{{tab1.words}}</p>
+                        </div>
                     </a>
                 </div>
-                <div id="tabevent_02" class="tab_item">
-                    <a href="#">
+                <div id="tabevent_02" class="tab_item" title="{{tab2.title}}">
+                    <a href="/board/{{tab2.div}}/{{tab2.id}}">
                         <img src="https://catalinamethodist.org/wp-content/uploads/sites/488/2018/08/join-the-choir.jpg" height="100%" width="100%" alt="Tab Event_02">
+                        <div class="container">
+                            <p class="tab_title">{{tab2.title}}</p>
+                            <p class="tab_date">{{tab1.date|date:"Y-m-d"}}</p>
+                        </div>
                     </a>
                 </div>
                 <div id="tabevent_03" class="tab_item">
-                    <a href="#">
+                    <a href="/board/{{tab3.div}}/{{tab3.id}}" title="{{tab3.title}}">
                         <img src="https://www.schoenstatt.org/wp-content/uploads/2017/02/Praying-Hands-537214654_2124x1416.jpeg" height="100%" width="100%" alt="Tab Event_03">
+                        <div class="container">
+                            <p class="tab_title">{{tab3.title}}</p>
+                            <p class="tab_date">{{tab1.date|date:"Y-m-d"}}</p>
+                        </div>
                     </a>
                 </div>
             </div>

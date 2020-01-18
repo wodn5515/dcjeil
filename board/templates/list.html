@@ -20,7 +20,7 @@
             <td class="td_title">
                 <a href="/board/{{post.div}}/{{post.id}}">
                     <div class="td_title_title after">
-                        <div><em>{{post.title}}</em></div>
+                        <div><em>{% if post.date %}{{post.date|date:"Y-m-d"}} | {% endif %}{{post.title}}</em></div>
                         {% if post.comment.all|length %}
                         <span class="icon_wrap after"><!--
                         -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
@@ -36,7 +36,7 @@
                         --><img class="icon" src="{% static 'img/fileicon.png' %}" height="16px"><!--
                         -->{% endif %}<!--
                     --></span>
-                        <span class="cmt_count">({{post.comment.count}})</span>
+                        <span class="cmt_count">[{{post.comment.count}}]</span>
                         {% endif %}
                     </div>
                     <div id="mob_list_info">
