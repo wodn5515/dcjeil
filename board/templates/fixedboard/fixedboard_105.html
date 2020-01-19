@@ -1,2 +1,9 @@
 <!-- 섬기는 사람들 -->
-섬기는 사람들
+<server-com inline-template :server_data="server_data" @server="server">
+<div>
+    <div v-for="(server_list, key) in server_data">
+        <div>[[key]]</div>
+        <div v-for="server in server_list">[[server.name]]</div>
+    </div>
+</div>
+</server-com>

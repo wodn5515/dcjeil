@@ -558,6 +558,7 @@
         </div>
         {% block js %}
         <script type="text/javascript">
+        // 댓글화면 Component //
         Vue.component('comment-com', {
             data: function () {
                 return {
@@ -605,6 +606,7 @@
             }
         });
 
+        // 교회연혁 Component //
         Vue.component('history-com', {
             data:function () {
                 return {
@@ -622,16 +624,26 @@
             }
         });
 
+        // 섬기는 사람들 Component //
+        Vue.component('server-com', {
+            props:['server_data'],
+            created:function(){
+                this.$emit('server')
+            }
+        })
+
+        // Vue //
         var mob_menu = new Vue({
             el:'#wrap',
             delimiters:['[[',']]'],
             data:{
                 menu_token:false,
-                history_data:'asd',
                 comment_data:{
-                    comments:[],
+                    comments:'',
                     comment_token:true
-                }
+                },
+                history_data:'',
+                server_data:''
             },
             methods:{
                 // 모바일 사이드메뉴 methods
@@ -729,6 +741,14 @@
                     axios.get('/data/history')
                     .then(function(response){
                         self.history_data = response.data;
+                    })
+                },
+                // 섬기는 사람들 methods
+                server:function(){
+                    var self = this;
+                    axios.get('/data/server')
+                    .then(function(response){
+                        self.server_data = response.data;
                     })
                 }
             }

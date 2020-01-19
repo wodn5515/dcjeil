@@ -7,6 +7,8 @@ from imagekit.models import ImageSpecField
 from imagekit.processors import Thumbnail
 from imagekit.utils import get_cache
 from random import choice
+from account.choice import OFFICE_CHOICES
+from .choice import DIV_CHOICES
 import string
 
 # Create your models here.
@@ -14,6 +16,10 @@ import string
 # 슬라이드쇼 이미지 저장 #
 def carousel_image_save(instance, filename):
     return f'home_carousel/{filename}'
+
+# 섬기는사람들 이미지 저장 #
+def server_image_save(instance, filename):
+    return f'server/{instance.name}'
 
 # 홈화면 왼쪽 슬라이드쇼 #
 class Carousel(models.Model):
@@ -49,6 +55,22 @@ class Server(models.Model):
         verbose_name = ('섬기는 사람들')
         verbose_name_plural = ('섬기는 사람들')
 
+    name = models.CharField(_('이름'), max_length=5, blank=True)
+    div = models.CharField(_('구분'), max_length=10, choices=DIV_CHOICES, blank=True)
+    office = models.CharField(_('직분'), max_length=10, choices=OFFICE_CHOICES, blank=True)
+    image = models.ImageField(_('사진'), upload_to=server_image_save, blank=True)
+    tp = models.CharField(_('핸드폰'), max_length=15, blank=True)
+    htp = models.CharField(_('집전화'), max_length=15, blank=True)
+    email = models.EmailField(_('이메일'), blank=True)
+    charge = models.CharField(_('담당사역'), max_length=50, blank=True)
+
+    def __str__(self):
+        return f'{self.get_div_display()} - {self.name} {self.get_office_display()}님'
+
 @receiver(post_delete, sender=Carousel)
+def submission_delete(sender, instance, **kwargs):
+    instance.image.delete(False)
+
+@receiver(post_delete, sender=Server)
 def submission_delete(sender, instance, **kwargs):
     instance.image.delete(False)
