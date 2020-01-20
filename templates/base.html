@@ -650,6 +650,14 @@
             }
         })
 
+        // 담임목사소개 Component //
+        Vue.component('pastol-com',{
+            props:['pastol_data'],
+            created:function(){
+                this.$emit('pastol')
+            }
+        })
+
         // Vue //
         var mob_menu = new Vue({
             el:'#wrap',
@@ -661,7 +669,8 @@
                     comment_token:true
                 },
                 history_data:'',
-                server_data:''
+                server_data:'',
+                pastol_data:''
             },
             methods:{
                 // 모바일 사이드메뉴 methods
@@ -767,6 +776,14 @@
                     axios.get('/data/server')
                     .then(function(response){
                         self.server_data = response.data;
+                    })
+                },
+                // 담임목사소개 methods
+                pastol:function(){
+                    var self = this;
+                    axios.get('/data/pastol')
+                    .then(function(response){
+                        self.pastol_data = response.data;
                     })
                 }
             }

@@ -5,5 +5,6 @@ app_name = 'data'
 
 urlpatterns = [
     path('history', views.history, name="history"),
-    path('server', views.server, name="server")
+    path('server', views.server, name="server"),
+    path('pastol', views.pastol, name="pastol")
 ]

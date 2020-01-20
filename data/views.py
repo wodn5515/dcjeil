@@ -13,7 +13,7 @@ from django.db import IntegrityError
 from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
-from .models import History, Server
+from .models import History, Server, Pastol
 from .choice import DIV_CHOICES
 import string, os, json
 
@@ -58,4 +58,13 @@ def server(request):
             server_temp['charge'] = server.charge
             server_div.append(server_temp)
         data[j] = server_div
+    return JsonResponse(data, safe=False)
+
+def pastol(request):
+    data = {}
+    pastol = Pastol.objects.get()
+    data['education'] = pastol.education.replace('\n', '<br>')
+    data['career'] = pastol.career.replace('\n', '<br>')
+    data['experience'] = pastol.experience.replace('\n', '<br>')
+    data['image'] = pastol.image.url
     return JsonResponse(data, safe=False)
