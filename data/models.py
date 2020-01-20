@@ -59,8 +59,8 @@ class Server(models.Model):
     div = models.CharField(_('구분'), max_length=10, choices=DIV_CHOICES, blank=True)
     office = models.CharField(_('직분'), max_length=10, choices=OFFICE_CHOICES, blank=True)
     image = models.ImageField(_('사진'), upload_to=server_image_save, blank=True)
-    tp = models.CharField(_('핸드폰'), max_length=15, blank=True)
-    htp = models.CharField(_('집전화'), max_length=15, blank=True)
+    tp = models.CharField(_('핸드폰'), max_length=15, blank=True, help_text = "'-' 를 제외한 숫자만 입력해주세요.")
+    htp = models.CharField(_('집전화'), max_length=15, blank=True, help_text = "'-' 를 제외한 숫자만 입력해주세요.")
     email = models.EmailField(_('이메일'), blank=True)
     charge = models.CharField(_('담당사역'), max_length=50, blank=True)
 

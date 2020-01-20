@@ -1,9 +1,20 @@
 <!-- 섬기는 사람들 -->
 <server-com inline-template :server_data="server_data" @server="server">
-<div>
-    <div v-for="(server_list, key) in server_data">
-        <div>[[key]]</div>
-        <div v-for="server in server_list">[[server.name]]</div>
+<div id="server" class="fixedview">
+    <div class="container" v-for="(server_list, key) in server_data">
+        <div class="server_div">[[key]]</div>
+        <div class="server_table">
+            <div class="server_box after" v-for="server in server_list">
+                <div class="server_image"><img v-bind:src="[[server.image]]" width="100%" height="100%"></div>
+                <div class="server_info">
+                    <div class="name">[[server.name]] [[server.office]]</div>
+                    <div class="charge" v-if="[[server.charge]]!=''">[[server.charge]]</div>
+                    <div class="tp" v-if="[[server.tp]]!=''">Tel.&nbsp&nbsp[[server.tp|tpFilter]]</div>
+                    <div class="htp" v-if="[[server.htp]]!=''">집전화&nbsp&nbsp[[server.htp|tpFilter]]</div>
+                    <div class="email" v-if="[[server.email]]!=''">이메일&nbsp&nbsp[[server.email]]</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </server-com>

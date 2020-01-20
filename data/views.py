@@ -53,7 +53,7 @@ def server(request):
             server_temp['email'] = server.email
             server_temp['tp'] = server.tp
             server_temp['htp'] = server.htp
-            server_temp['office'] = server.office
+            server_temp['office'] = server.get_office_display()
             server_temp['image'] = server.image.url
             server_temp['charge'] = server.charge
             server_div.append(server_temp)

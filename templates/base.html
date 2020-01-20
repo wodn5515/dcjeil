@@ -629,6 +629,24 @@
             props:['server_data'],
             created:function(){
                 this.$emit('server')
+            },
+            filters:{
+                // 전화번호 filter
+                tpFilter:function(value){
+                    var length = value.length;
+                    if(length==11){
+                        var pattern = /\B(?=(\d{4})+(?!\d))/g
+                        value = value.replace(pattern,'-')
+                        return value
+                    }else{
+                        var pattern = /\B(?=(\d{7})+(?!\d))/
+                        value = value.replace(pattern,'-')
+                        var pattern = /\B(?=(\d{4})+(?!\d))/
+                        value = value.replace(pattern,'-')
+                        return value
+                    }
+                    return value
+                }
             }
         })
 
