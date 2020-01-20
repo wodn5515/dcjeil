@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import History, Carousel, Server
+from .models import History, Carousel, Server, Pastol
 # Register your models here.
 
 class HistoryAdmin(admin.ModelAdmin):
@@ -10,3 +10,4 @@ class HistoryAdmin(admin.ModelAdmin):
 admin.site.register(History, HistoryAdmin)
 admin.site.register(Carousel)
 admin.site.register(Server)
+admin.site.register(Pastol)

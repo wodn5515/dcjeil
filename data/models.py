@@ -15,11 +15,15 @@ import string
 
 # 슬라이드쇼 이미지 저장 #
 def carousel_image_save(instance, filename):
-    return f'home_carousel/{filename}'
+    return f'data/home_carousel/{filename}'
 
 # 섬기는사람들 이미지 저장 #
 def server_image_save(instance, filename):
-    return f'server/{instance.name}'
+    return f'data/server/{instance.name}'
+
+# 담임목사소개 이미지 저장 #  
+def pastol_image_save(instance, filename):
+    return f'data/pastolintro/담임목사소개'
 
 # 홈화면 왼쪽 슬라이드쇼 #
 class Carousel(models.Model):
@@ -39,7 +43,7 @@ class Carousel(models.Model):
 class History(models.Model):
 
     class Meta:
-        verbose_name = ('교회연혁')
+        verbose_name = ('교회연혁 관리')
         verbose_name_plural = ('교회연혁 관리')
 
     date = models.DateField(_('일시'))
@@ -52,20 +56,34 @@ class History(models.Model):
 class Server(models.Model):
 
     class Meta:
-        verbose_name = ('섬기는 사람들')
-        verbose_name_plural = ('섬기는 사람들')
+        verbose_name = ('섬기는 사람들 관리')
+        verbose_name_plural = ('섬기는 사람들 관리')
 
     name = models.CharField(_('이름'), max_length=5, blank=True)
     div = models.CharField(_('구분'), max_length=10, choices=DIV_CHOICES, blank=True)
     office = models.CharField(_('직분'), max_length=10, choices=OFFICE_CHOICES, blank=True)
     image = models.ImageField(_('사진'), upload_to=server_image_save, blank=True)
-    tp = models.CharField(_('핸드폰'), max_length=15, blank=True)
-    htp = models.CharField(_('집전화'), max_length=15, blank=True)
+    tp = models.CharField(_('핸드폰'), max_length=15, blank=True, help_text = "'-' 를 제외한 숫자만 입력해주세요.")
+    htp = models.CharField(_('집전화'), max_length=15, blank=True, help_text = "'-' 를 제외한 숫자만 입력해주세요.")
     email = models.EmailField(_('이메일'), blank=True)
     charge = models.CharField(_('담당사역'), max_length=50, blank=True)
 
     def __str__(self):
         return f'{self.get_div_display()} - {self.name} {self.get_office_display()}님'
+
+class Pastol(models.Model):
+
+    class Meta:
+        verbose_name = ('담임목사소개 관리')
+        verbose_name_plural = ('담임목사소개 관리')
+
+    education = models.TextField(_('학력'))
+    career = models.TextField(_('사역경력'))
+    experience = models.TextField(_('활동경력'))
+    image = models.ImageField(_('사진'), upload_to=pastol_image_save, blank=True)
+
+    def __str__(self):
+        return f'담임목사소개'
 
 @receiver(post_delete, sender=Carousel)
 def submission_delete(sender, instance, **kwargs):
