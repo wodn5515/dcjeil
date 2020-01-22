@@ -1,7 +1,7 @@
 /* base style */
 #wrap{margin:0 auto;}
 #main_wrap{margin-bottom:100px;}
-#footer_wrap{position:relative; bottom:0; margin-top:30px; background-color:#999999; height:150px;}
+#footer_wrap{position:relative; bottom:0; margin-top:30px; background-color:#c5c5c5; height:150px;}
 
 /* top */
 #top_wrap{height:26px; position:relative; top:0; background-color:#7c7c7c; margin-bottom:5px;}
@@ -25,7 +25,7 @@
 #main_menu li a:hover{color:#0093e9}
 #main_menu li.on > a{background-image:radial-gradient(#0093e9, white 75%); color:white; text-shadow:1px 1px #a5a5a5}
 #sub_menu{display:none; width:965.8px; z-index:10; position:absolute; border:3px double #e3e3e3; border-top:none; border-radius:0 0 10px 10px; padding:10px 0; background-color:white; box-shadow:0px 5px 4px 2px rgba(107, 107, 107, 0.5);}
-#sub_menu > ul{float:left; border-left:1px solid #e3e3e3; height:303.6px;}
+#sub_menu > ul{float:left; border-left:1px solid #e3e3e3; height:280.6px;}
 #sub_menu > ul:first-child{border:none;}
 #sub_menu > ul:nth-child(1),
 #sub_menu > ul:nth-child(5){width:115.8px;}
@@ -177,8 +177,9 @@
 .fixedview{width:100%; margin:0 auto;}
 #welcome.fixedview{width:97%; margin-top:10px; word-break:keep-all;}
 #way_to_church.fixedview{width:80%; margin-top:30px;}
+#nurture.fixedview{width:80%;}
 
-#fixed_pics{background-color:rgba(0, 0, 0, 0.1); height:200px;}
+#fixed_pics{height:200px; margin-bottom:10px;}
 
 /* board style - fixedview - history */
 #history_btn_wrap{text-align:right; font-family:'NanumBarunGothic'; margin-bottom:20px;}
@@ -195,7 +196,7 @@
 
 /* board style - fixedview - server */
 #server > .container{margin-bottom:50px;}
-#server > .container > .server_div{font-weight:bold; padding:10px 15px; border-left:3px solid #0093e9; font-size:18px; text-shadow:1px 1px 2px #929292; margin-bottom:20px;}
+#server > .container > .server_div{font-weight:bold; padding:10px 15px; border-left:3px solid #0093e9; background-image:linear-gradient(to right, #0093e9, white 50%); color:white; font-size:18px; text-shadow:1px 1px 2px #929292; margin-bottom:20px;}
 #server > .container > .server_table > .server_box{height:140px; padding:10px; font-size:0px; width:45%; margin-right:3%; border:1px solid #e3e3e3; display:inline-block; margin-bottom:10px;}
 #server > .container > .server_table > .server_box > div{float:left;}
 #server > .container > .server_table > .server_box > .server_image{height:100%; width:100px; margin-right:10px;}
@@ -208,14 +209,44 @@
 #pastol > div{float:left;}
 #pastol > #pastol_image{width:180px; margin:10px 10px 0 0;}
 #pastol > #pastol_wrap{width:calc(100% - 200px)}
-#pastol > #pastol_wrap > .container > .pastol_data{font-size:14px; padding:10px; line-height:22px;}
+#pastol > #pastol_wrap > .container > .pastol_data{font-size:13px; padding:10px; line-height:22px;}
 #pastol > #pastol_wrap > .container > .pastol_div{border-bottom:2px solid #e3e3e3; font-size:16px; font-weight:bold; padding-left:5px; color:#6b6b6b;}
+#pastol > #pastol_experience{background-color:#999999; color:#fcfcfc; padding:30px 50px; border-radius:10px; font-size:13px;}
 
 /* board style - fixedview - way_to_church */
 #way_to_church_image{width:100%; margin-bottom:20px;}
 #way_to_church > p{font-weight:bold; font-size:18px; color:#004166; text-shadow:0px 0px 2px #acacac;}
 #way_to_church > ul{margin-left:15px; font-weight:bold;}
 #way_to_church > ul > li{list-style:disc outside; color:#0066a1; text-shadow:0px 0px 2px #acacac;}
+
+/* board style - fixedview - vision */
+#vision > .section > .title{font-weight:bold; padding:5px 10px; border-bottom:1px solid #e3e3e3; font-size:18px; background-image: linear-gradient(to right, #9c7e40, white); color:white;}
+#vision > .section > .wrap{width:97%; margin:0 auto; padding:10px 0;}
+#vision > .section > .wrap > .container > .sm_title{font-size:14px; font-weight:bold; background-color:#f4eddf; padding:5px 10px; border-bottom:1px solid #aaaaaa}
+#vision > .section > .wrap > .container > .content,
+#vision > .section > .wrap > .container > ul{font-size:13px; padding:15px 5px;}
+#vision > .section > .wrap > .container > ul > li{padding:2px 0;}
+
+/* board style - fixedview - worship */
+#worship > div{float:left;}
+#worship > #worship_image{margin-right:20px; width:210px; margin-top:35px;}
+#worship_wrap{width:calc(100% - 230px);}
+#worship_table td{padding:8px 0;}
+
+/* board style - fixedview - community */
+#community > #community_image{float:right; margin:0 0 10px 10px; width:400px;}
+#community > #community_wrap > .container > .title{margin:10px 0; background-image:linear-gradient(to right, #0093e9, white 40%); padding:5px 10px; color:white; font-weight:bold; font-size:18px; text-shadow:1px 1px 2px #929292;}
+#community > #community_wrap > .container > .content{font-size:13px; padding:5px;}
+
+/* board style - fixedview - nurture */
+#nurture > .section > .title{background-color:#f4eddf; font-size:14px; padding:5px; border-bottom:1px solid #aaaaaa; font-weight:bold;}
+#nurture > .section > .content{width:96%; margin:10px auto; font-size:13px; padding:15px 0;}
+#nurture > .section > .content > .image_01{float:left; width:194px;}
+#nurture > .section > .content > .image_02{margin:0 auto; margin-bottom:20px; width:400px;}
+#nurture > .section.s01 > .content > .container{float:left; margin:10px 0 0 10px; padding:15px;}
+#nurture > .section.s03 > .content > .container > .sm_title{background-color:#eef8e7; padding:5px; font-weight:bold; font-size:14px; border-bottom:1px solid #707070;}
+#nurture > .section.s03 > .content > .container > .container{padding:10px;}
+
 
 /* board style - detail */
 #content.detail{padding:10px 80px; float:left; margin-left:30px; width:1010px; min-height:500px;}
@@ -315,6 +346,8 @@ body.mob_menu_on{overflow:hidden;}
     #list_table .th_date{width:100px;}
                 /* detail */
     #content.detail{margin-left:2%;}   
+    #nurture > .section > .content > .image_01{float:none; margin:0 auto;}
+    #nurture > .section.s01 > .content > .container{float:none; margin:0px; padding:15px; text-align:center;}
 }
 
 @media screen and (max-width:970px){
@@ -414,6 +447,7 @@ body.mob_menu_on{overflow:hidden;}
     #server > .container{margin-bottom:30px;}
     #server > .container > .server_div{width:80%; margin:0 auto; margin-bottom:20px;}
     #server > .container > .server_table > .server_box{width:80%; margin:0 auto; display:block; margin-bottom:20px;}
+    #pastol > #pastol_experience{margin:0 10px; padding:30px;}
 }
 
 @media screen and (max-width:600px){
@@ -456,7 +490,9 @@ body.mob_menu_on{overflow:hidden;}
     #comment_list_wrap .container > *:nth-child(1){-ms-grid-row:1; -ms-grid-column:1; grid-row:1; grid-column:1;}
     #comment_list_wrap .container > *:nth-child(2){grid-area:2 / 1 / span 1 / span 2;}
     #comment_list_wrap .container > *:nth-child(3){-ms-grid-row:1; -ms-grid-column:5; grid-row:1; grid-column:2;}
+    #fixed_pics{height:150px;}
     #way_to_church.fixedview{width:95%; margin-top:10px;}
+    #nurture.fixedview{width:100%;}
     #history_btn_wrap{text-align:center; margin:10px 0;}
     #history_btn_wrap > .container{display:block; padding:0px; margin:5px; font-size:16px;}
     #server{margin-top:10px;}
@@ -465,4 +501,10 @@ body.mob_menu_on{overflow:hidden;}
     #pastol > div{float:none;}
     #pastol > #pastol_image{width:180px; margin:0 auto;}
     #pastol > #pastol_wrap{width:95%; margin:0 auto;}
+    #pastol > #pastol_experience{padding:20px;}
+    #worship > div{float:none;}
+    #worship > #worship_image{display:none;}
+    #worship_wrap{width:95%; margin:0 auto; margin-top:10px;}
+    #worship_table{word-break:keep-all;}
+    #nurture > .section > .content > .image_02{width:300px;}
 }

@@ -7,8 +7,9 @@ from imagekit.models import ImageSpecField
 from imagekit.processors import Thumbnail
 from imagekit.utils import get_cache
 from random import choice
+from ckeditor.fields import RichTextField
 from account.choice import OFFICE_CHOICES
-from .choice import DIV_CHOICES
+from .choice import DIV_CHOICES, COMMUNITY
 import string
 
 # Create your models here.
@@ -24,6 +25,10 @@ def server_image_save(instance, filename):
 # 담임목사소개 이미지 저장 #  
 def pastol_image_save(instance, filename):
     return f'data/pastolintro/담임목사소개'
+
+# 커뮤니티 이미지 저장 # 
+def community_image_save(instance, filename):
+    return f'data/community/{instance.get_div_display()}'
 
 # 홈화면 왼쪽 슬라이드쇼 #
 class Carousel(models.Model):
@@ -85,10 +90,47 @@ class Pastol(models.Model):
     def __str__(self):
         return f'담임목사소개'
 
+class Worship(models.Model):
+
+    class Meta:
+        verbose_name = ('예배안내 관리')
+        verbose_name_plural = ('예배안내 관리')
+    
+    content = RichTextField(blank=True)
+
+    def __str__(self):
+        return f'예배안내 시간표'
+
+class Community(models.Model):
+    
+    class Meta:
+        verbose_name = ('커뮤니티 관리')
+        verbose_name_plural = ('커뮤니티 관리')
+
+    div = models.CharField(_('구분'), max_length=10, choices=COMMUNITY, blank=True)
+    image = models.ImageField(_('사진'), blank=True)
+    title = models.TextField(_('표어'), blank=True)
+    goal = models.TextField(_('교육목표'), blank=True)
+    worship = models.TextField(_('예배안내'), blank=True)
+    server = models.TextField(_('섬기는 사람들'), blank=True)
+
+    def __str__(self):
+        return f'{self.get_div_display()}'
+
+
+# 데이터 삭제시 사진삭제 #
 @receiver(post_delete, sender=Carousel)
 def submission_delete(sender, instance, **kwargs):
     instance.image.delete(False)
 
 @receiver(post_delete, sender=Server)
+def submission_delete(sender, instance, **kwargs):
+    instance.image.delete(False)
+
+@receiver(post_delete, sender=Pastol)
+def submission_delete(sender, instance, **kwargs):
+    instance.image.delete(False)
+
+@receiver(post_delete, sender=Community)
 def submission_delete(sender, instance, **kwargs):
     instance.image.delete(False)

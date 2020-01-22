@@ -13,7 +13,7 @@ from django.db import IntegrityError
 from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
-from .models import Post, FixedView, Comment
+from .models import Post, Comment
 from .forms import AddCommentForm
 import string, os, json
 
@@ -29,7 +29,7 @@ def get_title(pk):
         '405':'교회앨범', '406':'자유게시판', '407':'기도요청', '408':'행사동영상', '409':'큐티나눔방',
         '501':'영아부', '502':'유치부', '503':'유년부',
         '504':'초등부', '505':'중등부', '506':'고등부', '507':'사랑부',
-        '508':'청년1부', '509':'청년2부', '510':'청년3부', '511':'어린이집',
+        '508':'청년1부', '509':'청년2부', '510':'청년3부',
         '601':'선교위원회','602':'국내선교','603':'캄보디아','604':'인도','605':'일본','606':'태국',
         '607':'필리핀','608':'이집트','609':'탄자니아','610':'카메룬','611':'남아공','612':'러시아',
         '613':'볼리비아','614':'파푸아뉴기니','615':'헝가리','616':'단기선교',
@@ -48,6 +48,7 @@ def board(request, pk):
             'content' : content,
             'menu_nav' : pk[0],
             'menu_no' : pk[1:],
+            'pk' : pk,
             'title' : get_title(pk)
             })
     else:

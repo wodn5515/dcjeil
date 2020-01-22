@@ -220,9 +220,6 @@
                                         <li>
                                             <a href="/board/510">청년3부</a>
                                         </li>
-                                        <li>
-                                            <a href="/board/511">어린이집</a>
-                                        </li>
                                 </ul>
                                 <ul class="sub6">
                                         <li>
@@ -442,9 +439,6 @@
                             <li>
                                 <a href="/board/510">청년3부</a>
                             </li>
-                            <li>
-                                <a href="/board/511">어린이집</a>
-                            </li>
                         </ul>
                         <ul id="sub6"{% if  menu_nav == '6' %} class="on"{% endif %}>
                             <h3 @click="submenuShowHide">선교부<img class="mob_menu_toggle down" src="{% static 'img/cmt_opener.png' %}"></h3>
@@ -658,6 +652,22 @@
             }
         })
 
+        // 예배안내 Component //
+        Vue.component('worship-com',{
+            props:['worship_data'],
+            created:function(){
+                this.$emit('worship')
+            }
+        })
+
+        // 커뮤니티 Component //
+        Vue.component('community-com', {
+            props:['community_data'],
+            created:function(){
+                this.$emit('community');
+            }
+        })
+
         // Vue //
         var mob_menu = new Vue({
             el:'#wrap',
@@ -670,7 +680,9 @@
                 },
                 history_data:'',
                 server_data:'',
-                pastol_data:''
+                pastol_data:'',
+                worship_data:'',
+                community_data:''
             },
             methods:{
                 // 모바일 사이드메뉴 methods
@@ -784,6 +796,21 @@
                     axios.get('/data/pastol')
                     .then(function(response){
                         self.pastol_data = response.data;
+                    })
+                },
+                // 예배안내 methods
+                worship:function(){
+                    var self = this;
+                    axios.get('/data/worship')
+                    .then(function(response){
+                        self.worship_data = response.data;
+                    })
+                },
+                community:function(){
+                    var self = this;
+                    axios.get('/data/community/{{pk}}')
+                    .then(function(response){
+                        self.community_data = response.data;
                     })
                 }
             }
