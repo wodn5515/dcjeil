@@ -108,7 +108,7 @@ class Community(models.Model):
         verbose_name_plural = ('커뮤니티 관리')
 
     div = models.CharField(_('구분'), max_length=10, choices=COMMUNITY, blank=True)
-    image = models.ImageField(_('사진'), blank=True)
+    image = models.ImageField(_('사진'), blank=True, upload_to=community_image_save)
     title = models.TextField(_('표어'), blank=True)
     goal = models.TextField(_('교육목표'), blank=True)
     worship = models.TextField(_('예배안내'), blank=True)
