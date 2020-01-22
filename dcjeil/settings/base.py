@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'data.apps.DataConfig',
     'board.apps.BoardConfig',
     'rest_framework',
+    'ckeditor'
 ]
 
 MIDDLEWARE = [
@@ -89,7 +90,7 @@ LOGIN_URL = '/login/'
 # Session management
 # https://docs.djangoproject.com/en/3.0/ref/settings/#settings-sessions
 
-SESSION_COOKIE_AGE = 60*10
+SESSION_COOKIE_AGE = 60*30
 SESSION_SAVE_EVERY_REQUEST = True
 
 

@@ -116,27 +116,6 @@ class Comment(models.Model):
     def __str__(self):
         return f'{self.post.title} - {self.writer}'
 
-class FixedView(models.Model):
-
-    class Meta:
-        verbose_name = ('고정 템플릿 관리')
-        verbose_name_plural = ('고정 템플릿 관리')
-
-    Menu = (
-        ('101','인사말'),('102','교회연혁'),('103','우리의 비젼'),
-        ('104','담임목사소개'),('105','섬기는 사람들'),('106','찾아오시는 길'),
-        ('207','예배안내'),('501','영아부'),('502','유치부'),('503','유년부'),
-        ('504','초등부'),('505','중등부'),('506','고등부'),('507','사랑부'),
-        ('508','청년1부'),('509','청년2부'),('510','청년3부'),('511','어린이집'),
-        ('701','양육시스템')
-    )
-
-    div = models.CharField(_("분류"), max_length=10, choices=Menu)
-    html = models.TextField(_("html"), blank=False)
-
-    def __str__(self):
-        return f'{self.get_div_display()}'
-
 # 쿼리삭제시 이미지, 비디오, 파일 삭제 #
 @receiver(post_delete, sender=PostFile)
 def submission_delete(sender, instance, **kwargs):
