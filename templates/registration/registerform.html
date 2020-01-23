@@ -38,7 +38,7 @@
         <h2 class="sec_title">개인정보</h2>
         <section class="reg_form">
             {% for field in forms2 %}
-            <div class="field_wrap">
+            <div class="field_wrap{% if field.errors %} error_label{% endif %}">
                 {{ field.label_tag }}
                 <div class="input_wrap">
                     {{ field }}

@@ -18,7 +18,7 @@ class UserAdmin(BaseUserAdmin):
     # The forms to add and change user instances
     form = UserChangeForm
     add_form = UserCreationForm
-    list_display = ('name', 'email', 'last_login', 'is_active', 'is_superuser', 'date_joined', 'parish', 'office')
+    list_display = ('name', 'email', 'last_login', 'is_active', 'is_staff', 'date_joined', 'parish', 'office')
     list_display_links = ('name',)
     list_filter = ('is_active', 'office', 'parish')
     fieldsets = (

@@ -377,9 +377,9 @@ body.mob_menu_on{overflow:hidden;}
     #mob_menu > ul > li.mission > ul > li:last-child{border:none;}
     #mob_menu > ul > li.mission.show{max-height:100%; transition:0s;}
     #mob_menu > ul > li.mission.show > ul{display:block; border-bottom:1px solid #b6b6b6;}
-    #mob_menu > ul > li.mission img{transform:rotate(180deg); position:absolute; right:10px; top:12px; transition:all .1s;}
+    #mob_menu > ul > li.mission img{transform:rotate(180deg); position:absolute; right:10px; top:12px; transition:all .3s;}
     #mob_menu > ul > li.mission.show img{transform:rotate(0deg);}
-    #mob_menu .mob_menu_toggle{display:block; float:right; margin-top:5px; transform: rotate(180deg); transition:all .1s;}
+    #mob_menu .mob_menu_toggle{display:block; float:right; margin-top:5px; transform: rotate(180deg); transition:all .3s;}
     #mob_menu > ul.show .mob_menu_toggle{transform: rotate(0deg);}
     #mob_login_wrap{text-align:center; width:320px; margin:0 auto; position:absolute; bottom:10px; background-color:white; left:50%; transform:translateX(-50%);}
     #mob_login_wrap > div{display:inline-block;}
@@ -456,7 +456,7 @@ body.mob_menu_on{overflow:hidden;}
     #tabbtnlist > div{width:33.333%; margin:0px; text-align:center; padding:10px 5px;}
     #home_wrap{padding-top:0;}
     #main_photo{display:none;}
-    #maintabevent{margin-top:10px;}
+    #maintabevent{margin-top:8px;}
     #history_btn_wrap > .container{padding:10px 0px; margin:0 5px; font-size:18px;}
     #history_wrap > .history_table > table td{padding:10px 5px; font-size:12px;}
     #history_wrap > .history_table > table .date{width:50px;}
@@ -499,7 +499,7 @@ body.mob_menu_on{overflow:hidden;}
     #server > .container > .server_div{width:95%; margin:0 auto; margin-bottom:10px;}
     #server > .container > .server_table > .server_box{width:95%; margin:0 auto; display:block; margin-bottom:10px;}
     #pastol > div{float:none;}
-    #pastol > #pastol_image{width:180px; margin:0 auto;}
+    #pastol > #pastol_image{width:180px; margin:0 auto; margin-top:10px;}
     #pastol > #pastol_wrap{width:95%; margin:0 auto;}
     #pastol > #pastol_experience{padding:20px;}
     #worship > div{float:none;}

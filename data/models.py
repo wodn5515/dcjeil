@@ -30,6 +30,20 @@ def pastol_image_save(instance, filename):
 def community_image_save(instance, filename):
     return f'data/community/{instance.get_div_display()}'
 
+###############################################################
+
+# 인사말 #
+class Welcome(models.Model):
+
+    class Meta:
+        verbose_name = ('인사말 관리')
+        verbose_name_plural = ('인사말 관리')
+
+    content = RichTextField()
+
+    def __str__(self):
+        return f'인사말'
+
 # 홈화면 왼쪽 슬라이드쇼 #
 class Carousel(models.Model):
     

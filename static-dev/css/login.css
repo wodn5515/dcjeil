@@ -6,7 +6,9 @@
 #container{margin-top:70px;}
 #container > .wrap{width:100%; margin:0 auto; border:2px solid #0093e9; border-radius:10px; padding:30px 30px 10px 30px;}
 #container > .wrap input{padding:8px; border:1px solid #c5c5c5; height:40px; font-size:14px; line-height:14px; width:100%; margin-bottom:20px;}
+#container > .wrap input[name='password']{margin-bottom:0px;}
 #container > .wrap input:focus{border:1px solid #0093e9;}
+#container > .wrap .login_error{font-size:13px; height:20px; vertical-align:middle; text-align:center; color:#fd4141; font-weight:bold;}
 #container > .wrap .login_submit{background-color:#0093e9; cursor:pointer; border:1px solid #0187d4;}
 
 #footer{margin-top:40px;}
@@ -37,17 +39,18 @@
 .register_term .agree_wrap{text-align:right; margin-top:10px;}
 .btn_confirm{text-align:center; margin-top:30px;}
 .btn_confirm input{background-color:#0093e9; padding:8px; border:1px solid #0187d4; height:40px; font-size:14px; line-height:14px; width:100px; cursor:pointer; color:white;}
+.btn_confirm input.main{background-color:#a1a1a1; border: 1px solid #a1a1a1;}
 .reg_form{margin:10px 0 30px 0;}
 .sec_title{margin-left:10px;}
 .field_wrap{border-top:1px solid #c5c5c5; padding:10px;}
 .field_wrap:last-child{border-bottom:1px solid #c5c5c5;}
-.field_wrap.error_label label{color:#fa5555;}
+.field_wrap.error_label label{color:#fa5555; font-weight:bold;}
 .field_wrap label{width:100px; padding:5px; display:inline-block; font-size:13px; border-right:1px solid #c5c5c5; vertical-align:top;}
 .field_wrap .input_wrap{display:inline-block}
 .field_wrap input{padding:8px; border:1px solid #c5c5c5; height:30px; font-size:14px; line-height:14px; margin-left:10px;}
 .field_wrap select[name='office']{border:1px solid #c5c5c5; height:30px; font-size:14px; line-height:14px; margin-left:10px; width:100px;}
 .field_wrap select{border:1px solid #c5c5c5; height:30px; font-size:14px; line-height:14px; margin-left:10px; background-color:white;}
-.field_wrap .error{font-size:12px; color:#fa5555; margin-left:10px;}
+.field_wrap .error{font-size:12px; color:#fa5555; margin-left:10px; font-weight:bold;}
 .field_wrap .help{font-size:12px; margin:10px 0 0 10px;}
 
 /* 반응형 */

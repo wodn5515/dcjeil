@@ -13,7 +13,7 @@ from django.db import IntegrityError
 from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
-from .models import History, Server, Pastol, Worship, Community
+from .models import History, Server, Pastol, Worship, Community, Welcome
 from .choice import DIV_CHOICES
 import string, os, json
 
@@ -83,4 +83,10 @@ def community(request, div):
     data['goal'] = community.goal.replace('\n', '<br>')
     data['worship'] = community.worship.replace('\n', '<br>')
     data['server'] = community.server.replace('\n', '<br>').replace(' ', '&nbsp')
+    return JsonResponse(data, safe=False)
+
+def welcome(request):
+    data = {}
+    welcome = Welcome.objects.get()
+    data['content'] = welcome.content
     return JsonResponse(data, safe=False)
