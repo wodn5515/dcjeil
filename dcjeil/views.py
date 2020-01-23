@@ -19,9 +19,18 @@ def test(request):
 
 def home(request):
     carousel_list = Carousel.objects.all().order_by('order')
-    tab1 = Post.objects.filter(div='201').order_by('-upload_date')[0]
-    tab2 = Post.objects.filter(div__startswith='30').order_by('-upload_date')[0]
-    tab3 = Post.objects.filter(div='205').order_by('-upload_date')[0]
+    try:
+        tab1 = Post.objects.filter(div='201').order_by('-upload_date')[0]
+    except:
+        tab1 = None
+    try:
+        tab2 = Post.objects.filter(div__startswith='30').order_by('-upload_date')[0]
+    except:
+        tab2 = None
+    try:
+        tab3 = Post.objects.filter(div='205').order_by('-upload_date')[0]
+    except:
+        tab3 = None
     recent = Post.objects.order_by('-upload_date')[:8]
     notice = Post.objects.filter(div='401').order_by('-upload_date')[:8]
     news_church = Post.objects.filter(div='402').order_by('-upload_date')[:8]
