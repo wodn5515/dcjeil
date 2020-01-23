@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth import authenticate
 from django.utils.translation import ugettext_lazy as _
 from .choice import *
 from .models import User, UserManager
@@ -45,6 +46,35 @@ class UserCreationForm(forms.ModelForm):
         user.set_password(self.cleaned_data["password"])
         if commit:
             user.save()
+        return user
+
+# 로그인 폼
+class LoginForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={
+            'autofocus' : 'off',
+            'placeholder' : '아이디'
+        }
+    ), required=True)
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={
+            'autofocus' : 'off',
+            'placeholder' : '아이디'
+        }
+    ), required=True)
+
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        user = authenticate(username=username, password=password)
+        if not user or not user.is_active:
+            raise forms.ValidationError("가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.")
+        return self.cleaned_data
+
+    def login(self, request):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        user = authenticate(username=username, password=password)
         return user
 
 class FinduidForm(forms.Form):

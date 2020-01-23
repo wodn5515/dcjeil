@@ -49,9 +49,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     office = models.CharField(_('직분'), choices=OFFICE_CHOICES, max_length = 10)
     parish = models.CharField(_('교구'), max_length = 10, blank = True)
     address = models.CharField(_('주소'), max_length = 255, blank = True)
-    is_active = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
-    is_superuser = models.BooleanField(default=False)
+    is_active = models.BooleanField(_('승인'), default=False)
+    is_staff = models.BooleanField(_('스태프'), default=False)
+    is_superuser = models.BooleanField(_('관리자'), default=False)
     date_joined = models.DateTimeField(_('가입날짜'), default=timezone.now)
     uid = models.CharField(_('ID'), max_length = 15, unique = True,
         error_messages = {

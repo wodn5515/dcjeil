@@ -1,9 +1,9 @@
 import logging
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth import authenticate, login
 from django.views.decorators.http import require_POST, require_GET
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404
-from django.urls import reverse
 from django.views.generic import ListView, DetailView
 from django.utils.dateparse import parse_date
 from django.db import IntegrityError
@@ -12,13 +12,25 @@ from imagekit.utils import get_cache
 from random import choice
 from .models import User
 from board.models import Post
-from .forms import FinduidForm, FindPasswordForm, RegisterForm1, RegisterForm2
+from .forms import FinduidForm, FindPasswordForm, RegisterForm1, RegisterForm2, LoginForm
 import string, os
 
 # Create your views here.
 
 def not_logged_in(user):
     return not user.is_authenticated
+
+######################################################
+
+# 로그인 화면
+def login_view(request):
+    form = LoginForm(request.POST or None)
+    if request.POST and form.is_valid():
+        user = form.login(request)
+        if user:
+            login(request, user)
+            return HttpResponseRedirect(request.GET.get('next'))
+    return render(request, 'registration/login.html', {'form': form })
 
 # 아이디 찾기 입력창
 def finduid(request):

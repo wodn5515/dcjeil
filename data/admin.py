@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import History, Carousel, Server, Pastol, Worship, Community
+from .models import History, Carousel, Server, Pastol, Worship, Community, Welcome
 # Register your models here.
 
 class HistoryAdmin(admin.ModelAdmin):
@@ -13,3 +13,4 @@ admin.site.register(Server)
 admin.site.register(Pastol)
 admin.site.register(Worship)
 admin.site.register(Community)
+admin.site.register(Welcome)

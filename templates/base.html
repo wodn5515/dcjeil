@@ -668,6 +668,14 @@
             }
         })
 
+        // 인사말 Component //
+        Vue.component('welcome-com', {
+            props:['welcome_data'],
+            created:function(){
+                this.$emit('welcome')
+            }
+        })
+
         // Vue //
         var mob_menu = new Vue({
             el:'#wrap',
@@ -682,7 +690,8 @@
                 server_data:'',
                 pastol_data:'',
                 worship_data:'',
-                community_data:''
+                community_data:'',
+                welcome_data:''
             },
             methods:{
                 // 모바일 사이드메뉴 methods
@@ -811,6 +820,13 @@
                     axios.get('/data/community/{{pk}}')
                     .then(function(response){
                         self.community_data = response.data;
+                    })
+                },
+                welcome:function(){
+                    var self = this;
+                    axios.get('/data/welcome')
+                    .then(function(response){
+                        self.welcome_data = response.data;
                     })
                 }
             }
