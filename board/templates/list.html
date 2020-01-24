@@ -21,7 +21,6 @@
                 <a href="/board/{{post.div}}/{{post.id}}">
                     <div class="td_title_title after">
                         <div><em>{% if post.date %}{{post.date|date:"Y-m-d"}} | {% endif %}{{post.title}}</em></div>
-                        {% if post.comment.all|length %}
                         <span class="icon_wrap after"><!--
                         -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
                         --><img class="icon" src="{% static 'img/newicon.png' %}" height="16px"><!--
@@ -36,6 +35,7 @@
                         --><img class="icon" src="{% static 'img/fileicon.png' %}" height="16px"><!--
                         -->{% endif %}<!--
                     --></span>
+                        {% if post.comment.all|length %}
                         <span class="cmt_count">[{{post.comment.count}}]</span>
                         {% endif %}
                     </div>
