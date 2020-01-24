@@ -6,7 +6,7 @@
     {% endif %}
     {% for i in page_range %}
         {% if post_list.number == i %}
-        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+        <li class="active"><span>{{ i }}</span></li>
         {% else %}
         <li><a href="?page={{ i }}">{{ i }}</a></li>
         {% endif %}
