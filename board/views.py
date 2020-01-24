@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.views.generic import ListView, DetailView
 from django.utils.dateparse import parse_date
 from django.db import IntegrityError
+from django.db.models import Q
 from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
@@ -39,6 +40,9 @@ def get_title(pk):
         return div_arr[pk]
 
 def board(request, pk):
+
+    kind = request.GET.get('s_kind', '')
+    keyword = request.GET.get('s_keyword', '')
     pic_list = ['404','405','408']
     fixedboard = ['101','102','103','104','105','106','207','501','502','503','504','505','506','507','508','509','510','511','701']
     if pk in fixedboard:
@@ -56,12 +60,19 @@ def board(request, pk):
         page_number_range = 8
         if pk in pic_list:
             content = 'piclist.html'
-            post_list_all = Post.objects.filter(div=pk).filter(published=1).order_by('-upload_date')
-            paginator = Paginator(post_list_all, 12)
         else:
             content = 'list.html'
-            post_list_all = Post.objects.filter(div=pk).filter(published=1).order_by('-upload_date')
-            paginator = Paginator(post_list_all, 10)
+        if kind == 'title':
+            post_list_all =  Post.objects.filter(div=pk).filter(title__contains=keyword).order_by('-upload_date')
+        elif kind == 'content':
+            post_list_all =  Post.objects.filter(div=pk).filter(content__contains=keyword).order_by('-upload_date')
+        elif kind == 'title_content':
+            post_list_all =  Post.objects.filter(div=pk).filter(Q(title__contains=keyword)|Q(content__contains=keyword)).order_by('-upload_date')
+        elif kind == 'writer':
+            post_list_all =  Post.objects.filter(div=pk).filter(writer__name__contains=keyword).order_by('-upload_date')
+        else:
+            post_list_all = Post.objects.filter(div=pk).order_by('-upload_date')
+        paginator = Paginator(post_list_all, 20)
         try:
             post_list = paginator.page(page)
         except PageNotAnInteger:
