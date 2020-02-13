@@ -17,7 +17,10 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.decorators import login_required
 from django.urls import path, include
+from django.views.decorators.cache import never_cache
+from ckeditor_uploader import views as ckeditor_views
 from . import views
 from board import views as board_views
 from account import views as account_views
@@ -36,7 +39,11 @@ urlpatterns = [
     path('register', account_views.register, name='register'),
     path('registerform', account_views.registerform, name='registerform'),
     path('registersubmit', account_views.registersubmit, name='registersubmit'),
-    path('test', views.test, name='test'),
     path('comments/<str:pk>', board_views.comments, name='comments'),
-    path('comments/<str:pk>/delete', board_views.comment_delete, name='comment_delete')
+    path('comments/<str:pk>/delete', board_views.comment_delete, name='comment_delete'),
+    path('usercheck', views.usercheck, name="usercheck"),
+    path('userupdate', views.userupdate, name="userupdate"),
+    path('userresult', views.userresult, name="userresult"),
+    path('upload', login_required(ckeditor_views.upload), name='ckeditor_upload'),
+    path('browse', never_cache(login_required(ckeditor_views.browse)), name='ckeditor_browse')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

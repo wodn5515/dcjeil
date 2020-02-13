@@ -34,7 +34,12 @@
 /*회원가입*/
 #reg_wrapper{width:800px; margin:0 auto; padding-top:30px; min-height:500px;}
 #reg_wrapper.result{text-align:center;}
-#reg_wrapper h4{color:#0093e9; margin-top:30px;}
+#reg_wrapper h4{color:#0093e9; margin-top:40px;}
+#reg_wrapper h5{margin-top:20px;}
+#reg_wrapper.usercheck,
+#reg_wrapper.userresult{text-align:center; width:450px;}
+#reg_wrapper.usercheck .field_wrap{margin-top:20px; border-bottom:1px solid #c5c5c5;}
+#reg_wrapper.usercheck .field_wrap label{text-align:left;}
 .register_term textarea{width:100%; height:300px; margin-top:20px; padding:8px; background-color:#f7f7f7; border:1px solid #e9e9e9;}
 .register_term .agree_wrap{text-align:right; margin-top:10px;}
 .btn_confirm{text-align:center; margin-top:30px;}
@@ -45,31 +50,33 @@
 .field_wrap{border-top:1px solid #c5c5c5; padding:10px;}
 .field_wrap:last-child{border-bottom:1px solid #c5c5c5;}
 .field_wrap.error_label label{color:#fa5555; font-weight:bold;}
-.field_wrap label{width:100px; padding:5px; display:inline-block; font-size:13px; border-right:1px solid #c5c5c5; vertical-align:top;}
+.field_wrap label{width:90px; padding:5px 0; display:inline-block; font-size:13px; border-right:1px solid #c5c5c5; vertical-align:top;}
 .field_wrap .input_wrap{display:inline-block}
 .field_wrap input{padding:8px; border:1px solid #c5c5c5; height:30px; font-size:14px; line-height:14px; margin-left:10px;}
 .field_wrap select[name='office']{border:1px solid #c5c5c5; height:30px; font-size:14px; line-height:14px; margin-left:10px; width:100px;}
 .field_wrap select{border:1px solid #c5c5c5; height:30px; font-size:14px; line-height:14px; margin-left:10px; background-color:white;}
-.field_wrap .error{font-size:12px; color:#fa5555; margin-left:10px; font-weight:bold;}
-.field_wrap .help{font-size:12px; margin:10px 0 0 10px;}
+.field_wrap .error{font-size:12px; color:#fa5555; font-weight:bold; word-break:keep-all;}
+.field_wrap .help{font-size:12px; margin:10px 0 0 100px;}
+
+
 
 /* 반응형 */
 @media screen and (max-width:1024px){
-    #reg_wrapper{width:80%;}
+    #reg_wrapper{width:80%!important;}
 }
 
 @media screen and (max-width:768px){
-    #reg_wrapper{width:90%;}
+    #reg_wrapper{width:90%!important;}
+    .field_wrap .error{display:block;}
 }
 
 @media screen and (max-width:480px){
-    #reg_wrapper{width:95%;}
+    #reg_wrapper{width:95%!important; padding-top:10px;}
     #reg_wrapper h4{font-size:14px;}
     #header, #container, #footer{width:90%;}
     #container{margin-top:20px;}
     .sec_title{margin-left:0px;}
     .register_term > textarea{font-size:12px;}
     .field_wrap{padding:10px 0;}
-    .reg_form label{padding:5px 0; width:90px;}
     .reg_form .error{font-size:12px; color:#fa5555; margin-left:105px; display:block; margin-top:10px}
 }

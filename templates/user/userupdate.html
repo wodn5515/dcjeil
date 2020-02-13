@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}
-회원가입 | 덕천제일교회
+내 정보 변경 | 덕천제일교회
 {% endblock title%}
 {% block head %}
 {{ block.super }}
@@ -15,10 +15,10 @@
     <div id="mob_home_btn">
         <a href="/"><img src="{% static 'img/mob_home.png' %}"></a>
     </div>
-    <div id="title"><h1>회원가입</h1></div>
+    <div id="title"><h1>내 정보</h1></div>
 </div>
 <div id="reg_wrapper">
-    <form action="" method="POST" autocomplete="off">
+    <form method="POST" autocomplete="off">
         {% csrf_token %}
         <h2 class="sec_title">회원정보</h2>
         <section class="reg_form">
@@ -51,7 +51,7 @@
         {% endfor %}
         </section>
         <div class="btn_confirm">
-            <input type="submit" value="회원가입">
+            <input type="submit" value="수정완료">
         </div>
     </form>
 </div>

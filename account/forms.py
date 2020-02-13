@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth import authenticate
+from django.contrib.auth.password_validation import validate_password
 from django.utils.translation import ugettext_lazy as _
 from .choice import *
 from .models import User, UserManager
@@ -59,7 +60,7 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={
             'autofocus' : 'off',
-            'placeholder' : '아이디'
+            'placeholder' : '비밀번호'
         }
     ), required=True)
 
@@ -102,7 +103,7 @@ class RegisterForm1(forms.ModelForm):
         kwargs.setdefault('label_suffix', '')
         super(RegisterForm1, self).__init__(*args, **kwargs)
 
-    password = forms.CharField(label="비밀번호", widget=forms.PasswordInput())
+    password = forms.CharField(label="비밀번호", widget=forms.PasswordInput(), help_text="◈영문,숫자조합 8-20자")
     confirm_password = forms.CharField(label="비밀번호 확인", widget=forms.PasswordInput())
 
     class Meta:
@@ -117,11 +118,23 @@ class RegisterForm1(forms.ModelForm):
             'uid' : '아이디',
         }
 
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if password:
+            validate_password(password)
+        return password
+
     def clean_confirm_password(self):
         password = self.cleaned_data.get('password')
         confirm_password = self.cleaned_data.get('confirm_password')
-        if password != confirm_password:
-            raise forms.ValidationError('비밀번호가 일치하지 않습니다.')
+        if password:
+            try:
+                validate_password(password)
+            except:
+                pass
+            else:
+                if password != confirm_password:
+                    raise forms.ValidationError('비밀번호가 일치하지 않습니다.')
         return confirm_password
 
     def save(self, commit=True):
@@ -142,5 +155,5 @@ class RegisterForm2(forms.ModelForm):
         model = User
         fields = ('name', 'email', 'tp', 'birthday', 'office',)
         help_texts = {
-            'tp': "'-'를 제외한 숫자만 입력해주세요."
+            'tp': "◈ '-'를 제외한 숫자만 입력해주세요."
         }

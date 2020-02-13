@@ -1,15 +1,19 @@
 {% load static %}
 <div id="pic_table" class="after">
+    {% if post_list %}
     {% for post in post_list %}
-    <a href="/board/{{post.div}}/{{post.id}}">
+    <a href="/board/{{post.div}}/detail/{{post.id}}">
         <div class="container">
-            <img src="{{post.image.first.thumbnail.url}}">
+            <img src="{{post.image}}" width='100%' height="150px">
             <div class="con_title">
                 {{post.title}}
             </div>
         </div>
     </a>
     {% endfor %}
+    {% else %}
+    <p class="no_list">등록된 글이 없습니다.</p>
+    {% endif %}
 </div>
 {% include "pagination.html" %}
 {% include "search.html" %}

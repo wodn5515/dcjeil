@@ -1,5 +1,6 @@
+from random import choice
 import json
-
+import string
 
 def get_server_info_value(key: str):
 
@@ -9,3 +10,9 @@ def get_server_info_value(key: str):
             if k == key:
                 return v
         raise ValueError('서버정보를 확인할 수 없습니다.')
+
+def get_filename(filename):
+    arr = [choice(string.ascii_letters) for _ in range(8)]
+    pid = ''.join(arr)
+    extension = filename.split('.')[-1]
+    return f'{pid}.{extension}'

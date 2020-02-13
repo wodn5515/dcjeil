@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+내 정보 변경완료 | 덕천제일교회
+{% endblock title%}
+{% block head %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock head %}
+{% block content %}
+<div id="title_wrap">
+    <div id="mob_menu_btn">
+        <img @click="menuShowHide" src="{% static 'img/mob_menu.png' %}">
+    </div>
+    <div id="mob_home_btn">
+        <a href="/"><img src="{% static 'img/mob_home.png' %}"></a>
+    </div>
+    <div id="title"><h1>내 정보</h1></div>
+</div>
+<div id="reg_wrapper" class="userresult">
+    <h2>내 정보 변경완료</h2>
+    <h4>회원님의 정보를 변경했습니다.</h4>
+    <h5>비밀번호를 변경하셨으면 다시 로그인 해주시기 바랍니다.</h5>
+    <div style="margin-top:50px;" class="btn_confirm">
+        <a href="/">
+            <input type="button" class="main" value="메인화면">
+        </a>
+        {% if not user.is_authenticated %}
+        <a href="/login?next=/">
+            <input style="margin-left:20px;" type="button" value="로그인">
+        </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

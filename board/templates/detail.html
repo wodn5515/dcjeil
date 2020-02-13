@@ -28,20 +28,17 @@
 </div>
 <!--------------------------->
 <!---------- 내용 ----------->
-<div id="detail_content">
+<div id="detail_content" class="after">
     {% if post.video %}
     <div class="youtube_container"><iframe src="http://www.youtube.com/embed/{{post.video}}" frameborder="0" allowfullscreen></iframe></div>
-    <p><a href="http://www.youtube.com/watch?v={{post.video}}" target="_blank">http://www.youtube.com/watch?v={{post.video}}</a></p>
-    {% endif %}
-    {% if post.image %}
-    {% for i in post.image.all %}
-    <p><img src="{{i.image.url}}"></p>
-    {% if i.desc %}<p>{{i.desc|linebreaksbr}}</p><br>{% endif %}
-    {% endfor %}
-    {% endif %}<p>{{post.content|linebreaksbr|urlize|url_target_blank}}</p>
+    <p class=youtube_link><img src="{% static 'img/link.png' %}"><a href="https://youtu.be/{{post.video}}" target="_blank">https://youtu.be/{{post.video}}</a></p>
+    {% endif %}<p>{{post.content|safe}}</p>
 </div>
 <!---------- 댓글 ----------->
 {% include "comment.html" %}
+<!--------------------------->
+<!---------- 버튼 ----------->
+{% include "buttons.html" %}
 <!--------------------------->
 <!------- 다음,이전글 ------->
 {% include "prev_next.html" %}

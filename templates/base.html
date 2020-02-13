@@ -47,6 +47,9 @@
                                 </li>
                                 {% endif %}
                                 {% if user.is_active %}
+                                <li>
+                                    <a href="{% url 'usercheck' %}">내 정보</a>
+                                </li>
                                 <li class="log">
                                     <a href="/logout?next={{request.path}}">로그아웃</a>
                                 </li>
@@ -55,7 +58,7 @@
                                     <a href="/login?next={{request.path}}">로그인</a>
                                 </li>
                                 <li>
-                                    <a href="/register">회원가입</a>
+                                    <a href="{% url 'register' %}">회원가입</a>
                                 </li>
                                 {% endif %}
                                 <li>
@@ -533,7 +536,7 @@
                     </div>
                     <div id="mob_login_wrap">
                         {% if user.is_authenticated %}
-                        <div id="mob_user"><a href="#">내 정보</a></div>
+                        <div id="mob_user"><a href="/usercheck">내 정보</a></div>
                         <div id="mob_login"><a href="/logout?next={{request.path}}">로그아웃</a></div>
                         {% else %}
                         <div id="mob_login"><a href="/login?next={{request.path}}">로그인</a></div>
@@ -815,6 +818,7 @@
                         self.worship_data = response.data;
                     })
                 },
+                // 공동체 methods
                 community:function(){
                     var self = this;
                     axios.get('/data/community/{{pk}}')
@@ -822,17 +826,29 @@
                         self.community_data = response.data;
                     })
                 },
+                // 인사말 methods
                 welcome:function(){
                     var self = this;
                     axios.get('/data/welcome')
                     .then(function(response){
                         self.welcome_data = response.data;
                     })
+                },
+                // 글쓰기 methods
+                toWrite:function(){
+                    {% if not user.is_authenticated %}alert('asd');
+                    return false;{% endif %}
                 }
             }
         })
         </script>
-        <script src="{% static 'js/common.js' %}"></script>
+        {% if messages %}
+        <script>
+            {% for message in messages %}
+            alert("{{message.message}}")
+            {% endfor %}
+        </script>
+        {% endif %}
         {% endblock js %}
     </body>
 </html>
