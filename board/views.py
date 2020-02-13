@@ -1,5 +1,6 @@
 import logging
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core import serializers
 from django.views.decorators.http import require_POST, require_GET
@@ -14,9 +15,9 @@ from django.db.models import Q
 from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
-from .models import Post, Comment
-from .forms import AddCommentForm
-import string, os, json
+from .models import Post, Comment, PostFile
+from .forms import AddCommentForm, PostWriteForm, PostSuperuserForm, PostFileFormset
+import string, os, json, re
 
 # Create your views here.
 
@@ -57,22 +58,22 @@ def board(request, pk):
             })
     else:
         page = request.GET.get('page','1')
-        page_number_range = 8
+        page_number_range = 5
         if pk in pic_list:
             content = 'piclist.html'
         else:
             content = 'list.html'
         if kind == 'title':
-            post_list_all =  Post.objects.filter(div=pk).filter(title__contains=keyword).order_by('-upload_date')
+            post_list_all =  Post.objects.filter(div=pk).filter(Q(title__contains=keyword)|Q(date__contains=keyword)).order_by('-upload_date')
         elif kind == 'content':
             post_list_all =  Post.objects.filter(div=pk).filter(content__contains=keyword).order_by('-upload_date')
         elif kind == 'title_content':
-            post_list_all =  Post.objects.filter(div=pk).filter(Q(title__contains=keyword)|Q(content__contains=keyword)).order_by('-upload_date')
+            post_list_all =  Post.objects.filter(div=pk).filter(Q(title__contains=keyword)|Q(content__contains=keyword)|Q(date__contains=keyword)).order_by('-upload_date')
         elif kind == 'writer':
             post_list_all =  Post.objects.filter(div=pk).filter(writer__name__contains=keyword).order_by('-upload_date')
         else:
             post_list_all = Post.objects.filter(div=pk).order_by('-upload_date')
-        paginator = Paginator(post_list_all, 20)
+        paginator = Paginator(post_list_all, 16)
         try:
             post_list = paginator.page(page)
         except PageNotAnInteger:
@@ -92,8 +93,11 @@ def board(request, pk):
             'menu_no' : pk[1:],
             'post_list' : post_list,
             'page_range' : page_range,
+            'pk' : pk,
             'total': post_list_all.count()+1,
-            'title' : get_title(pk)
+            'title' : get_title(pk),
+            's_keyword' : keyword,
+            's_kind' : kind
         })
 
 def detail(request, menu, pk):
@@ -114,6 +118,7 @@ def detail(request, menu, pk):
         'post' : post,
         'title' : get_title(menu),
         'board_pk' : menu,
+        'pk': pk,
         'prev_post' : prev_post,
         'next_post' : next_post
     })
@@ -153,3 +158,111 @@ def comment_delete(request, pk):
             comment.delete()
             return HttpResponse('삭제했습니다.')
         return HttpResponse('false||권한이 없습니다.')
+
+def post_write(request,menu):
+    user = request.user
+    active = ['406','407','409','601','602','603','604','605','606','607','608','609','610','611','612','613','614','615','616']
+    if request.method == "POST":
+        if not user.is_authenticated:
+            messages.info(request, '로그인 후 이용해주세요.')
+            return redirect('/login?next='+request.path)
+        if menu not in active:
+            if not user.is_superuser:
+                messages.info(request, '관리자만 이용가능합니다.')
+                return redirect('board:board', menu)
+            else:
+                forms = PostSuperuserForm(request.POST)
+                fileforms = PostFileForm(request.POST, request.FILES)
+                files = request.FILES.getlist('file')
+        else:
+            forms = PostWriteForm(request.POST)
+        if forms.is_valid() and fileforms.is_valid():
+            reg = re.compile('/upload_files\S*[jpg,png,gif]')
+            new_post = forms.save(commit=False)
+            new_post.div = menu
+            new_post.writer = request.user
+            try:
+                new_post.image = reg.search(new_post.content).group()
+            except:
+                new_post.image = ''
+            new_post.save()
+            for f in files:
+                new_postfile = PostFile(post=new_post, file=f)
+                new_postfile.save()
+            return redirect(new_post)
+        return render(request, 'board_write.html', {
+            'menu' : menu,
+            'title' : get_title(menu),
+            'forms' : forms,
+            'fileforms' : fileforms
+        })
+    else:
+        if not user.is_authenticated:
+            messages.info(request, '로그인 후 이용해주세요.')
+            return redirect('/login?next='+request.path)
+        if menu not in active:
+            if not user.is_superuser:
+                messages.info(request, '관리자만 이용가능합니다.')
+                return redirect('board:board', menu)
+            else:
+                forms = PostSuperuserForm()
+                fileforms = PostFileFormset()
+        else:
+            forms = PostWriteForm()
+        return render(request, 'board_write.html', {
+            'menu' : menu,
+            'title' : get_title(menu),
+            'forms' : forms,
+            'fileforms' : fileforms
+        })
+
+def post_update(request, menu, pk):
+    active = ['406','407','409','601','602','603','604','605','606','607','608','609','610','611','612','613','614','615','616']
+    user = request.user
+    post = Post.objects.get(pk=pk)
+    files = PostFile.objects.filter(post=post)
+    if post.writer == user or user.is_superuser:
+        if request.method == 'POST':
+            if menu not in active:
+                forms = PostSuperuserForm(request.POST, instance=post)
+            else:
+                forms = PostWriteForm(request.POST, instance=post)
+            if forms.is_valid():
+                reg = re.compile('/upload_files\S*[jpg,png,gif]')
+                updated_post = forms.save(commit=False)
+                try:
+                    updated_post.image = reg.search(updated_post.content).group()
+                except:
+                    updated_post.image = ''
+                updated_post.save()
+                return redirect(updated_post)
+            return render(request, 'board_write.html', {
+                'menu' : menu,
+                'title' : get_title(menu),
+                'forms' : forms
+            }) 
+        else:
+            if menu not in active:
+                forms = PostSuperuserForm(instance=post)
+                fileforms = PostFileForm(instance=files)
+            else:
+                forms = PostWriteForm(instance=post)
+            return render(request, 'board_write.html', {
+                'menu' : menu,
+                'title' : get_title(menu),
+                'forms' : forms,
+                'fileforms' : fileforms
+            })
+    else:
+        messages.info('권한이 없습니다.')
+        return redirect(post)
+
+def post_delete(request, menu, pk):
+    post = Post.objects.get(pk=pk)
+    user = request.user
+    if post.writer == user or user.is_superuser:
+        post.delete()
+        return redirect('board:board', menu)
+    else:
+        messages.info('권한이 없습니다.')
+        return redirect(post)

@@ -127,7 +127,8 @@
 
 
 /* board style - list */
-#content.list{padding:10px 30px; float:left; margin-left:80px; min-height:500px; width:calc(100% - 300px);}
+#content{min-height:500px;}
+#content.list{padding:10px 30px; float:left; margin-left:80px; width:calc(100% - 300px);}
 #title_wrap{width:100%; height:100px; background-color:#0093e9; border-top:1px double #e3e3e3;}
 #title{margin:35px 0; line-height:30px; color:white; text-align:center;}
 #wrapper{width:1250px; margin:0 auto; padding-top:30px;}
@@ -160,18 +161,21 @@
 #list_table .icon_wrap{margin-left:5px; float:left;}
 #list_table .icon{vertical-align:sub; float:left;}
 #list_table .cmt_count{float:left; vertical-align:sub; margin-left:5px; color:#aaaaaa;}
-#list_table td.no_list{font-size:14px;}
-#pic_table{margin:0 0 50px 50px;}
-#pic_table > a > .container{float:left; height:200px; width:200px; margin-right:23px; margin-top:20px;}
+#list_table td.no_list{font-size:14px; vertical-align:middle;}
+#pic_table{margin-bottom:50px; min-height:100px;}
+#pic_table > a > .container{float:left; height:200px; width:200px; margin-right:22px; margin-top:20px;}
 #pic_table > a:hover > .container > .con_title{text-decoration:underline; color:#6b6b6b;}
+#pic_table .no_list{text-align:center; font-size:14px; line-height:100px; margin-right:50px;}
 .container > .con_title{margin:20px 25px 0 25px; text-align:center; width:150px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
 
-#pagination{width:auto; margin:0 auto; text-align:center;}
+#pagination{width:auto; margin:0 auto; text-align:center; position:relative;}
 #pagination > li{display:inline-block;}
 #pagination > li > a,
 #pagination > li > span{display:inline-block; padding:8px 10px; margin:3px; border:1px solid #dadada; font-size:12px; line-height:12px;}
 #pagination > li.disabled > span{color:#9e9e9e}
 #pagination > li.active > span{color:#ffffff; font-weight:bold; background-color:#303030;}
+#to_write{position:absolute; top:0px; right:0px;}
+#to_write > a{padding:8px 10px; background-color:black; color:white; font-size:12px; font-weight:bold; margin:3px; display:block; line-height:14px;}
 
 #search_wrap{text-align:center; margin-top:20px;}
 #search_wrap input,
@@ -255,9 +259,9 @@
 
 
 /* board style - detail */
-#content.detail{padding:10px 80px; float:left; margin-left:30px; width:1010px; min-height:500px;}
+#content.detail{padding:10px 80px; float:left; margin-left:30px; width:1010px;}
 #detail_header{border-bottom:2px solid #666666; padding:5px 10px; margin-top:10px;}
-#post_info{float:right; margin-top:10px; font-size:12px; color:#999999;}
+#post_info{float:right; font-size:12px; color:#999999;}
 #file_wrap{font-size:12px; text-align:right; padding-top:5px;}
 #file_wrap .icon{vertical-align:sub;}
 #file_wrap a:hover{color:#999999; text-decoration:underline;}
@@ -266,8 +270,11 @@
 #detail_content iframe {position:absolute; top:0; left:0; right:0; width:100%; height:100%; margin-left:auto; margin-right:auto;}
 #detail_content > p > a{text-decoration:underline;}
 #detail_content > p > a:hover{color:#999999;}
-#detail_content img{display:block; margin-bottom:5px; max-width:100%; height:auto;}
-
+#detail_content img{display:block; margin-bottom:5px; max-width:100%; height:auto!important;}
+#detail_content > .youtube_link{margin:5px 0;}
+#detail_content > .youtube_link > img{display:inline; margin:0px; vertical-align:sub;}
+#detail_content > .youtube_link > a{font-weight:bold; color:#0093e9;}
+#detail_content > .youtube_link > a:hover{color:#007dc5;}
 
 /* board style - comment */
 #comment_write_wrap{padding:20px; border:1px solid #e3e3e3; margin:20px 0;}
@@ -293,7 +300,13 @@
 .cmt.date_del{font-size:12px; color:#9e9e9e; width:75px; position:relative;}
 .cmt.date_del img{vertical-align:sub; cursor:pointer; position:absolute; right:5px; top:2px;}
 .no_comment{padding:30px 10px;}
-#prev_next_wrap{margin-top:20px; border-bottom:1px solid #999999; border-top:1px solid #999999;}
+#buttons_wrap{margin-top:10px;}
+#buttons_wrap .left{float:left;}
+#buttons_wrap .right{float:right;}
+#buttons_wrap .btn{font-size:14px; padding:5px 10px; border-width:1px 1px 3px 1px; border-style:solid; margin:0 2px; color:#fff; text-shadow:0px 0px 2px #3b3b3b;}
+#buttons_wrap .blue{border-color:#0093e9; background-color:#00a2ff;}
+#buttons_wrap .grey{border-color:#5c5c5c; background-color:#797979;}
+#prev_next_wrap{margin-top:40px; border-bottom:1px solid #999999; border-top:1px solid #999999;}
 #prev_wrap, #next_wrap{padding:5px;}
 #prev_wrap > div,
 #next_wrap > div{float:left; line-height:22px; font-size:14px;}
@@ -302,6 +315,24 @@
 #prev_next_wrap .title > a:hover{color:#999999; text-decoration:underline;}
 #prev_next_wrap .title .disabled{color:#aaaaaa;}
 #prev_next_wrap .date{float:right; font-size:12px; color:#aaaaaa; margin-right:10px;}
+
+/* board style - write */
+#content.write{width:700px; margin:0 auto;}
+#write_wrap h2{text-align:center;}
+#write_wrap select{border:1px solid #c5c5c5; height:40px; font-size:14px; line-height:14px; background-color:white; width:80px; margin-right:20px;}
+#write_wrap input{padding:8px; border:1px solid #c5c5c5; width:500px; height:40px; font-size:14px; line-height:14px;}
+#write_wrap input.half{width:300px;}
+#write_wrap input.required{background-image:url(../img/required.png); background-repeat:no-repeat; background-position:right top;}
+#write_wrap #button_wrap{text-align:center;}
+#write_wrap input[type="submit"]{width:200px; margin-top:20px; cursor:pointer;}
+#write_wrap .field_wrap{margin:10px 10px; display:inline-block;}
+#write_wrap .field_wrap label{padding:5px; border-left:3px solid #0093e9; display:inline-block;}
+#write_wrap .field_wrap.error_label label{border-left:3px solid #fa5555;}
+#write_wrap .field_wrap .error{font-size:12px; color:#fa5555; font-weight:bold;}
+#write_wrap .field_wrap .input_wrap{margin-top:5px;}
+#write_wrap .field_wrap .help_text{font-size:12px;}
+#write_wrap .field_wrap .filecount{margin-right:10px;}
+#write_wrap .field_wrap .filedelete input{display:inline-block; width:40px;}
 
 /* mobile css */
 body.mob_menu_on{overflow:hidden;}
@@ -430,8 +461,10 @@ body.mob_menu_on{overflow:hidden;}
 }
 
 @media screen and (max-width:700px){
+    #content{padding-top:10px;}
     #content.list{width:100%;}
     #content.detail{width:100%;}
+    #content.write{width:100%;}
     #wrapper{padding-top:0;}
     #list_table > thead,
     #list_table .td_no,
@@ -441,7 +474,7 @@ body.mob_menu_on{overflow:hidden;}
     #list_table td{padding:3px 5px;}
     #list_table .td_title .td_title_title{padding:5px 0;}
     #list_table .td_title #mob_list_info{display:block; font-size:12px;}
-    #list_table td.no_list{padding:20px 5px;}
+    #list_table td.no_list{padding:20px 5px; height:500px;}
     #detail_header h2{word-break:break-all;}
     #post_info{float:left;}
     #file_wrap{padding-right:10px;}
@@ -454,6 +487,7 @@ body.mob_menu_on{overflow:hidden;}
     #server > .container > .server_div{width:80%; margin:0 auto; margin-bottom:20px;}
     #server > .container > .server_table > .server_box{width:80%; margin:0 auto; display:block; margin-bottom:20px;}
     #pastol > #pastol_experience{margin:0 10px; padding:30px;}
+    #write_wrap h2{margin-left:10px;}
 }
 
 @media screen and (max-width:600px){
@@ -466,6 +500,8 @@ body.mob_menu_on{overflow:hidden;}
     #history_btn_wrap > .container{padding:10px 0px; margin:0 5px; font-size:18px;}
     #history_wrap > .history_table > table td{padding:10px 5px; font-size:12px;}
     #history_wrap > .history_table > table .date{width:50px;}
+    #content.write .field_wrap{display:block;}
+    #content.write input{width:90%;}
 }
 
 @media screen and (max-width:500px){
@@ -492,6 +528,8 @@ body.mob_menu_on{overflow:hidden;}
     .tab_item > a > .container > .tab_title{font-size:18px; margin-top:10px; width:90%;}
     .tab_item > a > .container > .tab_date{margin-top:60px;}
     #title > h1{font-size:22px;}
+    #to_write{position:static;}
+    #to_write a{width:142px; margin:5px auto;}
     #comment_list_wrap .container{grid-template-columns:auto 75px; gap:10px 0;}
     #comment_list_wrap .container > *:nth-child(1){-ms-grid-row:1; -ms-grid-column:1; grid-row:1; grid-column:1;}
     #comment_list_wrap .container > *:nth-child(2){grid-area:2 / 1 / span 1 / span 2;}

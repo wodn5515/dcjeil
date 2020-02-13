@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
+from ckeditor.fields import RichTextField
 from imagekit.models import ImageSpecField
 from imagekit.processors import Thumbnail
 from imagekit.utils import get_cache
@@ -126,7 +127,7 @@ class Community(models.Model):
     title = models.TextField(_('표어'), blank=True)
     goal = models.TextField(_('교육목표'), blank=True)
     worship = models.TextField(_('예배안내'), blank=True)
-    server = models.TextField(_('섬기는 사람들'), blank=True)
+    server = RichTextField(verbose_name=('섬기는 사람들'), blank=True)
 
     def __str__(self):
         return f'{self.get_div_display()}'

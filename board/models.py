@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
+from ckeditor_uploader.fields import RichTextUploadingField
 from imagekit.models import ImageSpecField
 from imagekit.processors import Thumbnail
 from imagekit.utils import get_cache
@@ -57,41 +58,25 @@ class Post(models.Model):
     upload_date = models.DateTimeField(_('등록일'), default=timezone.now)
     date = models.DateField(_('일시'), blank=True, null=True, help_text='설교, 찬양, 기도에만 작성하세요.')
     title = models.CharField(_('제목'), max_length=50, blank=True)
-    preacher = models.CharField(_('설교자'), max_length=20, blank=True)
+    preacher = models.CharField(_('설교자'), max_length=20, blank=True, help_text='설교에만 작성하세요.')
     writer = models.ForeignKey(account, on_delete=models.SET(set_defautwriter_when_deleted), related_name='post')
-    video = models.CharField(_('동영상'), max_length=255, blank=True)
-    words = models.CharField(_('오늘의 말씀'), max_length=50, blank=True)
-    content = models.TextField(_('내용'), blank=True)
+    video = models.CharField(_('동영상'), max_length=255, blank=True, help_text='유튜브 주소를 입력하세요.')
+    words = models.CharField(_('오늘의 말씀'), max_length=50, blank=True, help_text='설교에만 작성하세요.')
+    content = RichTextUploadingField(verbose_name='내용', blank=True, null=True)
     views = models.IntegerField(_('조회수'), default=0)
     published = models.BooleanField(_('공개여부'), default=True)
+    image = models.TextField(_('사진'), blank=True)
 
     def __str__(self):
         return f'{self.get_div_display()} / {self.title}'
+
+    def get_absolute_url(self):
+        return f'/board/{self.div}/detail/{self.id}'
 
     @property
     def viewsup(self):
         self.views += 1
         self.save()
-
-class PostImage(models.Model):
-
-    class Meta:
-        verbose_name = ('사진')
-        verbose_name_plural = ('사진')
-
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, default='', verbose_name='게시글', related_name='image')
-    image = models.ImageField(_('사진'), upload_to=post_image_save)
-    desc = models.TextField(_('설명'), blank=True)
-    thumbnail = ImageSpecField(
-        source='image',
-        processors=[Thumbnail(200,150)],
-        format = 'JPEG',
-        options = {'quality':200}
-    )
-
-    def __str__(self):
-        temp = self.image.name.split('/')[-1]
-        return f'{self.post.title} - {temp}'
 
 class PostFile(models.Model):
 
@@ -120,11 +105,3 @@ class Comment(models.Model):
 @receiver(post_delete, sender=PostFile)
 def submission_delete(sender, instance, **kwargs):
     instance.file.delete(False)
-
-@receiver(post_delete, sender=PostFile)
-def submission_delete(sender, instance, **kwargs):
-    instance.image.delete(False)
-
-@receiver(post_delete, sender=PostImage)
-def submission_delete(sender, instance, **kwargs):
-    instance.image.delete(False)

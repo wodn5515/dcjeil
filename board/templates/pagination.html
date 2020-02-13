@@ -16,4 +16,9 @@
     {% else %}
         <li class="disabled"><span>다음</span></li>
     {% endif %}
+    {% if user.is_authenticated %}
+    <div id="to_write">
+        <a href="/board/{{pk}}/write" @click="toWrite">글쓰기</a>
+    </div>
+    {% endif %}
 </ul>

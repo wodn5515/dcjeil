@@ -1,5 +1,6 @@
 import logging
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.hashers import check_password
 from django.views.decorators.http import require_POST, require_GET
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404
@@ -12,11 +13,10 @@ from imagekit.utils import get_cache
 from random import choice
 from board.models import Post
 from data.models import Carousel
+from .forms import UserCheckForm, UpdateForm1, UpdateForm2
 import string, os
 
-def test(request):
-    return render(request, 'test/vue_test.html')
-
+# 홈화면
 def home(request):
     carousel_list = Carousel.objects.all().order_by('order')
     try:
@@ -51,3 +51,58 @@ def home(request):
         'weekly' : weekly,
         'photo' : photo
         })
+
+# 정보수정 비밀번호 확인
+@login_required
+def usercheck(request):
+    form = UserCheckForm(request.POST or None)
+    if request.method == 'POST':
+        check_pw = request.POST.get('check_pw')
+        current_pw = request.user.password
+        if check_password(check_pw, current_pw):
+            request.session['usercheck'] = True
+            return redirect(reverse('userupdate'))
+        error = '비밀번호가 일치하지않습니다.'
+        return render(request, 'user/usercheck.html', {
+            'form':form,
+            'error':error
+            })
+    else:
+        request.session['usercheck'] = False
+        request.session['userupdate'] = False
+        return render(request, 'user/usercheck.html', {'form':form})
+
+# 정보수정 변경
+@login_required
+def userupdate(request):
+    if request.method == "POST":
+        user = request.user
+        forms1 = UpdateForm1(request.POST, instance=user)
+        forms2 = UpdateForm2(request.POST, instance=user)
+        if forms1.is_valid() and forms2.is_valid():
+            forms1.save()
+            forms2.save()
+            request.session['userupdate'] = True
+            return redirect(reverse('userresult'))
+        return render(request, 'user/userupdate.html', {
+            'forms1' : forms1,
+            'forms2' : forms2
+        })
+    else:
+        if not request.session.get('usercheck', False):
+            return redirect(reverse('usercheck'))
+        user = request.user
+        forms1 = UpdateForm1(instance=user)
+        forms2 = UpdateForm2(instance=user)
+        request.session['user_check'] = False
+        return render(request, 'user/userupdate.html', {
+            'forms1' : forms1,
+            'forms2' : forms2
+        })
+
+# 정보수정 결과
+def userresult(request):
+    if not request.session.get('userupdate', False):
+        return redirect(reverse('usercheck'))
+    request.session['userupdate'] = False
+    return render(request, 'user/userresult.html')

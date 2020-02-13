@@ -60,5 +60,10 @@
         window.open(this.href, "", "top=100, left=100, width=500, height=350, scrollbars=no")
         return false;
     })
+    {% if messages %}
+    {% for message in messages%}
+    alert("{{message.message}}")
+    {% endfor %}
+    {% endif %}
     </script>
 </html>
