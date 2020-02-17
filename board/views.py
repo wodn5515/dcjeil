@@ -172,8 +172,7 @@ def post_write(request,menu):
                 return redirect('board:board', menu)
             else:
                 forms = PostSuperuserForm(request.POST)
-                fileforms = PostFileForm(request.POST, request.FILES)
-                files = request.FILES.getlist('file')
+                fileforms = PostFileFormset(request.POST, request.FILES)
         else:
             forms = PostWriteForm(request.POST)
         if forms.is_valid() and fileforms.is_valid():
@@ -186,9 +185,10 @@ def post_write(request,menu):
             except:
                 new_post.image = ''
             new_post.save()
-            for f in files:
-                new_postfile = PostFile(post=new_post, file=f)
-                new_postfile.save()
+            files = fileforms.save(commit=False)
+            for file in files:
+                file.post = new_post
+                file.save()
             return redirect(new_post)
         return render(request, 'board_write.html', {
             'menu' : menu,
@@ -206,7 +206,7 @@ def post_write(request,menu):
                 return redirect('board:board', menu)
             else:
                 forms = PostSuperuserForm()
-                fileforms = PostFileFormset()
+                fileforms = PostFileFormset(queryset=PostFile.objects.none())
         else:
             forms = PostWriteForm()
         return render(request, 'board_write.html', {
@@ -225,9 +225,10 @@ def post_update(request, menu, pk):
         if request.method == 'POST':
             if menu not in active:
                 forms = PostSuperuserForm(request.POST, instance=post)
+                fileforms = PostFileFormset(request.POST, request.FILES, queryset=files)
             else:
                 forms = PostWriteForm(request.POST, instance=post)
-            if forms.is_valid():
+            if forms.is_valid() and fileforms.is_valid():
                 reg = re.compile('/upload_files\S*[jpg,png,gif]')
                 updated_post = forms.save(commit=False)
                 try:
@@ -235,16 +236,21 @@ def post_update(request, menu, pk):
                 except:
                     updated_post.image = ''
                 updated_post.save()
+                files = fileforms.save(commit=False)
+                for file in files:
+                    file.post = updated_post
+                    file.save()
                 return redirect(updated_post)
             return render(request, 'board_write.html', {
                 'menu' : menu,
                 'title' : get_title(menu),
-                'forms' : forms
+                'forms' : forms,
+                'fileforms' : fileforms
             }) 
         else:
             if menu not in active:
                 forms = PostSuperuserForm(instance=post)
-                fileforms = PostFileForm(instance=files)
+                fileforms = PostFileFormset(queryset=files)
             else:
                 forms = PostWriteForm(instance=post)
             return render(request, 'board_write.html', {
@@ -254,7 +260,7 @@ def post_update(request, menu, pk):
                 'fileforms' : fileforms
             })
     else:
-        messages.info('권한이 없습니다.')
+        messages.info(request, '권한이 없습니다.')
         return redirect(post)
 
 def post_delete(request, menu, pk):

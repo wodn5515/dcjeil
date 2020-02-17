@@ -17,15 +17,15 @@
 </div>
 <!--------------------------->
 <!-------- 첨부파일 --------->
-<div id="file_wrap">
 {% for file in post.file.all %}
+<div id="file_wrap">
     <div class="container">
         <img class="icon" src="{% static 'img/fileicon.png' %}" height="16px">
         <a href="{{file.file.url}}" download>{{file.file.name|filename}}</a>
         <span>[{{file.file.size|filesizeformat}}]</span>
     </div>
-{% endfor %}
 </div>
+{% endfor %}
 <!--------------------------->
 <!---------- 내용 ----------->
 <div id="detail_content" class="after">

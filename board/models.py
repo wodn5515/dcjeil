@@ -85,7 +85,7 @@ class PostFile(models.Model):
         verbose_name_plural = ('첨부파일')
 
     post = models.ForeignKey(Post, on_delete=models.CASCADE, default='', verbose_name='게시글', related_name='file')
-    file = models.FileField(_('첨부파일'), upload_to=post_file_save)
+    file = models.FileField(_('첨부파일'), upload_to=post_file_save, blank=True)
 
 class Comment(models.Model):
 

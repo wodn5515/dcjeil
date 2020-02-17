@@ -1,4 +1,5 @@
 import logging
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login
 from django.views.decorators.http import require_POST, require_GET
@@ -68,9 +69,11 @@ def findpassword2(request):
 @user_passes_test(not_logged_in, 'home')
 def register(request):
     if request.method == "POST":
-        if request.POST.get("agree", "") == "agree":
+        if request.POST.get("term_agree", "") == "agree" and request.POST.get("private_agree","") == "agree":
             request.session['register_agree'] = True
             return redirect(reverse('registerform'))
+        messages.info(request,"회원가입약관 및 개인정보처리방침안내의 내용에 동의하셔야 회원가입을 하실 수 있습니다.")
+        return render(request, 'registration/register.html')
     else:
         request.session['register_agree'] = False
         request.session['register_submit'] = False
