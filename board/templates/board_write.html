@@ -29,7 +29,7 @@
             <div id="fileform_wrap">
                 {{ fileforms.management_form }}
                 {% for field in fileforms %}
-                <div class="field_wrap">
+                <div class="field_wrap file">
                     {% if forloop.counter == 1 %}
                     {{ field.file.label_tag }}
                     {% endif %}
@@ -52,6 +52,18 @@
 {% block js %}
 {{ block.super }}
 <script type="text/javascript">
+var UpdateElementIndex = function(el, prefix, ndx){
+    var id_regex = new RegExp("(" + prefix + "-(\\d+))");
+    var replacement = prefix + "-" + ndx;
+    console.log(el);
+    if(el.id){
+        el.id = el.id.replace(id_regex, replacement);
+    }
+    if(el.name){
+        el.name = el.name.replace(id_regex, replacement);
+    }
+};
+
 $("#file_add").click(function(e){
     total = $('input[name=form-TOTAL_FORMS]').val()
     delete_icon = "{% static 'img/cmt_delete.png' %}"
@@ -59,7 +71,7 @@ $("#file_add").click(function(e){
         alert('첨부파일은 최대 5개입니다.')
         return false;
         }
-    newElement = '<div class="field_wrap"><div class="input_wrap">\
+    newElement = '<div class="field_wrap file"><div class="input_wrap">\
                 <span class="filecount">#'+(parseInt(total)+1)+'</span>\
                 <input type="file" name="form-'+ total +'-file" id="id_form-'+ total +'-file"></div>\
                 <input type="hidden" name="form-'+ total +'-id" id="id_form-'+ total +'-id">\
@@ -70,10 +82,20 @@ $("#file_add").click(function(e){
 });
 
 $("#fileform_wrap").on('click', '.file_delete', function(e){
-    total = $('input[name=form-TOTAL_FORMS]').val();
     $(e.currentTarget).closest('.field_wrap').remove();
-    total--;
-    $('input[name=form-TOTAL_FORMS]').val(total);
+    var forms = $('.field_wrap.file');
+    $('input[name=form-TOTAL_FORMS]').val(forms.length);
+    var i;
+    var UpdateElementCallback = function() {
+        UpdateElementIndex(this, 'form', i);
+    };
+    for(i = 0; i < forms.length; i++){
+        $(forms.get(i)).find("*").each(UpdateElementCallback);
+    }
+    $("#fileform_wrap").find(".filecount").each(function(i){
+        var count = i + 1;
+        $(this).html($(this).html().replace(/(#\d+)/g, "#" + count));
+    })
 })
 </script>
 {% endblock js %}
