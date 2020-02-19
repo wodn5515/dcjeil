@@ -320,19 +320,31 @@
 #content.write{width:700px; margin:0 auto;}
 #write_wrap h2{text-align:center;}
 #write_wrap select{border:1px solid #c5c5c5; height:40px; font-size:14px; line-height:14px; background-color:white; width:80px; margin-right:20px;}
-#write_wrap input{padding:8px; border:1px solid #c5c5c5; width:500px; height:40px; font-size:14px; line-height:14px;}
-#write_wrap input.half{width:300px;}
-#write_wrap input.required{background-image:url(../img/required.png); background-repeat:no-repeat; background-position:right top;}
+#write_wrap .field_wrap input{padding:8px; border:1px solid #c5c5c5; width:500px; height:40px; font-size:14px; line-height:14px;}
+#write_wrap .field_wrap input.half{width:300px;}
+#write_wrap .field_wrap input.required{background-image:url(../img/required.png); background-repeat:no-repeat; background-position:right top;}
 #write_wrap #button_wrap{text-align:center;}
-#write_wrap input[type="submit"]{width:200px; margin-top:20px; cursor:pointer;}
-#write_wrap .field_wrap{margin:10px 10px; display:inline-block;}
-#write_wrap .field_wrap label{padding:5px; border-left:3px solid #0093e9; display:inline-block;}
+#write_wrap input[type="submit"]{width:200px; margin-top:20px; cursor:pointer; height:50px;}
+#write_wrap .field_wrap{margin:10px 10px; display:inline-block; white-space:nowrap;}
+#write_wrap .field_wrap label{padding:5px; border-left:3px solid #0093e9; display:block;}
 #write_wrap .field_wrap.error_label label{border-left:3px solid #fa5555;}
 #write_wrap .field_wrap .error{font-size:12px; color:#fa5555; font-weight:bold;}
 #write_wrap .field_wrap .input_wrap{margin-top:5px;}
 #write_wrap .field_wrap .help_text{font-size:12px;}
-#write_wrap .field_wrap .filecount{margin-right:10px;}
-#write_wrap .field_wrap .filedelete input{display:inline-block; width:40px;}
+#write_wrap .field_wrap input[type="checkbox"]{display:inline-block; width:40px;}
+#write_wrap .field_wrap .input_wrap > a{display:inline-block; margin-bottom:10px;}
+#write_wrap #file_add{padding:0px; vertical-align:baseline; cursor:pointer; background-color:white; color:#0093e9; border:none; font-weight:bold; font-size:14px;}
+#write_wrap .file_delete{cursor:pointer; vertical-align:middle; margin-left:5px;}
+#fileform_wrap{display:inline-block; margin:10px;}
+#fileform_wrap > label{padding:5px; border-left:3px solid #0093e9; display:inline-block;}
+#fileform_wrap .field_wrap{display:block;}
+#fileform_wrap .field_wrap .input_wrap{display:inline-block;}
+#fileform_wrap .field_wrap .input_wrap .filecount{padding:5px; border-right:2px solid #c5c5c5; margin-right:5px;}
+#fileform_wrap .field_wrap.file .input_wrap input[type="checkbox"],
+#fileform_wrap .field_wrap.file .input_wrap label,
+#fileform_wrap .field_wrap.file .delete input[type="checkbox"]{display:none;}
+#fileform_wrap .field_wrap.file .delete .delete_label{display:inline-block; vertical-align:top; border:1px solid #c5c5c5; color:#c5c5c5; border-radius:5px; font-weight:bold; cursor:pointer;}
+#fileform_wrap .field_wrap.file .delete input:checked + label{background-color:#c5c5c5; color:white;}
 
 /* mobile css */
 body.mob_menu_on{overflow:hidden;}
@@ -487,7 +499,6 @@ body.mob_menu_on{overflow:hidden;}
     #server > .container > .server_div{width:80%; margin:0 auto; margin-bottom:20px;}
     #server > .container > .server_table > .server_box{width:80%; margin:0 auto; display:block; margin-bottom:20px;}
     #pastol > #pastol_experience{margin:0 10px; padding:30px;}
-    #write_wrap h2{margin-left:10px;}
 }
 
 @media screen and (max-width:600px){
@@ -501,7 +512,8 @@ body.mob_menu_on{overflow:hidden;}
     #history_wrap > .history_table > table td{padding:10px 5px; font-size:12px;}
     #history_wrap > .history_table > table .date{width:50px;}
     #content.write .field_wrap{display:block;}
-    #content.write input{width:90%;}
+    #content.write input{width:300px;}
+    #fileform_wrap .field_wrap input[type='file']{width:220px;}
 }
 
 @media screen and (max-width:500px){
@@ -553,4 +565,5 @@ body.mob_menu_on{overflow:hidden;}
     #worship_wrap{width:95%; margin:0 auto; margin-top:10px;}
     #worship_table{word-break:keep-all;}
     #nurture > .section > .content > .image_02{width:300px;}
+    #write_wrap .field_wrap .input_wrap > a{max-width:180px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden; vertical-align:text-bottom;}
 }

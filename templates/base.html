@@ -833,11 +833,6 @@
                     .then(function(response){
                         self.welcome_data = response.data;
                     })
-                },
-                // 글쓰기 methods
-                toWrite:function(){
-                    {% if not user.is_authenticated %}alert('asd');
-                    return false;{% endif %}
                 }
             }
         })

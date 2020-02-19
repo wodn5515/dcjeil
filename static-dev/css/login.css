@@ -40,8 +40,14 @@
 #reg_wrapper.userresult{text-align:center; width:450px;}
 #reg_wrapper.usercheck .field_wrap{margin-top:20px; border-bottom:1px solid #c5c5c5;}
 #reg_wrapper.usercheck .field_wrap label{text-align:left;}
+.register_term{margin-top:20px;}
+.register_term p{text-align:center; font-size:16px; font-weight:bold;}
 .register_term textarea{width:100%; height:300px; margin-top:20px; padding:8px; background-color:#f7f7f7; border:1px solid #e9e9e9;}
 .register_term .agree_wrap{text-align:right; margin-top:10px;}
+.register_term .agree_wrap label{font-size:13px;}
+#private_table{width:100%; text-align:center; margin-top:20px; font-size:13px; border:1px solid #e3e3e3;}
+#private_table th{width:33.3%; border:1px solid #0093e9; background-color:#00a2ff; color:white; padding:10px 0;}
+#private_table td{vertical-align:middle; border:1px solid #e3e3e3; padding:10px 5px; word-break:keep-all;}
 .btn_confirm{text-align:center; margin-top:30px;}
 .btn_confirm input{background-color:#0093e9; padding:8px; border:1px solid #0187d4; height:40px; font-size:14px; line-height:14px; width:100px; cursor:pointer; color:white;}
 .btn_confirm input.main{background-color:#a1a1a1; border: 1px solid #a1a1a1;}
@@ -72,7 +78,8 @@
 
 @media screen and (max-width:480px){
     #reg_wrapper{width:95%!important; padding-top:10px;}
-    #reg_wrapper h4{font-size:14px;}
+    #reg_wrapper h4{font-size:13px;}
+    #private_table{font-size:11px;}
     #header, #container, #footer{width:90%;}
     #container{margin-top:20px;}
     .sec_title{margin-left:0px;}

@@ -71,11 +71,4 @@ class PostSuperuserForm(forms.ModelForm):
             video = video[start:start+11]
         return video
 
-class PostFileForm(forms.ModelForm):
-    file = forms.FileField(label="첨부파일", widget=forms.ClearableFileInput(), required=False)
-
-    class Meta:
-        model = PostFile
-        fields = ('file',)
-
-PostFileFormset = forms.formset_factory(PostFileForm, extra=2, can_delete=True, max_num=2)
+PostFileFormset = forms.modelformset_factory(PostFile, extra=0, max_num=5, fields=('file',), can_delete=True)

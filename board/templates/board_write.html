@@ -26,24 +26,22 @@
                 </div>
             </div>
             {% endfor %}
-            {% for field in fileforms %}
-            <div class="field_wrap">
-                {% if forloop.counter == 1 %}
-                {{ field.file.label_tag }}
-                {% endif %}
-                {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
-                {% if field.help_text %}
-                <div class="help_text">{{ field.help_text }}</div>
-                {% endif %}
-                <div class="input_wrap">
-                    <span class="filecount">#{{forloop.counter}}</span>
-                    {{ field.file }}
-                    {% if fileforms.can_delete %}
-                    <span class="filedelete">{{ field.DELETE }}</span>
-                    {% endif %}
+            <div id="fileform_wrap">
+                {{ fileforms.management_form }}
+                <label>첨부파일</label>
+                <input id="file_add" type="button" value="추가">
+                {% for field in fileforms %}
+                <div class="field_wrap file">
+                    <div class="input_wrap"><span class="filecount">#{{ forloop.counter }}</span>{{ field.file }}</div>
+                    <span class="delete">
+                        {{ field.DELETE }}
+                        <label class="delete_label" for="id_form-{{forloop.counter0}}-DELETE">삭제</label>
+                    </span>
+                    {{ field.id }}
+                    <input type="hidden" name="form-{{forloop.counter0}}-post" value="{{ field.instance.post.id }}" id="id_form-{{forloop.counter0}}-post">
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
             <div id="button_wrap">
                 <input type="submit" value="등록">
             </div>
@@ -52,3 +50,52 @@
     </div>
 </div>
 {% endblock content %}
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+var UpdateElementIndex = function(el, prefix, ndx){
+    var id_regex = new RegExp("(" + prefix + "-(\\d+))");
+    var replacement = prefix + "-" + ndx;
+    console.log(el);
+    if(el.id){
+        el.id = el.id.replace(id_regex, replacement);
+    }
+    if(el.name){
+        el.name = el.name.replace(id_regex, replacement);
+    }
+};
+
+$("#file_add").click(function(e){
+    total = $('input[name=form-TOTAL_FORMS]').val()
+    delete_icon = "{% static 'img/cmt_delete.png' %}"
+    if(total == 5){
+        alert('첨부파일은 최대 5개입니다.')
+        return false;
+        }
+    newElement = '<div class="field_wrap file"><div class="input_wrap">\
+                <span class="filecount">#'+(parseInt(total)+1)+'</span><input type="file" name="form-'+ total +'-file" id="id_form-'+ total +'-file"></div>\
+                <input type="hidden" name="form-'+ total +'-id" id="id_form-'+ total +'-id">\
+                <img class="file_delete" src=' + delete_icon + '></div>'
+    total++;
+    $('input[name=form-TOTAL_FORMS]').val(total);
+    $('#fileform_wrap').append(newElement)
+});
+
+$("#fileform_wrap").on('click', '.file_delete', function(e){
+    $(e.currentTarget).closest('.field_wrap').remove();
+    var forms = $('.field_wrap.file');
+    $('input[name=form-TOTAL_FORMS]').val(forms.length);
+    var i;
+    var UpdateElementCallback = function() {
+        UpdateElementIndex(this, 'form', i);
+    };
+    for(i = 0; i < forms.length; i++){
+        $(forms.get(i)).find("*").each(UpdateElementCallback);
+    }
+    $("#fileform_wrap").find(".filecount").each(function(i){
+        var count = i + 1;
+        $(this).html($(this).html().replace(/(#\d+)/g, "#" + count));
+    })
+})
+</script>
+{% endblock js %}
