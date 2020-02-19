@@ -28,19 +28,20 @@
             {% endfor %}
             <div id="fileform_wrap">
                 {{ fileforms.management_form }}
+                <label>첨부파일</label>
+                <input id="file_add" type="button" value="추가">
                 {% for field in fileforms %}
                 <div class="field_wrap file">
-                    {% if forloop.counter == 1 %}
-                    {{ field.file.label_tag }}
-                    {% endif %}
-                    <div class="input_wrap">
-                        <span class="filecount">#{{forloop.counter}}</span>
-                        {{ field.file }}
-                    </div>
+                    <div class="input_wrap"><span class="filecount">#{{ forloop.counter }}</span>{{ field.file }}</div>
+                    <span class="delete">
+                        {{ field.DELETE }}
+                        <label class="delete_label" for="id_form-{{forloop.counter0}}-DELETE">삭제</label>
+                    </span>
                     {{ field.id }}
+                    <input type="hidden" name="form-{{forloop.counter0}}-post" value="{{ field.instance.post.id }}" id="id_form-{{forloop.counter0}}-post">
                 </div>
                 {% endfor %}
-            </div><input id="file_add" type="button" value="추가">
+            </div>
             <div id="button_wrap">
                 <input type="submit" value="등록">
             </div>
@@ -72,8 +73,7 @@ $("#file_add").click(function(e){
         return false;
         }
     newElement = '<div class="field_wrap file"><div class="input_wrap">\
-                <span class="filecount">#'+(parseInt(total)+1)+'</span>\
-                <input type="file" name="form-'+ total +'-file" id="id_form-'+ total +'-file"></div>\
+                <span class="filecount">#'+(parseInt(total)+1)+'</span><input type="file" name="form-'+ total +'-file" id="id_form-'+ total +'-file"></div>\
                 <input type="hidden" name="form-'+ total +'-id" id="id_form-'+ total +'-id">\
                 <img class="file_delete" src=' + delete_icon + '></div>'
     total++;

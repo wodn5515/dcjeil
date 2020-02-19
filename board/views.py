@@ -225,7 +225,7 @@ def post_update(request, menu, pk):
         if request.method == 'POST':
             if menu not in active:
                 forms = PostSuperuserForm(request.POST, instance=post)
-                fileforms = PostFileFormset(request.POST, request.FILES, queryset=files)
+                fileforms = PostFileFormset(request.POST, request.FILES)
             else:
                 forms = PostWriteForm(request.POST, instance=post)
             if forms.is_valid() and fileforms.is_valid():
@@ -236,11 +236,9 @@ def post_update(request, menu, pk):
                 except:
                     updated_post.image = ''
                 updated_post.save()
-                files = fileforms.save(commit=False)
-                for file in files:
-                    file.post = updated_post
-                    file.save()
+                files = fileforms.save()
                 return redirect(updated_post)
+            fileforms = PostFileFormset(queryset=files)
             return render(request, 'board_write.html', {
                 'menu' : menu,
                 'title' : get_title(menu),

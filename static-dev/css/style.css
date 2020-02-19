@@ -332,13 +332,19 @@
 #write_wrap .field_wrap .input_wrap{margin-top:5px;}
 #write_wrap .field_wrap .help_text{font-size:12px;}
 #write_wrap .field_wrap input[type="checkbox"]{display:inline-block; width:40px;}
-#write_wrap .field_wrap .input_wrap > a{display:inline-block; width:370px;}
-#write_wrap #file_add{padding:0px; height:40px; cursor:pointer; background-color:white; color:#0093e9; border:none; font-weight:bold; font-size:14px;}
+#write_wrap .field_wrap .input_wrap > a{display:inline-block; margin-bottom:10px;}
+#write_wrap #file_add{padding:0px; vertical-align:baseline; cursor:pointer; background-color:white; color:#0093e9; border:none; font-weight:bold; font-size:14px;}
 #write_wrap .file_delete{cursor:pointer; vertical-align:middle; margin-left:5px;}
-#fileform_wrap{display:inline-block;}
+#fileform_wrap{display:inline-block; margin:10px;}
+#fileform_wrap > label{padding:5px; border-left:3px solid #0093e9; display:inline-block;}
 #fileform_wrap .field_wrap{display:block;}
 #fileform_wrap .field_wrap .input_wrap{display:inline-block;}
-
+#fileform_wrap .field_wrap .input_wrap .filecount{padding:5px; border-right:2px solid #c5c5c5; margin-right:5px;}
+#fileform_wrap .field_wrap.file .input_wrap input[type="checkbox"],
+#fileform_wrap .field_wrap.file .input_wrap label,
+#fileform_wrap .field_wrap.file .delete input[type="checkbox"]{display:none;}
+#fileform_wrap .field_wrap.file .delete .delete_label{display:inline-block; vertical-align:top; border:1px solid #c5c5c5; color:#c5c5c5; border-radius:5px; font-weight:bold; cursor:pointer;}
+#fileform_wrap .field_wrap.file .delete input:checked + label{background-color:#c5c5c5; color:white;}
 
 /* mobile css */
 body.mob_menu_on{overflow:hidden;}
@@ -493,7 +499,6 @@ body.mob_menu_on{overflow:hidden;}
     #server > .container > .server_div{width:80%; margin:0 auto; margin-bottom:20px;}
     #server > .container > .server_table > .server_box{width:80%; margin:0 auto; display:block; margin-bottom:20px;}
     #pastol > #pastol_experience{margin:0 10px; padding:30px;}
-    #write_wrap h2{margin-left:10px;}
 }
 
 @media screen and (max-width:600px){
@@ -560,8 +565,5 @@ body.mob_menu_on{overflow:hidden;}
     #worship_wrap{width:95%; margin:0 auto; margin-top:10px;}
     #worship_table{word-break:keep-all;}
     #nurture > .section > .content > .image_02{width:300px;}
-}
-
-@media screen and (max-width:400px){
-    #write_wrap #file_add{width:200px; text-align:center; padding:8px; cursor:pointer; margin-left:50%; transform:translateX(-50%);}
+    #write_wrap .field_wrap .input_wrap > a{max-width:180px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden; vertical-align:text-bottom;}
 }

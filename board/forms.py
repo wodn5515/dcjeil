@@ -71,4 +71,4 @@ class PostSuperuserForm(forms.ModelForm):
             video = video[start:start+11]
         return video
 
-PostFileFormset = forms.modelformset_factory(PostFile, extra=1, max_num=5, fields=('file',))
+PostFileFormset = forms.modelformset_factory(PostFile, extra=0, max_num=5, fields=('file',), can_delete=True)
