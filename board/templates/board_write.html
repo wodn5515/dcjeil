@@ -56,7 +56,6 @@
 var UpdateElementIndex = function(el, prefix, ndx){
     var id_regex = new RegExp("(" + prefix + "-(\\d+))");
     var replacement = prefix + "-" + ndx;
-    console.log(el);
     if(el.id){
         el.id = el.id.replace(id_regex, replacement);
     }
