@@ -8,6 +8,9 @@
             <div class="con_title">
                 {{post.title}}
             </div>
+            <div class="con_date">
+            {{post.upload_date|date:"Y-m-d"}}
+            </div>
         </div>
     </a>
     {% endfor %}

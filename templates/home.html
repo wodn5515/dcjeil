@@ -100,31 +100,12 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div id="main_mob" class="listbox">
-                <a href="/board/103" class="container">
-                    <img src="{% static 'img/vision.png' %}">
-                    <p>교회비전</p>
-                </a>
-                <a href="/board/207" class="container">
-                    <img src="{% static 'img/clock.png' %}">
-                    <p>예배시간</p>
-                </a>
-                <a href="/board/106" class="container">
-                    <img src="{% static 'img/location.png' %}">
-                    <p>오시는 길</p>
-                </a>
-                <a href="/board/803" class="container">
-                    <img src="{% static 'img/weekly.png' %}">
-                    <p>주보게시판</p>
-                </a>
-                <div></div>
-            </div>
             <div id="main1" class="listbox">
                 <p class="after"><a href="board/401">공지사항</a></p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
-                    {% for post in notice %}
+                    {% for post in main1 %}
                     <li>
                         <a href="{{post.get_absolute_url}}">{{post.title}}</a>
                         {% if todays_date == post.upload_date|date:"y-m-d" %}
@@ -150,7 +131,7 @@
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
-                    {% for post in news_church %}
+                    {% for post in main2 %}
                     <li>
                         <a href="{{post.get_absolute_url}}">{{post.title}}</a>
                         {% if todays_date == post.upload_date|date:"y-m-d" %}
@@ -176,7 +157,7 @@
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
-                    {% for post in news_mate %}
+                    {% for post in main3 %}
                     <li>
                         <a href="{{post.get_absolute_url}}">{{post.title}}</a>
                         {% if todays_date == post.upload_date|date:"y-m-d" %}
@@ -197,17 +178,31 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div id="main4">
-                <a href="#"><div>4번박스 - 1</div></a>
-                <a href="#"><div>4번박스 - 2</div></a>
-                <a href="#"><div>4번박스 - 3</div></a>
+            <div id="main_mob" class="listbox">
+                <a href="/board/103" class="container">
+                    <img src="{% static 'img/vision.png' %}">
+                    <p>교회비전</p>
+                </a>
+                <a href="/board/207" class="container">
+                    <img src="{% static 'img/clock.png' %}">
+                    <p>예배시간</p>
+                </a>
+                <a href="/board/106" class="container">
+                    <img src="{% static 'img/location.png' %}">
+                    <p>오시는 길</p>
+                </a>
+                <a href="/board/803" class="container">
+                    <img src="{% static 'img/weekly.png' %}">
+                    <p>주보게시판</p>
+                </a>
+                <div></div>
             </div>
             <div id="main5" class="listbox">
                 <p class="after"><a href="board/407">기도요청</a></p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
-                    {% for post in prayrequest %}
+                    {% for post in main5 %}
                     <li>
                         <a href="{{post.get_absolute_url}}">{{post.title}}</a>
                         {% if todays_date == post.upload_date|date:"y-m-d" %}
@@ -229,11 +224,11 @@
                 </ul>
             </div>
             <div id="main6" class="listbox">
-                <p class="after"><a href="board/803">주보게시판</a></p>
+                <p class="after"><a href="board/601">선교지소식</a></p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
-                    {% for post in weekly %}
+                    {% for post in main6 %}
                     <li>
                         <a href="{{post.get_absolute_url}}">{{post.title}}</a>
                         {% if todays_date == post.upload_date|date:"y-m-d" %}
