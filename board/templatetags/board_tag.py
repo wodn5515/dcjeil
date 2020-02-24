@@ -1,4 +1,5 @@
 from django import template
+from django.utils import timezone
 import re, os, datetime
 
 register = template.Library()
@@ -15,3 +16,8 @@ url_target_blank = register.filter(url_target_blank, is_safe = True)
 @register.filter
 def filename(value):
     return value.split('/')[-1]
+
+@register.filter
+def post_new(date):
+    day_difference = (timezone.now()-date).days
+    return True if day_difference < 7 else False

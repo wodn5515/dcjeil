@@ -26,6 +26,7 @@
                 </div>
             </div>
             {% endfor %}
+            {% if fileforms %}
             <div id="fileform_wrap">
                 {{ fileforms.management_form }}
                 <label>첨부파일</label>
@@ -42,6 +43,7 @@
                 </div>
                 {% endfor %}
             </div>
+            {% endif %}
             <div id="button_wrap">
                 <input type="submit" value="등록">
             </div>

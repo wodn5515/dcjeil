@@ -32,11 +32,11 @@ def home(request):
     except:
         tab3 = None
     recent = Post.objects.order_by('-upload_date')[:8]
-    notice = Post.objects.filter(div='401').order_by('-upload_date')[:8]
-    news_church = Post.objects.filter(div='402').order_by('-upload_date')[:8]
-    news_mate = Post.objects.filter(div='403').order_by('-upload_date')[:8]
-    prayrequest = Post.objects.filter(div='407').order_by('-upload_date')[:8]
-    weekly = Post.objects.filter(div='803').order_by('-upload_date')[:8]
+    main1 = Post.objects.filter(div='401').order_by('-upload_date')[:8]
+    main2 = Post.objects.filter(div='402').order_by('-upload_date')[:8]
+    main3 = Post.objects.filter(div='403').order_by('-upload_date')[:8]
+    main5 = Post.objects.filter(div='407').order_by('-upload_date')[:8]
+    main6 = Post.objects.filter(div__startswith='6').order_by('-upload_date')[:8]
     photo = Post.objects.filter(div='405').order_by('-upload_date')[:5]
     return render(request, 'home.html', {
         'carousel_list' : carousel_list,
@@ -44,11 +44,11 @@ def home(request):
         'tab2' : tab2,
         'tab3' : tab3,
         'recent' : recent,
-        'notice' : notice,
-        'news_church' : news_church,
-        'news_mate' : news_mate,
-        'prayrequest' : prayrequest,
-        'weekly' : weekly,
+        'main1' : main1,
+        'main2' : main2,
+        'main3' : main3,
+        'main5' : main5,
+        'main6' : main6,
         'photo' : photo
         })
 

@@ -73,6 +73,7 @@
                 </div>
             </div>
         </div>
+        {% load board_tag %}
         <div id="maingrid">
             <div id="main_recent" class="listbox">
                 <p class="after">최근게시글</p>
@@ -82,7 +83,85 @@
                     {% for post in recent %}
                     <li>
                         <a href="{{post.get_absolute_url}}">[{{post.get_div_display}}] {{post.title}}</a>
-                        {% if todays_date == post.upload_date|date:"y-m-d" %}
+                        {% if post.upload_date|post_new %}
+                        <span>
+                            <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
+                        </span>
+                        {% endif %}
+                        <span class="date"><!--
+                            -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
+                            -->{{ post.upload_date|date:"H:i" }}<!--
+                            -->{% elif this_year == post.upload_date|date:"y" %}<!--
+                            -->{{ post.upload_date|date:"m-d"}}<!--
+                            -->{% else %}<!--
+                            -->{{ post.upload_date|date:"y-m-d" }}<!--
+                            -->{% endif %}<!--
+                        --></span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div id="main1" class="listbox">
+                <p class="after"><a href="board/401">공지사항</a></p>
+                <ul>
+                    {% now "y-m-d" as todays_date %}
+                    {% now "y" as this_year %}
+                    {% for post in main1 %}
+                    <li>
+                        <a href="{{post.get_absolute_url}}">{{post.title}}</a>
+                        {% if post.upload_date|post_new %}
+                        <span>
+                            <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
+                        </span>
+                        {% endif %}
+                        <span class="date"><!--
+                            -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
+                            -->{{ post.upload_date|date:"H:i" }}<!--
+                            -->{% elif this_year == post.upload_date|date:"y" %}<!--
+                            -->{{ post.upload_date|date:"m-d"}}<!--
+                            -->{% else %}<!--
+                            -->{{ post.upload_date|date:"y-m-d" }}<!--
+                            -->{% endif %}<!--
+                        --></span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div id="main2" class="listbox">
+                <p class="after"><a href="board/402">교회소식</a></p>
+                <ul>
+                    {% now "y-m-d" as todays_date %}
+                    {% now "y" as this_year %}
+                    {% for post in main2 %}
+                    <li>
+                        <a href="{{post.get_absolute_url}}">{{post.title}}</a>
+                        {% if post.upload_date|post_new %}
+                        <span>
+                            <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
+                        </span>
+                        {% endif %}
+                        <span class="date"><!--
+                            -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
+                            -->{{ post.upload_date|date:"H:i" }}<!--
+                            -->{% elif this_year == post.upload_date|date:"y" %}<!--
+                            -->{{ post.upload_date|date:"m-d"}}<!--
+                            -->{% else %}<!--
+                            -->{{ post.upload_date|date:"y-m-d" }}<!--
+                            -->{% endif %}<!--
+                        --></span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div id="main3" class="listbox">
+                <p class="after"><a href="board/403">교우소식</a></p>
+                <ul>
+                    {% now "y-m-d" as todays_date %}
+                    {% now "y" as this_year %}
+                    {% for post in main3 %}
+                    <li>
+                        <a href="{{post.get_absolute_url}}">{{post.title}}</a>
+                        {% if post.upload_date|post_new %}
                         <span>
                             <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
                         </span>
@@ -119,98 +198,15 @@
                 </a>
                 <div></div>
             </div>
-            <div id="main1" class="listbox">
-                <p class="after"><a href="board/401">공지사항</a></p>
-                <ul>
-                    {% now "y-m-d" as todays_date %}
-                    {% now "y" as this_year %}
-                    {% for post in notice %}
-                    <li>
-                        <a href="{{post.get_absolute_url}}">{{post.title}}</a>
-                        {% if todays_date == post.upload_date|date:"y-m-d" %}
-                        <span>
-                            <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
-                        </span>
-                        {% endif %}
-                        <span class="date"><!--
-                            -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
-                            -->{{ post.upload_date|date:"H:i" }}<!--
-                            -->{% elif this_year == post.upload_date|date:"y" %}<!--
-                            -->{{ post.upload_date|date:"m-d"}}<!--
-                            -->{% else %}<!--
-                            -->{{ post.upload_date|date:"y-m-d" }}<!--
-                            -->{% endif %}<!--
-                        --></span>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div id="main2" class="listbox">
-                <p class="after"><a href="board/402">교회소식</a></p>
-                <ul>
-                    {% now "y-m-d" as todays_date %}
-                    {% now "y" as this_year %}
-                    {% for post in news_church %}
-                    <li>
-                        <a href="{{post.get_absolute_url}}">{{post.title}}</a>
-                        {% if todays_date == post.upload_date|date:"y-m-d" %}
-                        <span>
-                            <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
-                        </span>
-                        {% endif %}
-                        <span class="date"><!--
-                            -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
-                            -->{{ post.upload_date|date:"H:i" }}<!--
-                            -->{% elif this_year == post.upload_date|date:"y" %}<!--
-                            -->{{ post.upload_date|date:"m-d"}}<!--
-                            -->{% else %}<!--
-                            -->{{ post.upload_date|date:"y-m-d" }}<!--
-                            -->{% endif %}<!--
-                        --></span>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div id="main3" class="listbox">
-                <p class="after"><a href="board/403">교우소식</a></p>
-                <ul>
-                    {% now "y-m-d" as todays_date %}
-                    {% now "y" as this_year %}
-                    {% for post in news_mate %}
-                    <li>
-                        <a href="{{post.get_absolute_url}}">{{post.title}}</a>
-                        {% if todays_date == post.upload_date|date:"y-m-d" %}
-                        <span>
-                            <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
-                        </span>
-                        {% endif %}
-                        <span class="date"><!--
-                            -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
-                            -->{{ post.upload_date|date:"H:i" }}<!--
-                            -->{% elif this_year == post.upload_date|date:"y" %}<!--
-                            -->{{ post.upload_date|date:"m-d"}}<!--
-                            -->{% else %}<!--
-                            -->{{ post.upload_date|date:"y-m-d" }}<!--
-                            -->{% endif %}<!--
-                        --></span>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div id="main4">
-                <a href="#"><div>4번박스 - 1</div></a>
-                <a href="#"><div>4번박스 - 2</div></a>
-                <a href="#"><div>4번박스 - 3</div></a>
-            </div>
             <div id="main5" class="listbox">
                 <p class="after"><a href="board/407">기도요청</a></p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
-                    {% for post in prayrequest %}
+                    {% for post in main5 %}
                     <li>
                         <a href="{{post.get_absolute_url}}">{{post.title}}</a>
-                        {% if todays_date == post.upload_date|date:"y-m-d" %}
+                        {% if post.upload_date|post_new %}
                         <span>
                             <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
                         </span>
@@ -229,14 +225,14 @@
                 </ul>
             </div>
             <div id="main6" class="listbox">
-                <p class="after"><a href="board/803">주보게시판</a></p>
+                <p class="after"><a href="board/601">선교지소식</a></p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
-                    {% for post in weekly %}
+                    {% for post in main6 %}
                     <li>
                         <a href="{{post.get_absolute_url}}">{{post.title}}</a>
-                        {% if todays_date == post.upload_date|date:"y-m-d" %}
+                        {% if post.upload_date|post_new %}
                         <span>
                             <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
                         </span>
@@ -258,7 +254,7 @@
     </div>
     <div id="main_photo" class="after">
         <p>
-            <a href="#">교회 앨범</a>
+            <a href="/board/405">교회 앨범</a>
         </p>
         <div id="photowrap">
             {% for post in photo %}

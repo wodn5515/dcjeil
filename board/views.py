@@ -173,23 +173,34 @@ def post_write(request,menu):
             else:
                 forms = PostSuperuserForm(request.POST)
                 fileforms = PostFileFormset(request.POST, request.FILES)
+                if forms.is_valid() and fileforms.is_valid():
+                    reg = re.compile('/upload_files\S*[jpg,png,gif]')
+                    new_post = forms.save(commit=False)
+                    new_post.div = menu
+                    new_post.writer = request.user
+                    try:
+                        new_post.image = reg.search(new_post.content).group()
+                    except:
+                        new_post.image = ''
+                    new_post.save()
+                    files = fileforms.save(commit=False)
+                    for file in files:
+                        file.post = new_post
+                        file.save()
+                    return redirect(new_post)
         else:
             forms = PostWriteForm(request.POST)
-        if forms.is_valid() and fileforms.is_valid():
-            reg = re.compile('/upload_files\S*[jpg,png,gif]')
-            new_post = forms.save(commit=False)
-            new_post.div = menu
-            new_post.writer = request.user
-            try:
-                new_post.image = reg.search(new_post.content).group()
-            except:
-                new_post.image = ''
-            new_post.save()
-            files = fileforms.save(commit=False)
-            for file in files:
-                file.post = new_post
-                file.save()
-            return redirect(new_post)
+            if forms.is_valid():
+                reg = re.compile('/upload_files\S*[jpg,png,gif]')
+                new_post = forms.save(commit=False)
+                new_post.div = menu
+                new_post.writer = request.user
+                try:
+                    new_post.image = reg.search(new_post.content).group()
+                except:
+                    new_post.image = ''
+                new_post.save()
+                return redirect(new_post)
         return render(request, 'board_write.html', {
             'menu' : menu,
             'title' : get_title(menu),
@@ -207,13 +218,18 @@ def post_write(request,menu):
             else:
                 forms = PostSuperuserForm()
                 fileforms = PostFileFormset(queryset=PostFile.objects.none())
+            return render(request, 'board_write.html', {
+                'menu' : menu,
+                'title' : get_title(menu),
+                'forms' : forms,
+                'fileforms' : fileforms
+            })
         else:
             forms = PostWriteForm()
         return render(request, 'board_write.html', {
             'menu' : menu,
             'title' : get_title(menu),
-            'forms' : forms,
-            'fileforms' : fileforms
+            'forms' : forms
         })
 
 def post_update(request, menu, pk):
@@ -226,37 +242,56 @@ def post_update(request, menu, pk):
             if menu not in active:
                 forms = PostSuperuserForm(request.POST, instance=post)
                 fileforms = PostFileFormset(request.POST, request.FILES)
+                if forms.is_valid() and fileforms.is_valid():
+                    reg = re.compile('/upload_files\S*[jpg,png,gif]')
+                    updated_post = forms.save(commit=False)
+                    try:
+                        updated_post.image = reg.search(updated_post.content).group()
+                    except:
+                        updated_post.image = ''
+                    updated_post.save()
+                    files = fileforms.save()
+                    return redirect(updated_post)
+                fileforms = PostFileFormset(queryset=files)
+                return render(request, 'board_write.html', {
+                    'menu' : menu,
+                    'title' : get_title(menu),
+                    'forms' : forms,
+                    'fileforms' : fileforms
+                }) 
             else:
                 forms = PostWriteForm(request.POST, instance=post)
-            if forms.is_valid() and fileforms.is_valid():
-                reg = re.compile('/upload_files\S*[jpg,png,gif]')
-                updated_post = forms.save(commit=False)
-                try:
-                    updated_post.image = reg.search(updated_post.content).group()
-                except:
-                    updated_post.image = ''
-                updated_post.save()
-                files = fileforms.save()
-                return redirect(updated_post)
-            fileforms = PostFileFormset(queryset=files)
-            return render(request, 'board_write.html', {
-                'menu' : menu,
-                'title' : get_title(menu),
-                'forms' : forms,
-                'fileforms' : fileforms
-            }) 
+                if forms.is_valid():
+                    reg = re.compile('/upload_files\S*[jpg,png,gif]')
+                    updated_post = forms.save(commit=False)
+                    try:
+                        updated_post.image = reg.search(updated_post.content).group()
+                    except:
+                        updated_post.image = ''
+                    updated_post.save()
+                    return redirect(updated_post)
+                return render(request, 'board_write.html', {
+                    'menu' : menu,
+                    'title' : get_title(menu),
+                    'forms' : forms
+                }) 
         else:
             if menu not in active:
                 forms = PostSuperuserForm(instance=post)
                 fileforms = PostFileFormset(queryset=files)
+                return render(request, 'board_write.html', {
+                    'menu' : menu,
+                    'title' : get_title(menu),
+                    'forms' : forms,
+                    'fileforms' : fileforms
+                })
             else:
                 forms = PostWriteForm(instance=post)
-            return render(request, 'board_write.html', {
-                'menu' : menu,
-                'title' : get_title(menu),
-                'forms' : forms,
-                'fileforms' : fileforms
-            })
+                return render(request, 'board_write.html', {
+                    'menu' : menu,
+                    'title' : get_title(menu),
+                    'forms' : forms
+                })
     else:
         messages.info(request, '권한이 없습니다.')
         return redirect(post)
