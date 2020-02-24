@@ -22,7 +22,7 @@
                     <div class="td_title_title after">
                         <div><em>{% if post.date %}{{post.date|date:"Y-m-d"}} | {% endif %}{{post.title}}</em></div>
                         <span class="icon_wrap after"><!--
-                        -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
+                        -->{% if post.upload_date|post_new %}<!--
                         --><img class="icon" src="{% static 'img/newicon.png' %}" height="16px"><!--
                         -->{% endif %}<!--
                         -->{% if post.video %}<!--
