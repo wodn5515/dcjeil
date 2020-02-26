@@ -25,7 +25,7 @@ class UserAdmin(BaseUserAdmin):
         (None, {'fields': ('uid', 'password')}),
         (_('Personal info'), {'fields': ('name', 'email', 'tp', 'birthday')}),
         (_('추가정보'), {'fields': ('parish', 'office')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_superuser', 'groups')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_superuser', 'is_staff', 'groups')}),
     )
     add_fieldsets = (
         (None, {'fields': ('uid', 'password')}),
