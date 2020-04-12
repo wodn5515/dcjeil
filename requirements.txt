@@ -6,10 +6,12 @@ chardet==3.0.4
 colorama==0.4.0
 Django==2.1.15
 django-appconf==1.0.3
+django-ckeditor==5.8.0
 django-el-pagination==3.2.4
 django-haystack==2.8.1
 django-imagekit==4.0.2
 django-ipware==2.1.0
+django-js-asset==1.2.2
 django-xforwardedfor-middleware==2.0
 djangorestframework==3.11.0
 idna==2.8
