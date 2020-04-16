@@ -93,7 +93,7 @@ LOGIN_URL = '/login/'
 # Session management
 # https://docs.djangoproject.com/en/3.0/ref/settings/#settings-sessions
 
-SESSION_COOKIE_AGE = 60*30
+SESSION_COOKIE_AGE = 60*60
 SESSION_SAVE_EVERY_REQUEST = True
 
 # CKEDITOR SETTINGS

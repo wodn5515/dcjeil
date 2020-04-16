@@ -1,26 +1,2 @@
 <!-- 청년3부 -->
-<community-com inline-template :community_data="community_data" @community="community">
-    <div id="community" class="fixedview">
-        <div id="community_image">
-            <img :src="community_data.image" width="100%">
-        </div>
-        <div id="community_wrap">
-            <div class="container">
-                <p class="title">표 어</p>
-                <p class="content" v-html="community_data.title"></p>
-            </div>
-            <div class="container">
-                <p class="title">교육목표</p>
-                <p class="content" v-html="community_data.goal"></p>
-            </div>
-            <div class="container">
-                <p class="title">예배안내</p>
-                <p class="content" v-html="community_data.worship"></p>
-            </div>
-            <div class="container">
-                <p class="title">섬기는 이</p>
-                <p class="content" v-html="community_data.server"></p>
-            </div>
-        </div>
-    </div>
-</community-com>
+{% extends 'fixedboard/fixedboard_500.html' %}

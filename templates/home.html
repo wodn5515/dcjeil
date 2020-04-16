@@ -17,7 +17,7 @@
 </div>
 <div id="home_wrap" class="after" v-bind:class="{mob_menu_on:menu_token}">
     <div id="main_left">
-        <div id="carouselIndicators" class="carousel slide" data-ride="false">
+        <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-interval="7000">
             <div class="carousel-inner">
                 {% for carousel in carousel_list %}
                 <div class="carousel-item{% if forloop.counter == 1 %} active{% endif %}">
@@ -102,7 +102,7 @@
                 </ul>
             </div>
             <div id="main1" class="listbox">
-                <p class="after"><a href="board/401">공지사항</a></p>
+                <p class="after">공지사항<a href="board/401">더보기 +</a></p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
@@ -128,7 +128,7 @@
                 </ul>
             </div>
             <div id="main2" class="listbox">
-                <p class="after"><a href="board/402">교회소식</a></p>
+                <p class="after">교회소식<a href="board/402">더보기 +</a></p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
@@ -154,7 +154,7 @@
                 </ul>
             </div>
             <div id="main3" class="listbox">
-                <p class="after"><a href="board/403">교우소식</a></p>
+                <p class="after">교우소식<a href="board/403">더보기 +</a></p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
@@ -199,7 +199,7 @@
                 <div></div>
             </div>
             <div id="main5" class="listbox">
-                <p class="after"><a href="board/407">기도요청</a></p>
+                <p class="after">기도요청<a href="board/407">더보기</a></p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
@@ -225,7 +225,7 @@
                 </ul>
             </div>
             <div id="main6" class="listbox">
-                <p class="after"><a href="board/601">선교지소식</a></p>
+                <p class="after">선교지소식<a href="board/601">더보기 +</a></p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
@@ -253,9 +253,7 @@
         </div>
     </div>
     <div id="main_photo" class="after">
-        <p>
-            <a href="/board/405">교회 앨범</a>
-        </p>
+        <p>교회 앨범<a href="/board/405">더보기 +</a></p>
         <div id="photowrap">
             {% for post in photo %}
             <div class="photobox">
