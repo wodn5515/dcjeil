@@ -17,7 +17,7 @@
         <meta property="og:image" content="">
         <meta property="og:url" content="{{ request.get_full_path }}">
         <!--=========================================================================-->
-        <title>{% block title %}덕천제일교회-dev{% endblock title %}</title>
+        <title>{% block title %}덕천제일교회{% endblock title %}</title>
         {% block head %}
         <link rel="stylesheet" href="{% static 'css/common.css' %}">
         <link rel="stylesheet" href="{% static 'css/reset.css' %}">
@@ -39,6 +39,11 @@
                 <!-- 최상단 -->
                 <div id="top_wrap">
                     <div id="top_frame" class="after">
+                        <div id="top_logo" class="after">
+                            <a href="/">
+                                <img src="{% static 'img/top_logo_black.png' %}" alt="Main Top Logo" width="210px" height="70px">
+                            </a>
+                        </div>
                         <div id="top_navbar" class="after">
                             <ul class="after">
                                 {% if user.is_superuser %}
@@ -48,27 +53,21 @@
                                 {% endif %}
                                 {% if user.is_active %}
                                 <li>
-                                    <a href="{% url 'usercheck' %}">내 정보</a>
+                                    <a href="{% url 'usercheck' %}"><img src="{% static 'img/user_info.png' %}" width="30px" height="30px"><p>내 정보</p/></a>
                                 </li>
                                 <li class="log">
-                                    <a href="/logout?next={{request.path}}">로그아웃</a>
+                                    <a href="/logout?next={{request.path}}"><img src="{% static 'img/logout.png' %}" width="30px" height="30px"><p>로그아웃</p/></a>
                                 </li>
                                 {% else %}
                                 <li class="log">
-                                    <a href="/login?next={{request.path}}">로그인</a>
+                                    <a href="/login?next={{request.path}}"><img src="{% static 'img/login.png' %}" width="30px" height="30px"><p>로그인</p/></a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'register' %}">회원가입</a>
+                                    <a href="{% url 'register' %}"><img src="{% static 'img/registration.png' %}" width="30px" height="30px"><p>회원가입</p/></a>
                                 </li>
                                 {% endif %}
-                                <li>
-                                    <a href="/board/207">예배시간</a>
-                                </li>
-                                <li>
-                                    <a href="/board/106">오시는 길</a>
-                                </li>
                                 <li class="youtube">
-                                    <a target="_blank" href="https://www.youtube.com/channel/UCZYQiJFdOTlQ6jnoif2kPQQ">Youtube</a>
+                                    <a target="_blank" href="https://www.youtube.com/channel/UCZYQiJFdOTlQ6jnoif2kPQQ"><img src="{% static 'img/youtube_black.png' %}" width="30px" height="30px"><p>Youtube</p/></a>
                                 </li>
                             </ul>
                         </div>
@@ -77,11 +76,6 @@
                 <!-- 메뉴 -->
                 <div id="menu_wrap" class="after">
                     <div id="menu_frame" class="after">
-                        <div id="top_logo" class="after">
-                            <a href="/">
-                                <img src="{% static 'img/top_logo_black.png' %}" alt="Main Top Logo" width="210px" height="70px">
-                            </a>
-                        </div>
                         <div id="menu_nav" class="after">
                             <div id="main_menu" class="after">
                                 <ul>
