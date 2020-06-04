@@ -403,12 +403,12 @@ body.mob_menu_on{overflow:hidden;}
 }
 
 @media screen and (max-width:970px){
-    #header_mob{height:80px; width:100%; box-shadow:0px 1px 3px 1px #8f8f8f; position:sticky; top:0px; z-index:99; background-color:#0093e9;}
+    #header_mob{height:80px; width:100%; box-shadow:0px 0px 3px 1px #8f8f8f; position:sticky; top:0px; z-index:99; background-color:white;}
     #mob_menu_btn{float:left; margin: 16px 0 0 20px; border:2px solid #818181; border-radius:5px; display:none;}
     #mob_menu_btn img,
     #mob_home_btn img{vertical-align:middle;}
     #mob_home_btn{float:right; margin:16px 20px 0 0; border:2px solid #818181; border-radius:5px;}
-    #mob_logo{width:186px; margin:0 auto; height:auto;}
+    #mob_logo{width:180px; margin:0 auto; height:auto;}
     #mob_logo img{margin-top:10px;}
     #mob_menu_wrap{opacity:0; display:block; flex:0; width:260px; transform:translateX(-100%); position:fixed; background-color:white; height:100vh; z-index:9999; overflow-y:auto; overflow-x:hidden; transition:all .1s ease-in-out 0s;}
     #mob_menu_wrap.mob_menu_on{opacity:1; transform:translateX(0); flex:0 0 100%;}
@@ -443,6 +443,7 @@ body.mob_menu_on{overflow:hidden;}
 
     /* base */
     #menu_frame, #main_wrap, #wrapper, #footer_wrap{width:100%;}
+    #main_wrap{border:none;}
     #header_wrap, #side_nav_wrap{display:none;}
     #header_mob,
     #mob_menu_btn,
