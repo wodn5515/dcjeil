@@ -21,7 +21,7 @@
 #menu_nav{text-align:center;}
 #main_menu{font-size:0px;}
 #main_menu > ul > li{display:inline-block; font-size:17px; padding:0px; text-align:center;}
-#main_menu > ul > li > a{height:50px; line-height:50px; display:block; position:relative; padding:0px 20px; color:white; font-weight:bold;}
+#main_menu > ul > li > a{height:50px; line-height:50px; display:block; position:relative; padding:0px 25px; color:white; font-weight:bold;}
 #main_menu > ul > li > a:hover{color:#a8dfff;}
 #main_menu > ul > li > a > u{width:1px; height:3px; display:block; position:absolute; left:50%; bottom:0px; transition:all .2s ease;}
 #main_menu > ul > li:hover u{width:50%; margin-left:-25%; background-color:#a8dfff;}
