@@ -1,4 +1,8 @@
 /* 슬라이더 css */
+#carouselIndicators{
+  touch-action: manipulation;
+}
+
 .carousel{
   position:relative;
 }
@@ -159,4 +163,27 @@ img {
 }
 .carousel-control-next:hover {
   background-color:#0093e9;
+}
+
+
+@media screen and (max-width:500px){
+  .carousel-control-next, .carousel-control-prev {
+    height: 35px;
+    width: 35px;
+  }
+
+  .carousel-control-next-icon, .carousel-control-prev-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: transparent no-repeat center center;
+    background-size: 80% 80%;
+  }
+
+  .carousel-control-prev-icon > i,
+  .carousel-control-next-icon > i{
+    vertical-align:4px;
+    width:12px;
+    font-size:12px;
+  }
 }

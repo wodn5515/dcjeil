@@ -48,22 +48,22 @@
                             <ul class="after">
                                 {% if user.is_superuser %}
                                 <li>
-                                    <a href="/admin">관리자 페이지로..</a>
+                                    <a href="/admin"><img src="{% static 'img/settings.png' %}" width="30px" height="30px"><p>관리자 페이지로..</p></a>
                                 </li>
                                 {% endif %}
                                 {% if user.is_active %}
                                 <li>
-                                    <a href="{% url 'usercheck' %}"><img src="{% static 'img/user_info.png' %}" width="30px" height="30px"><p>내 정보</p/></a>
+                                    <a href="{% url 'usercheck' %}"><img src="{% static 'img/user_info.png' %}" width="30px" height="30px"><p>내 정보</p></a>
                                 </li>
                                 <li class="log">
-                                    <a href="/logout?next={{request.path}}"><img src="{% static 'img/logout.png' %}" width="30px" height="30px"><p>로그아웃</p/></a>
+                                    <a href="/logout?next={{request.path}}"><img src="{% static 'img/logout.png' %}" width="30px" height="30px"><p>로그아웃</p></a>
                                 </li>
                                 {% else %}
                                 <li class="log">
-                                    <a href="/login?next={{request.path}}"><img src="{% static 'img/login.png' %}" width="30px" height="30px"><p>로그인</p/></a>
+                                    <a href="/login?next={{request.path}}"><img src="{% static 'img/login.png' %}" width="30px" height="30px"><p>로그인</p></a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'register' %}"><img src="{% static 'img/registration.png' %}" width="30px" height="30px"><p>회원가입</p/></a>
+                                    <a href="{% url 'register' %}"><img src="{% static 'img/registration.png' %}" width="30px" height="30px"><p>회원가입</p></a>
                                 </li>
                                 {% endif %}
                                 <li class="youtube">
