@@ -33,6 +33,32 @@ def community_image_save(instance, filename):
 
 ###############################################################
 
+# 메뉴 관리 #
+class Mainmenu(models.Model):
+
+    class Meta:
+        verbose_name = ('메인메뉴 관리')
+        verbose_name_plural = ('메인메뉴 관리')
+
+    name = models.CharField(_('메뉴명'), max_length=100)
+    order = models.IntegerField(_('순서'), unique=True, help_text="낮을수록 먼저 배치됩니다")
+
+    def __str__(self):
+        return f'{self.name}'
+
+class Submenu(models.Model):
+
+    class Meta:
+        verbose_name = ('서브메뉴 관리')
+        verbose_name_plural = ('서브메뉴 관리')
+    
+    mainmenu = models.ForeignKey(Mainmenu, on_delete=models.CASCADE, verbose_name='메인메뉴', related_name='submenu')
+    name = models.CharField(_('메뉴명'), max_length=100)
+    order = models.IntegerField(_('순서'), help_text="낮을수록 먼저 배치됩니다")
+
+    def __str__(self):
+        return f'{self.mainmenu.name} - {self.name}'
+
 # 인사말 #
 class Welcome(models.Model):
 

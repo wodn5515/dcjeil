@@ -21,3 +21,8 @@ def filename(value):
 def post_new(date):
     day_difference = (timezone.now()-date).days
     return True if day_difference < 7 else False
+
+@register.filter
+def submenu_idx(idx):
+    idx = str(idx)
+    return '0' + idx if len(idx) == 1 else idx

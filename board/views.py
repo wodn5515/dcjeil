@@ -15,6 +15,7 @@ from django.db.models import Q
 from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
+from data.models import Mainmenu
 from .models import Post, Comment, PostFile
 from .forms import AddCommentForm, PostWriteForm, PostSuperuserForm, PostFileFormset
 import string, os, json, re
@@ -41,11 +42,11 @@ def get_title(pk):
         return div_arr[pk]
 
 def board(request, pk):
-
     kind = request.GET.get('s_kind', '')
     keyword = request.GET.get('s_keyword', '')
     pic_list = ['404','405','408']
     fixedboard = ['101','102','103','104','105','106','207','501','502','503','504','505','506','507','508','509','510','511','701']
+    menu = Mainmenu.objects.all().order_by('order')
     if pk in fixedboard:
         content = 'fixedboard/fixedboard_' + pk + '.html'
         return render(request, 'base_board.html', {
@@ -54,7 +55,8 @@ def board(request, pk):
             'menu_nav' : pk[0],
             'menu_no' : pk[1:],
             'pk' : pk,
-            'title' : get_title(pk)
+            'title' : get_title(pk),
+            'menu' : menu
             })
     else:
         page = request.GET.get('page','1')
@@ -97,11 +99,13 @@ def board(request, pk):
             'total': post_list_all.count()+1,
             'title' : get_title(pk),
             's_keyword' : keyword,
-            's_kind' : kind
+            's_kind' : kind,
+            'menu' : menu
         })
 
-def detail(request, menu, pk):
+def detail(request, borad_pk, pk):
     post = Post.objects.get(pk=pk)
+    menu = Mainmenu.objects.all().order_by('order')
     try:
         prev_post = Post.objects.filter(div=menu, upload_date__lt=post.upload_date).order_by('-upload_date')[0]
     except:
@@ -111,16 +115,17 @@ def detail(request, menu, pk):
     except:
         next_post = None
     return render(request, 'base_detail.html', {
-        'sidenav' : 'side_nav/side_nav_' + menu[0] + '.html',
+        'sidenav' : 'side_nav/side_nav_' + borad_pk[0] + '.html',
         'content' : 'detail.html',
-        'menu_nav' : menu[0],
-        'menu_no' : menu[1:],
+        'menu_nav' : borad_pk[0],
+        'menu_no' : borad_pk[1:],
         'post' : post,
-        'title' : get_title(menu),
-        'board_pk' : menu,
+        'title' : get_title(borad_pk),
+        'board_pk' : borad_pk,
         'pk': pk,
         'prev_post' : prev_post,
-        'next_post' : next_post
+        'next_post' : next_post,
+        'menu' : menu
     })
 
 def comments(request, pk):
@@ -159,24 +164,25 @@ def comment_delete(request, pk):
             return HttpResponse('삭제했습니다.')
         return HttpResponse('false||권한이 없습니다.')
 
-def post_write(request,menu):
+def post_write(request,borad_pk):
     user = request.user
     active = ['406','407','409','601','602','603','604','605','606','607','608','609','610','611','612','613','614','615','616']
+    menu = Mainmenu.objects.all().order_by('order')
     if request.method == "POST":
         if not user.is_authenticated:
             messages.info(request, '로그인 후 이용해주세요.')
             return redirect('/login?next='+request.path)
-        if menu not in active:
+        if borad_pk not in active:
             if not user.is_superuser:
                 messages.info(request, '관리자만 이용가능합니다.')
-                return redirect('board:board', menu)
+                return redirect('board:board', borad_pk)
             else:
                 forms = PostSuperuserForm(request.POST)
                 fileforms = PostFileFormset(request.POST, request.FILES)
                 if forms.is_valid() and fileforms.is_valid():
                     reg = re.compile('/upload_files\S*[jpg,png,gif]')
                     new_post = forms.save(commit=False)
-                    new_post.div = menu
+                    new_post.div = borad_pk
                     new_post.writer = request.user
                     try:
                         new_post.image = reg.search(new_post.content).group()
@@ -193,7 +199,7 @@ def post_write(request,menu):
             if forms.is_valid():
                 reg = re.compile('/upload_files\S*[jpg,png,gif]')
                 new_post = forms.save(commit=False)
-                new_post.div = menu
+                new_post.div = borad_pk
                 new_post.writer = request.user
                 try:
                     new_post.image = reg.search(new_post.content).group()
@@ -202,10 +208,11 @@ def post_write(request,menu):
                 new_post.save()
                 return redirect(new_post)
         return render(request, 'board_write.html', {
-            'menu' : menu,
-            'title' : get_title(menu),
+            'borad_pk' : borad_pk,
+            'title' : get_title(borad_pk),
             'forms' : forms,
-            'fileforms' : fileforms
+            'fileforms' : fileforms,
+            'menu' : menu
         })
     else:
         if not user.is_authenticated:
@@ -214,22 +221,24 @@ def post_write(request,menu):
         if menu not in active:
             if not user.is_superuser:
                 messages.info(request, '관리자만 이용가능합니다.')
-                return redirect('board:board', menu)
+                return redirect('board:board', borad_pk)
             else:
                 forms = PostSuperuserForm()
                 fileforms = PostFileFormset(queryset=PostFile.objects.none())
             return render(request, 'board_write.html', {
-                'menu' : menu,
-                'title' : get_title(menu),
+                'borad_pk' : borad_pk,
+                'title' : get_title(borad_pk),
                 'forms' : forms,
-                'fileforms' : fileforms
+                'fileforms' : fileforms,
+                'menu' : menu
             })
         else:
             forms = PostWriteForm()
         return render(request, 'board_write.html', {
-            'menu' : menu,
-            'title' : get_title(menu),
-            'forms' : forms
+            'borad_pk' : borad_pk,
+            'title' : get_title(borad_pk),
+            'forms' : forms,
+            'menu' : menu
         })
 
 def post_update(request, menu, pk):

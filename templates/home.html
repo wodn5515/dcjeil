@@ -282,15 +282,6 @@
         tabitem.addClass("active");
         tabitem_bef.removeClass("active")
     })
-
-    $(document).ready(function(){
-        $("#carouselIndicators").swiperight(function(){
-            $(this).carousel('prev');
-        });
-        $("#carouselIndicators").swipeleft(function(){
-            $(this).carousel('next');
-        });
-    })
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 {% endblock js %}
