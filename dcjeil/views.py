@@ -12,13 +12,14 @@ from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
 from board.models import Post
-from data.models import Carousel
+from data.models import Carousel, Mainmenu
 from .forms import UserCheckForm, UpdateForm1, UpdateForm2
 import string, os
 
 # 홈화면
 def home(request):
     carousel_list = Carousel.objects.all().order_by('order')
+    menu = Mainmenu.objects.all().order_by('order')
     try:
         tab1 = Post.objects.filter(div='201').order_by('-upload_date')[0]
     except:
@@ -49,7 +50,8 @@ def home(request):
         'main3' : main3,
         'main5' : main5,
         'main6' : main6,
-        'photo' : photo
+        'photo' : photo,
+        'menu' : menu
         })
 
 # 정보수정 비밀번호 확인
