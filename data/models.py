@@ -10,7 +10,7 @@ from imagekit.utils import get_cache
 from random import choice
 from ckeditor.fields import RichTextField
 from account.choice import OFFICE_CHOICES
-from .choice import DIV_CHOICES, COMMUNITY
+from .choice import DIV_CHOICES, COMMUNITY, MENUTYPE
 import string
 
 # Create your models here.
@@ -55,6 +55,7 @@ class Submenu(models.Model):
     mainmenu = models.ForeignKey(Mainmenu, on_delete=models.CASCADE, verbose_name='메인메뉴', related_name='submenu')
     name = models.CharField(_('메뉴명'), max_length=100)
     order = models.IntegerField(_('순서'), help_text="낮을수록 먼저 배치됩니다")
+    m_type = models.CharField(_('타입'), choices=MENUTYPE, max_length=50, default='list')
 
     def __str__(self):
         return f'{self.mainmenu.name} - {self.name}'
@@ -151,7 +152,7 @@ class Community(models.Model):
     div = models.CharField(_('구분'), max_length=10, choices=COMMUNITY, blank=True)
     image = models.ImageField(_('사진'), blank=True, upload_to=community_image_save)
     title = models.TextField(_('표어'), blank=True)
-    goal = models.TextField(_('교육목표'), blank=True)
+    goal = RichTextField(verbose_name=('교육목표'), blank=True)
     worship = models.TextField(_('예배안내'), blank=True)
     server = RichTextField(verbose_name=('섬기는 사람들'), blank=True)
 

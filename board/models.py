@@ -65,6 +65,7 @@ class Post(models.Model):
     content = RichTextUploadingField(verbose_name='내용', blank=True, null=True)
     views = models.IntegerField(_('조회수'), default=0)
     published = models.BooleanField(_('공개여부'), default=True)
+    notice = models.BooleanField(_('공지사항'), default=False)
     image = models.TextField(_('사진'), blank=True)
 
     def __str__(self):

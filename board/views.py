@@ -15,7 +15,7 @@ from django.db.models import Q
 from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
-from data.models import Mainmenu
+from data.models import Mainmenu, Submenu
 from .models import Post, Comment, PostFile
 from .forms import AddCommentForm, PostWriteForm, PostSuperuserForm, PostFileFormset
 import string, os, json, re
@@ -33,9 +33,7 @@ def get_title(pk):
         '501':'영아부', '502':'유치부', '503':'유년부',
         '504':'초등부', '505':'중등부', '506':'고등부', '507':'사랑부',
         '508':'청년1부', '509':'청년2부', '510':'청년3부',
-        '601':'선교위원회','602':'국내선교','603':'캄보디아','604':'인도','605':'일본','606':'태국',
-        '607':'필리핀','608':'이집트','609':'탄자니아','610':'카메룬','611':'남아공','612':'러시아',
-        '613':'볼리비아','614':'파푸아뉴기니','615':'헝가리','616':'단기선교',
+        '601':'선교위원회','602':'국내선교','603':'아시아','604':'아프리카','605':'기타','606':'단기선교',
         '701':'양육시스템', '702':'새가족부 자료실', '703':'확신반 자료실',
         '801':'문서자료실', '802':'기타자료실', '803':'주보자료실',
         }
@@ -44,68 +42,63 @@ def get_title(pk):
 def board(request, pk):
     kind = request.GET.get('s_kind', '')
     keyword = request.GET.get('s_keyword', '')
-    pic_list = ['404','405','408']
-    fixedboard = ['101','102','103','104','105','106','207','501','502','503','504','505','506','507','508','509','510','511','701']
     menu = Mainmenu.objects.all().order_by('order')
-    if pk in fixedboard:
+    menu_nav = pk[0]
+    menu_no = pk[1:]
+    now_menu = Submenu.objects.filter(mainmenu=menu_nav).get(order=int(menu_no))
+    if now_menu.m_type == 'fixed':
         content = 'fixedboard/fixedboard_' + pk + '.html'
-        return render(request, 'base_board.html', {
-            'sidenav' : 'side_nav/side_nav_' + pk[0] + '.html',
-            'content' : content,
-            'menu_nav' : pk[0],
-            'menu_no' : pk[1:],
-            'pk' : pk,
-            'title' : get_title(pk),
-            'menu' : menu
-            })
     else:
-        page = request.GET.get('page','1')
-        page_number_range = 5
-        if pk in pic_list:
-            content = 'piclist.html'
-        else:
-            content = 'list.html'
-        if kind == 'title':
-            post_list_all =  Post.objects.filter(div=pk).filter(Q(title__contains=keyword)|Q(date__contains=keyword)).order_by('-upload_date')
-        elif kind == 'content':
-            post_list_all =  Post.objects.filter(div=pk).filter(content__contains=keyword).order_by('-upload_date')
-        elif kind == 'title_content':
-            post_list_all =  Post.objects.filter(div=pk).filter(Q(title__contains=keyword)|Q(content__contains=keyword)|Q(date__contains=keyword)).order_by('-upload_date')
-        elif kind == 'writer':
-            post_list_all =  Post.objects.filter(div=pk).filter(writer__name__contains=keyword).order_by('-upload_date')
-        else:
-            post_list_all = Post.objects.filter(div=pk).order_by('-upload_date')
-        paginator = Paginator(post_list_all, 16)
-        try:
-            post_list = paginator.page(page)
-        except PageNotAnInteger:
-            post_list = paginator.page(1)
-        except EmptyPage:
-            post_list = paginator.page(paginator.num_pages)
-        start_index = page_number_range * ((int(page)-1)//page_number_range) + 1
-        end_index = start_index + page_number_range
-        max_index = len(paginator.page_range)+1
-        if end_index >= max_index:
-            end_index = max_index
-        page_range = range(start_index, end_index)
-        return render(request, 'base_board.html', {
-            'sidenav' : 'side_nav/side_nav_' + pk[0] + '.html',
-            'content' : content,
-            'menu_nav' : pk[0],
-            'menu_no' : pk[1:],
-            'post_list' : post_list,
-            'page_range' : page_range,
-            'pk' : pk,
-            'total': post_list_all.count()+1,
-            'title' : get_title(pk),
-            's_keyword' : keyword,
-            's_kind' : kind,
-            'menu' : menu
-        })
+        content = now_menu.m_type + '.html'
+    notice_list = Post.objects.filter(div=pk).filter(notice=True)
+    page = request.GET.get('page','1')
+    page_number_range = 5
+    if kind == 'title':
+        post_list_all =  Post.objects.filter(div=pk).filter(Q(title__contains=keyword)|Q(date__contains=keyword)).order_by('-upload_date')
+    elif kind == 'content':
+        post_list_all =  Post.objects.filter(div=pk).filter(content__contains=keyword).order_by('-upload_date')
+    elif kind == 'title_content':
+        post_list_all =  Post.objects.filter(div=pk).filter(Q(title__contains=keyword)|Q(content__contains=keyword)|Q(date__contains=keyword)).order_by('-upload_date')
+    elif kind == 'writer':
+        post_list_all =  Post.objects.filter(div=pk).filter(writer__name__contains=keyword).order_by('-upload_date')
+    else:
+        post_list_all = Post.objects.filter(div=pk).order_by('-upload_date')
+    paginator = Paginator(post_list_all, 16)
+    try:
+        post_list = paginator.page(page)
+    except PageNotAnInteger:
+        post_list = paginator.page(1)
+    except EmptyPage:
+        post_list = paginator.page(paginator.num_pages)
+    start_index = page_number_range * ((int(page)-1)//page_number_range) + 1
+    end_index = start_index + page_number_range
+    max_index = len(paginator.page_range)+1
+    if end_index >= max_index:
+        end_index = max_index
+    page_range = range(start_index, end_index)
+    return render(request, 'base_board.html', {
+        'sidenav' : 'side_nav/side_nav_' + menu_nav + '.html',
+        'content' : content,
+        'menu_nav' : menu_nav,
+        'menu_no' : menu_no,
+        'notice_list' : notice_list,
+        'post_list' : post_list,
+        'page_range' : page_range,
+        'pk' : pk,
+        'total': post_list_all.count()+1,
+        'title' : get_title(pk),
+        's_keyword' : keyword,
+        's_kind' : kind,
+        'menu' : menu,
+        'now_menu' : now_menu
+    })
 
 def detail(request, borad_pk, pk):
     post = Post.objects.get(pk=pk)
     menu = Mainmenu.objects.all().order_by('order')
+    menu_nav = pk[0]
+    menu_no = pk[1:]
+    now_menu = Submenu.objects.filter(mainmenu=menu_nav).get(order=int(menu_no))
     try:
         prev_post = Post.objects.filter(div=menu, upload_date__lt=post.upload_date).order_by('-upload_date')[0]
     except:
@@ -117,15 +110,16 @@ def detail(request, borad_pk, pk):
     return render(request, 'base_detail.html', {
         'sidenav' : 'side_nav/side_nav_' + borad_pk[0] + '.html',
         'content' : 'detail.html',
-        'menu_nav' : borad_pk[0],
-        'menu_no' : borad_pk[1:],
+        'menu_nav' : menu_nav,
+        'menu_no' : menu_no,
         'post' : post,
         'title' : get_title(borad_pk),
         'board_pk' : borad_pk,
         'pk': pk,
         'prev_post' : prev_post,
         'next_post' : next_post,
-        'menu' : menu
+        'menu' : menu,
+        'now_menu' : now_menu
     })
 
 def comments(request, pk):
@@ -168,6 +162,9 @@ def post_write(request,borad_pk):
     user = request.user
     active = ['406','407','409','601','602','603','604','605','606','607','608','609','610','611','612','613','614','615','616']
     menu = Mainmenu.objects.all().order_by('order')
+    menu_nav = borad_pk[0]
+    menu_no = borad_pk[1:]
+    now_menu = Submenu.objects.filter(mainmenu=menu_nav).get(order=int(menu_no))
     if request.method == "POST":
         if not user.is_authenticated:
             messages.info(request, '로그인 후 이용해주세요.')
@@ -212,7 +209,8 @@ def post_write(request,borad_pk):
             'title' : get_title(borad_pk),
             'forms' : forms,
             'fileforms' : fileforms,
-            'menu' : menu
+            'menu' : menu,
+            'now_menu' : now_menu
         })
     else:
         if not user.is_authenticated:
@@ -230,7 +228,8 @@ def post_write(request,borad_pk):
                 'title' : get_title(borad_pk),
                 'forms' : forms,
                 'fileforms' : fileforms,
-                'menu' : menu
+                'menu' : menu,
+            'now_menu' : now_menu
             })
         else:
             forms = PostWriteForm()
@@ -238,69 +237,74 @@ def post_write(request,borad_pk):
             'borad_pk' : borad_pk,
             'title' : get_title(borad_pk),
             'forms' : forms,
-            'menu' : menu
+            'menu' : menu,
+            'now_menu' : now_menu
         })
 
-def post_update(request, menu, pk):
-    active = ['406','407','409','601','602','603','604','605','606','607','608','609','610','611','612','613','614','615','616']
+def post_update(request, borad_pk, pk):
+    active = ['406','407','409','601','602','603','604','605','606']
+    menu = Mainmenu.objects.all().order_by('order')
     user = request.user
     post = Post.objects.get(pk=pk)
     files = PostFile.objects.filter(post=post)
-    if post.writer == user or user.is_superuser:
+    if user.is_superuser:
         if request.method == 'POST':
-            if menu not in active:
-                forms = PostSuperuserForm(request.POST, instance=post)
-                fileforms = PostFileFormset(request.POST, request.FILES)
-                if forms.is_valid() and fileforms.is_valid():
-                    reg = re.compile('/upload_files\S*[jpg,png,gif]')
-                    updated_post = forms.save(commit=False)
-                    try:
-                        updated_post.image = reg.search(updated_post.content).group()
-                    except:
-                        updated_post.image = ''
-                    updated_post.save()
-                    files = fileforms.save()
-                    return redirect(updated_post)
-                fileforms = PostFileFormset(queryset=files)
-                return render(request, 'board_write.html', {
-                    'menu' : menu,
-                    'title' : get_title(menu),
-                    'forms' : forms,
-                    'fileforms' : fileforms
-                }) 
-            else:
-                forms = PostWriteForm(request.POST, instance=post)
-                if forms.is_valid():
-                    reg = re.compile('/upload_files\S*[jpg,png,gif]')
-                    updated_post = forms.save(commit=False)
-                    try:
-                        updated_post.image = reg.search(updated_post.content).group()
-                    except:
-                        updated_post.image = ''
-                    updated_post.save()
-                    return redirect(updated_post)
-                return render(request, 'board_write.html', {
-                    'menu' : menu,
-                    'title' : get_title(menu),
-                    'forms' : forms
-                }) 
+            forms = PostSuperuserForm(request.POST, instance=post)
+            fileforms = PostFileFormset(request.POST, request.FILES)
+            if forms.is_valid() and fileforms.is_valid():
+                reg = re.compile('/upload_files\S*[jpg,png,gif]')
+                updated_post = forms.save(commit=False)
+                try:
+                    updated_post.image = reg.search(updated_post.content).group()
+                except:
+                    updated_post.image = ''
+                updated_post.save()
+                files = fileforms.save()
+                return redirect(updated_post)
+            fileforms = PostFileFormset(queryset=files)
+            return render(request, 'board_write.html', {
+                'borad_pk' : borad_pk,
+                'title' : get_title(borad_pk),
+                'forms' : forms,
+                'fileforms' : fileforms,
+                'menu' : menu
+            }) 
         else:
-            if menu not in active:
-                forms = PostSuperuserForm(instance=post)
-                fileforms = PostFileFormset(queryset=files)
-                return render(request, 'board_write.html', {
-                    'menu' : menu,
-                    'title' : get_title(menu),
-                    'forms' : forms,
-                    'fileforms' : fileforms
-                })
-            else:
-                forms = PostWriteForm(instance=post)
-                return render(request, 'board_write.html', {
-                    'menu' : menu,
-                    'title' : get_title(menu),
-                    'forms' : forms
-                })
+            forms = PostSuperuserForm(instance=post)
+            fileforms = PostFileFormset(queryset=files)
+            return render(request, 'board_write.html', {
+                'borad_pk' : borad_pk,
+                'title' : get_title(borad_pk),
+                'forms' : forms,
+                'fileforms' : fileforms,
+                'menu' : menu
+            })
+    elif post.writer == user:
+        if request.method == 'POST':
+            forms = PostWriteForm(request.POST, instance=post)
+            if forms.is_valid():
+                reg = re.compile('/upload_files\S*[jpg,png,gif]')
+                updated_post = forms.save(commit=False)
+                try:
+                    updated_post.image = reg.search(updated_post.content).group()
+                except:
+                    updated_post.image = ''
+                updated_post.save()
+                return redirect(updated_post)
+            return render(request, 'board_write.html', {
+                'borad_pk' : borad_pk,
+                'title' : get_title(borad_pk),
+                'forms' : forms,
+                'menu' : menu
+            })
+        else:
+            forms = PostWriteForm(instance=post)
+            return render(request, 'board_write.html', {
+                'borad_pk' : borad_pk,
+                'title' : get_title(borad_pk),
+                'forms' : forms,
+                'menu' : menu
+            })
     else:
         messages.info(request, '권한이 없습니다.')
         return redirect(post)
