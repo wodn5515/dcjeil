@@ -80,7 +80,7 @@ def community(request, div):
     community = Community.objects.get(div=div)
     data['image'] = community.image.url
     data['title'] = community.title.replace('\n', '<br>')
-    data['goal'] = community.goal.replace('\n', '<br>')
+    data['goal'] = community.goal
     data['worship'] = community.worship.replace('\n', '<br>')
     data['server'] = community.server
     return JsonResponse(data, safe=False)

@@ -8,62 +8,17 @@
         <li{% if menu_no == '02' %} class="on"{% endif %}>
             <a href="/board/602">국내선교</a>
         </li>
-        <li class="mission{% if menu_no in '03,04,05,06,07' %} on{% endif %}">
+        <li{% if menu_no == '03' %} class="on"{% endif %}>
             <a href="/board/603">아시아</a>
-            <ul>
-                <li{% if menu_no == '03' %} class="on"{% endif %}>
-                    <a href="/board/603">캄보디아</a>
-                </li>
-                <li{% if menu_no == '04' %} class="on"{% endif %}>
-                    <a href="/board/604">인도</a>
-                </li>
-                <li{% if menu_no == '05' %} class="on"{% endif %}>
-                    <a href="/board/605">일본</a>
-                </li>
-                <li{% if menu_no == '06' %} class="on"{% endif %}>
-                    <a href="/board/606">태국</a>
-                </li>
-                <li{% if menu_no == '07' %} class="on"{% endif %}>
-                    <a href="/board/607">필리핀</a>
-                </li>
-            </ul>
         </li>
-        <li class="mission{% if menu_no in '08,09,10,11' %} on{% endif %}">
-            <a href="/board/608">아프리카</a>
-            <ul>
-                <li{% if menu_no == '08' %} class="on"{% endif %}>
-                    <a href="/board/608">이집트</a>
-                </li> 
-                <li{% if menu_no == '09' %} class="on"{% endif %}>
-                    <a href="/board/609">탄자니아</a>
-                </li>
-                <li{% if menu_no == '10' %} class="on"{% endif %}>
-                    <a href="/board/610">카메룬</a>
-                </li>
-                <li{% if menu_no == '11' %} class="on"{% endif %}>
-                    <a href="/board/611">남아공</a>
-                </li>
-            </ul>
+        <li{% if menu_no == '04' %} class="on"{% endif %}>
+            <a href="/board/604">아프리카</a>
         </li>
-        <li class="mission{% if menu_no in '12,13,14,15' %} on{% endif %}">
-            <a href="/board/612">기타</a>
-            <ul>
-                <li{% if menu_no == '12' %} class="on"{% endif %}>
-                    <a href="/board/612">러시아</a>
-                </li>
-                <li{% if menu_no == '13' %} class="on"{% endif %}>
-                    <a href="/board/613">볼리비아</a>
-                </li>
-                <li{% if menu_no == '14' %} class="on"{% endif %}>
-                    <a href="/board/614">파푸아뉴기니</a>
-                </li>
-                <li{% if menu_no == '15' %} class="on"{% endif %}>
-                    <a href="/board/615">헝가리</a>
-                </li>
-            </ul>
+        <li{% if menu_no == '05' %} class="on"{% endif %}>
+            <a href="/board/605">기타</a>
         </li>
-        <li{% if menu_no == '16' %} class="on"{% endif %}>
-            <a href="/board/616">단기선교</a>
+        <li{% if menu_no == '06' %} class="on"{% endif %}>
+            <a href="/board/606">단기선교</a>
         </li>
     </ul>
 </div>
