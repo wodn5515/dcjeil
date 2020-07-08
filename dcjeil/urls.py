@@ -23,19 +23,21 @@ from django.views.decorators.cache import never_cache
 from ckeditor_uploader import views as ckeditor_views
 from . import views
 from board import views as board_views
-from account import views as account_views
+from member import views as account_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('board/', include('board.urls')),
     path('data/', include('data.urls')),
+    path('accounts/', include('allauth.urls')),
     path('login/', account_views.login_view, name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('login/finduid', account_views.finduid, name='finduid'),
     path('login/finduid2', account_views.finduid2, name='finduid2'),
     path('login/findpassword', account_views.findpassword, name='findpassword'),
     path('login/findpassword2', account_views.findpassword2, name='findpassword2'),
+    path('login/social/naver/callback', account_views.NaverLoginCallbackView.as_view(), name='naverlogincallback'),
     path('register', account_views.register, name='register'),
     path('registerform', account_views.registerform, name='registerform'),
     path('registersubmit', account_views.registersubmit, name='registersubmit'),

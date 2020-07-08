@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # Application definition
 
 INSTALLED_APPS = [
-    'account.apps.AccountConfig',
+    'member.apps.MemberConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -87,7 +87,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # AUTH SETTINGS
 
-AUTH_USER_MODEL = 'account.User'
+AUTH_USER_MODEL = 'member.User'
 LOGIN_URL = '/login/'
 
 # Session management

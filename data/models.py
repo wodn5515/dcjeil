@@ -9,7 +9,7 @@ from imagekit.processors import Thumbnail
 from imagekit.utils import get_cache
 from random import choice
 from ckeditor.fields import RichTextField
-from account.choice import OFFICE_CHOICES
+from member.choice import OFFICE_CHOICES
 from .choice import DIV_CHOICES, COMMUNITY, MENUTYPE
 import string
 

@@ -26,3 +26,7 @@ def post_new(date):
 def submenu_idx(idx):
     idx = str(idx)
     return '0' + idx if len(idx) == 1 else idx
+
+@register.filter
+def get_parameters(url):
+    return '?' + url.split('?')[1]

@@ -22,7 +22,7 @@
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script src="https://kit.fontawesome.com/41217280d3.js" crossorigin="anonymous"></script>
     </head>
-    <body>
+    <body id="login">
         <div id="header">
             <h1>
                 <a style="display:block;" href="/">
@@ -30,12 +30,19 @@
                 </a>
             </h1>
         </div>
-        <div id="container">
+        <div id="login_wrap">
             <div class="wrap">
-                <form name="login" action="" method="POST">
+            {% load board_tag %}
+                <form name="login" action="/login/{{request.get_full_path|get_parameters}}" method="POST">
                     {% csrf_token %}
-                    <input autocomplete="off" placeholder="아이디" name="username" type="text" autofocus>
+                    {% if forms %}
+                    {% for field in forms %}
+                    {{ field }}
+                    {% endfor %}
+                    {% else %}
+                    <input autocomplete="off" placeholder="아이디" name="uid" type="text" autofocus>
                     <input autocomplete="off" placeholder="비밀번호" name="password" type="password">
+                    {% endif %}
                     <p class='login_error'>
                         {% if form.non_field_errors %}
                                 {{form.non_field_errors.0}}
@@ -45,6 +52,7 @@
                 </form>
             </div>
         </div>
+        {% include "registration/social_login.html" %}
         <div id="footer">
             <div class="wrap">
                 <a href="/login/finduid" target="_blank" id="find_uid">아이디 찾기</a>
