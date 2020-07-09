@@ -86,10 +86,9 @@ def register(request):
 @user_passes_test(not_logged_in, 'home')
 def registerform(request):
     if request.method == "POST":
-        forms = RegisterForm1(request.POST)
+        forms = RegisterForm(request.POST)
         if forms.is_valid():
-            temp_new_account = forms.save(commit=False)
-            new_account = RegisterForm2(request.POST, instance=temp_new_account)
+            new_account = forms.save(commit=False)
             new_account.save()
             request.session['register_submit'] = True
             return redirect(reverse('registersubmit'))
@@ -99,7 +98,7 @@ def registerform(request):
     else:
         if not request.session.get('register_agree', False):
             return redirect(reverse('register'))
-        forms = RegisterForm1()
+        forms = RegisterForm()
         request.session['register_agree'] = False
         return render(request, 'registration/registerform.html', {
             'forms' : forms,
