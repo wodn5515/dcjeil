@@ -28,5 +28,5 @@ class NaverLoginMixin:
             return False, profiles
         
         # 유저 생성 또는 업데이트
-        
+        user, created = self.model.objects.get_or_create
         
