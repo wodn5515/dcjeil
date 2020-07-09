@@ -18,21 +18,19 @@ class UserAdmin(BaseUserAdmin):
     # The forms to add and change user instances
     form = UserChangeForm
     add_form = UserCreationForm
-    list_display = ('name', 'email', 'last_login', 'is_active', 'is_superuser', 'date_joined', 'parish', 'office')
+    list_display = ('name', 'last_login', 'is_active', 'is_superuser', 'date_joined',)
     list_display_links = ('name',)
-    list_filter = ('is_active', 'office', 'parish')
+    list_filter = ('is_active',)
     fieldsets = (
-        (None, {'fields': ('uid', 'password')}),
-        (_('Personal info'), {'fields': ('name', 'email', 'tp', 'birthday')}),
-        (_('추가정보'), {'fields': ('parish', 'office')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_superuser', 'is_staff', 'groups')}),
+        (None, {'fields': ('uid', 'password',)}),
+        (_('Personal info'), {'fields': ('name',)}),
+        (_('Permissions'), {'fields': ('is_active', 'is_superuser', 'is_staff', 'groups',)}),
     )
     add_fieldsets = (
-        (None, {'fields': ('uid', 'password')}),
-        (_('Personal info'), {'fields': ('name', 'email', 'tp', 'birthday')}),
-        (_('추가정보'), {'fields': ('parish', 'office')}),
+        (None, {'fields': ('uid', 'password',)}),
+        (_('Personal info'), {'fields': ('name',)}),
     )
-    search_fields = ('tp', 'name', 'uid', 'email', 'birthday')
+    search_fields = ('name', 'uid',)
     filter_horizontal = ()
     ordering = ['uid',]
     actions = [make_is_active, make_is_inactive]

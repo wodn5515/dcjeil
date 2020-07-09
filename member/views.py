@@ -1,19 +1,22 @@
 import logging
+from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth import authenticate, login
+from django.middleware.csrf import _compare_salted_tokens
 from django.views.decorators.http import require_POST, require_GET
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
 from django.utils.dateparse import parse_date
 from django.db import IntegrityError
 from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
 from .models import User
+from .forms import FinduidForm, FindPasswordForm, RegisterForm, LoginForm
+from .oauth.providers.naver import NaverLoginMixin
 from board.models import Post
-from .forms import FinduidForm, FindPasswordForm, RegisterForm1, RegisterForm2, LoginForm
 import string, os
 
 # Create your views here.
@@ -25,13 +28,13 @@ def not_logged_in(user):
 
 # 로그인 화면
 def login_view(request):
-    form = LoginForm(request.POST or None)
-    if request.POST and form.is_valid():
-        user = form.login(request)
+    forms = LoginForm(request.POST or None)
+    if request.POST and forms.is_valid():
+        user = forms.login(request)
         if user:
             login(request, user)
             return HttpResponseRedirect(request.GET.get('next'))
-    return render(request, 'registration/login.html', {'form': form })
+    return render(request, 'registration/login.html', {'forms': forms })
 
 # 아이디 찾기 입력창
 def finduid(request):
@@ -83,27 +86,23 @@ def register(request):
 @user_passes_test(not_logged_in, 'home')
 def registerform(request):
     if request.method == "POST":
-        forms1 = RegisterForm1(request.POST)
-        forms2 = RegisterForm2(request.POST)
-        if forms1.is_valid() and forms2.is_valid():
-            temp_new_account = forms1.save(commit=False)
+        forms = RegisterForm1(request.POST)
+        if forms.is_valid():
+            temp_new_account = forms.save(commit=False)
             new_account = RegisterForm2(request.POST, instance=temp_new_account)
             new_account.save()
             request.session['register_submit'] = True
             return redirect(reverse('registersubmit'))
         return render(request, 'registration/registerform.html', {
-            'forms1' : forms1,
-            'forms2' : forms2
+            'forms' : forms,
         })
     else:
         if not request.session.get('register_agree', False):
             return redirect(reverse('register'))
-        forms1 = RegisterForm1()
-        forms2 = RegisterForm2()
+        forms = RegisterForm1()
         request.session['register_agree'] = False
         return render(request, 'registration/registerform.html', {
-            'forms1' : forms1,
-            'forms2' : forms2
+            'forms' : forms,
         })
 
 # 회원가입 결과창
@@ -113,3 +112,26 @@ def registersubmit(request):
         return redirect(reverse('register'))
     request.session['register_submit'] = False
     return render(request, 'registration/registerresult.html')
+
+#네이버 소셜 로그인
+class NaverLoginCallbackView(NaverLoginMixin, View):
+    
+    success_url = settings.LOGIN_REDIRECT_URL
+    failure_url = settings.LOGIN_URL
+    required_profiles = ['name']
+    model = get_user_model()
+
+    def get(self, request, *args, **kwargs):
+        csrf_token = request.GET.get('state')
+        code = request.GET.get('code')
+        if not _compare_salted_tokens(csrf_token, request.COOKIE.get('csrftoken')): # state(csrf_token)이 잘못된 경우
+            messages.error(request, '잘못된 경로로 로그인하셨습니다.', extra_tags='danger')
+            return HttpResponseRedirect(self.failure_url)
+        is_success, error = self.naver_with_naver(csrf_token, code)
+        if not is_success: # 로그인 실패할 경우
+            messages.error(request, error, extra_tags='danger')
+        return HttpResponseRedirect(self.success_url if is_success else self.failure_url)
+
+    def get_session(self, **kwargs):
+        for key, value in kwargs.items():
+            self.request.session[key] = value

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.password_validation import validate_password
-from account.models import User
+from member.models import User
 
 
 class UserCheckForm(forms.Form):
@@ -14,10 +14,10 @@ class UserCheckForm(forms.Form):
         }
     ), required=True)
     
-class UpdateForm1(forms.ModelForm):
+class UpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label_suffix', '')
-        super(UpdateForm1, self).__init__(*args, **kwargs)
+        super(UpdateForm, self).__init__(*args, **kwargs)
 
     password = forms.CharField(label="비밀번호", required=False, widget=forms.PasswordInput(), help_text="◈변경 시에만 입력해주세요.<br>◈영문,숫자조합 8-20자")
     confirm_password = forms.CharField(label="비밀번호 확인", required=False, widget=forms.PasswordInput(attrs={
@@ -26,7 +26,7 @@ class UpdateForm1(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('uid', 'password')
+        fields = ('name', 'uid', 'password')
         widget = {
             'uid' : forms.TextInput(attrs={
                 'autofocus' : 'on'
@@ -65,18 +65,3 @@ class UpdateForm1(forms.ModelForm):
         else:
             user.set_password(self.cleaned_data["password"])
         return user
-
-
-class UpdateForm2(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        kwargs.setdefault('label_suffix', '')
-        super(UpdateForm2, self).__init__(*args, **kwargs)
-
-    birthday = forms.DateField(label="생년월일", required=False, widget=forms.SelectDateWidget(empty_label=("-년도-", "--월--", "--일--"), years=range(2020, 1900, -1)))
-
-    class Meta:
-        model = User
-        fields = ('name', 'email', 'tp', 'birthday', 'office',)
-        help_texts = {
-            'tp': "◈ '-'를 제외한 숫자만 입력해주세요."
-        }

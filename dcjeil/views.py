@@ -13,7 +13,7 @@ from imagekit.utils import get_cache
 from random import choice
 from board.models import Post
 from data.models import Carousel, Mainmenu
-from .forms import UserCheckForm, UpdateForm1, UpdateForm2
+from .forms import UserCheckForm, UpdateForm
 import string, os
 
 # 홈화면
@@ -80,26 +80,21 @@ def userupdate(request):
     if request.method == "POST":
         user = request.user
         forms1 = UpdateForm1(request.POST, instance=user)
-        forms2 = UpdateForm2(request.POST, instance=user)
-        if forms1.is_valid() and forms2.is_valid():
+        if forms1.is_valid():
             forms1.save()
-            forms2.save()
             request.session['userupdate'] = True
             return redirect(reverse('userresult'))
         return render(request, 'user/userupdate.html', {
-            'forms1' : forms1,
-            'forms2' : forms2
+            'forms1' : forms1
         })
     else:
         if not request.session.get('usercheck', False):
             return redirect(reverse('usercheck'))
         user = request.user
         forms1 = UpdateForm1(instance=user)
-        forms2 = UpdateForm2(instance=user)
         request.session['user_check'] = False
         return render(request, 'user/userupdate.html', {
-            'forms1' : forms1,
-            'forms2' : forms2
+            'forms1' : forms1
         })
 
 # 정보수정 결과

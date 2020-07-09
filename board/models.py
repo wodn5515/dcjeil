@@ -8,7 +8,7 @@ from imagekit.models import ImageSpecField
 from imagekit.processors import Thumbnail
 from imagekit.utils import get_cache
 from random import choice
-from account.models import User as account
+from member.models import User as account
 import string
 
 '''--------------------------- Abandoned ----------------------------'''

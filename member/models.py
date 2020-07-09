@@ -8,21 +8,17 @@ from .choice import *
 # Create your models here.
 
 class UserManager(BaseUserManager):
-    def create_user(self, uid, name, tp, birthday, email, office, password):
+    def create_user(self, uid, name, password):
         user = self.model(
             uid=uid,
             name=name,
-            tp=tp,
-            birthday=birthday,
-            email=email,
-            office=office
             )
         
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, uid, name, tp, birthday, email, office, password):
+    def create_superuser(self, uid, name, password):
         """
         주어진 이메일, 닉네임, 비밀번호 등 개인정보로 User 인스턴스 생성
         단, 최상위 사용자이므로 권한을 부여한다. 
@@ -31,10 +27,6 @@ class UserManager(BaseUserManager):
             uid=uid,
             name=name,
             password=password,
-            tp=tp,
-            birthday=birthday,
-            email=email,
-            office=office
         )
 
         user.is_superuser = True
@@ -45,10 +37,6 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(_('이름'), max_length = 5)
-    birthday = models.DateField(_('생년월일'))
-    office = models.CharField(_('직분'), choices=OFFICE_CHOICES, max_length = 10)
-    parish = models.CharField(_('교구'), max_length = 10, blank = True)
-    address = models.CharField(_('주소'), max_length = 255, blank = True)
     is_active = models.BooleanField(_('승인'), default=False)
     is_staff = models.BooleanField(_('스태프'), default=False)
     is_superuser = models.BooleanField(_('관리자'), default=False)
@@ -58,21 +46,11 @@ class User(AbstractBaseUser, PermissionsMixin):
             'unique' : _("이미 가입된 아이디 입니다."),
         },
     )
-    tp = models.CharField(_('연락처'), max_length = 15, unique = True,
-        error_messages = {
-            'unique' : _("이미 가입된 연락처 입니다.")
-        }
-    )
-    email = models.EmailField(_('이메일'), max_length = 255, unique = True,
-        error_messages = {
-            'unique' : _("이미 가입된 이메일 입니다."),
-        },
-    )
 
     objects = UserManager()
 
     USERNAME_FIELD = 'uid'
-    REQUIRED_FIELDS = ['name', 'tp', 'email', 'birthday', 'office']
+    REQUIRED_FIELDS = ['name']
 
     class Meta:
         verbose_name = _('회원')
@@ -80,7 +58,4 @@ class User(AbstractBaseUser, PermissionsMixin):
         ordering = ('-date_joined',)
 
     def __str__(self):
-        if self.parish:
-            return f'{self.parish} - {self.name}'
-        else:
-            return f'{self.name}'
+        return f'{self.name}'

@@ -1,17 +1,22 @@
 /*로그인, common*/
-#header, #container, #footer{width:480px; margin:0 auto;}
+body#login{width:480px; margin:0 auto;}
+#header, #login_wrap, #social_login_wrap, #footer{width:100%;}
 #header{padding-top:50px;}
 #header > h1{width:288px; margin:0 auto;}
 
-#container{margin-top:70px;}
-#container > .wrap{width:100%; margin:0 auto; border:2px solid #0093e9; border-radius:10px; padding:30px 30px 10px 30px;}
-#container > .wrap input{padding:8px; border:1px solid #c5c5c5; height:40px; font-size:14px; line-height:14px; width:100%; margin-bottom:20px;}
-#container > .wrap input[name='password']{margin-bottom:0px;}
-#container > .wrap input:focus{border:1px solid #0093e9;}
-#container > .wrap .login_error{font-size:13px; height:20px; vertical-align:middle; text-align:center; color:#fd4141; font-weight:bold;}
-#container > .wrap .login_submit{background-color:#0093e9; cursor:pointer; border:1px solid #0187d4;}
+#login_wrap{margin-top:70px;}
+#login_wrap > .wrap{width:100%; margin:0 auto; border:2px solid #0093e9; border-radius:10px; padding:30px 30px 10px 30px;}
+#login_wrap > .wrap input{padding:8px; border:1px solid #c5c5c5; height:40px; font-size:14px; line-height:14px; width:100%; margin-bottom:20px;}
+#login_wrap > .wrap input[name='password']{margin-bottom:0px;}
+#login_wrap > .wrap input:focus{border:1px solid #0093e9;}
+#login_wrap > .wrap .login_error{font-size:13px; height:20px; vertical-align:middle; text-align:center; color:#fd4141; font-weight:bold;}
+#login_wrap > .wrap .login_submit{background-color:#0093e9; cursor:pointer; border:1px solid #0187d4;}
 
-#footer{margin-top:40px;}
+#social_login_wrap{margin-top:20px;}
+#social_login_wrap .sl_left{float:left;}
+#social_login_wrap .sl_right{float:right;}
+
+#footer{margin-top:20px;}
 #footer > .wrap{width:100%; margin:0 auto; border-top:1px solid #c5c5c5; padding-top:5px; text-align:center;}
 #footer > .wrap > a{font-size:12px; display:inline-block; color:#a1a1a1; line-height:13px;}
 #footer .bar{margin:0 4px; display:inline-block; width:1px; background-color:#c5c5c5; height:17px; line-height:14px; text-indent:-999em;}
@@ -77,11 +82,11 @@
 }
 
 @media screen and (max-width:480px){
+    body#login{width:90%;}
     #reg_wrapper{width:95%!important; padding-top:10px;}
     #reg_wrapper h4{font-size:13px;}
     #private_table{font-size:11px;}
-    #header, #container, #footer{width:90%;}
-    #container{margin-top:20px;}
+    #login_wrap{margin-top:20px;}
     .sec_title{margin-left:0px;}
     .register_term > textarea{font-size:12px;}
     .field_wrap{padding:10px 0;}

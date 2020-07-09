@@ -28,8 +28,23 @@ DATABASES = {
 
 
 INSTALLED_APPS += [
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 
 MIDDLEWARE += [
 ]
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1
+
+NAVER_CLIENT_ID = 'e4ZsoJAd0lfPVJQldldH'
+NAVER_SECRET_KEY = 'LQW9bLufwS'
