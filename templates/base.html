@@ -86,7 +86,7 @@
                                             <u></u>
                                         </a>
                                         <ul class="sub_menu">
-                                            {% for sub in main.submenu.all %}
+                                            {% for sub in main.submenu.all|order_by:'order' %}
                                             <li>
                                                 <a href="/board/{{main.order}}{{sub.order|submenu_idx}}">{{sub.name}}</a>
                                             </li>

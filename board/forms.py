@@ -44,7 +44,7 @@ class PostSuperuserForm(forms.ModelForm):
     preacher = forms.CharField(label="설교자", required=False, widget=forms.TextInput(attrs={'class':'half', 'placeholder':'ex)김대환 목사'}), help_text='◈ 설교에만 작성하세요.')
     words = forms.CharField(label="말씀", required=False, widget=forms.TextInput(attrs={'class':'half', 'placeholder':'ex)창세기 1:1~10'}), help_text='◈ 설교에만 작성하세요.')
     video = forms.CharField(label="동영상", required=False, widget=forms.TextInput(attrs={'class':'half'}), help_text='◈ 유튜브 주소를 입력하세요.')
-    notice = forms.BooleanField(label="공지사항", required=True)
+    notice = forms.BooleanField(label="공지사항", required=False)
 
     class Meta:
         model = Post

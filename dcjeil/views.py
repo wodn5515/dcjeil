@@ -13,7 +13,7 @@ from imagekit.utils import get_cache
 from random import choice
 from board.models import Post
 from data.models import Carousel, Mainmenu
-from .forms import UserCheckForm, UpdateForm
+from .forms import UserCheckForm, UpdateForm, SocialUpdateForm
 import string, os
 
 # 홈화면
@@ -57,6 +57,7 @@ def home(request):
 # 정보수정 비밀번호 확인
 @login_required
 def usercheck(request):
+    menu = Mainmenu.objects.all().order_by('order')
     form = UserCheckForm(request.POST or None)
     if request.method == 'POST':
         check_pw = request.POST.get('check_pw')
@@ -67,39 +68,54 @@ def usercheck(request):
         error = '비밀번호가 일치하지않습니다.'
         return render(request, 'user/usercheck.html', {
             'form':form,
-            'error':error
+            'error':error,
+            'menu': menu
             })
     else:
+        user = request.user
+        social_check = True if user.uid.split('//')[0] == 'social' else False
+        if social_check:
+            request.session['usercheck'] = True
+            return redirect(reverse('userupdate'))
         request.session['usercheck'] = False
         request.session['userupdate'] = False
-        return render(request, 'user/usercheck.html', {'form':form})
+        return render(request, 'user/usercheck.html', {
+            'form':form,
+            'menu': menu
+        })
 
 # 정보수정 변경
 @login_required
 def userupdate(request):
+    menu = Mainmenu.objects.all().order_by('order')
+    user = request.user
+    social_check = True if user.uid.split('//')[0] == 'social' else False
     if request.method == "POST":
-        user = request.user
-        forms1 = UpdateForm1(request.POST, instance=user)
-        if forms1.is_valid():
-            forms1.save()
+        forms = SocialUpdateForm(request.POST, instance=user) if social_check else UpdateForm(request.POST, instance=user)
+        if forms.is_valid():
+            forms.save()
             request.session['userupdate'] = True
             return redirect(reverse('userresult'))
-        return render(request, 'user/userupdate.html', {
-            'forms1' : forms1
+        return render(request, 'registration/user/userupdate.html', {
+            'forms' : forms,
+            'menu': menu
         })
     else:
         if not request.session.get('usercheck', False):
             return redirect(reverse('usercheck'))
-        user = request.user
-        forms1 = UpdateForm1(instance=user)
+        forms = SocialUpdateForm(instance=user) if social_check else UpdateForm(instance=user)
         request.session['user_check'] = False
-        return render(request, 'user/userupdate.html', {
-            'forms1' : forms1
+        return render(request, 'registration/user/userupdate.html', {
+            'forms' : forms,
+            'menu': menu
         })
 
 # 정보수정 결과
 def userresult(request):
+    menu = Mainmenu.objects.all().order_by('order')
     if not request.session.get('userupdate', False):
         return redirect(reverse('usercheck'))
     request.session['userupdate'] = False
-    return render(request, 'user/userresult.html')
+    return render(request, 'registration/user/userresult.html', {
+        'menu': menu
+    })

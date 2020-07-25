@@ -251,7 +251,10 @@
 #community > #community_wrap .community_image{float:right; margin:20px; box-shadow:0px 0px 10px 5px #ffffff;}
 #community > #community_wrap .community_image > img{width:400px;}
 #community > #community_wrap .c_01{font-size:20px; font-weight:bold; padding:100px 40px; color:black; text-shadow:0px 0px 10px #333333; word-break:keep-all;}
-#community > #community_wrap .c_02{font-size:16px; font-weight:bold; position:absolute; bottom:30px; left:60px; color:black; text-shadow:0px 0px 10px #333333;}
+#community > #community_wrap .c_02{font-size:16px; font-weight:bold; position:absolute; bottom:30px; left:50px; color:black; text-shadow:0px 0px 10px #333333;}
+#community > #community_wrap .c_youtube{position:absolute; bottom:18px; right:470px; background-color:rgba(0,0,0,0.5); border-radius:50px; cursor:pointer;}
+#community > #community_wrap .c_youtube:hover{background-color:rgba(0,0,0,0.7);}
+#community > #community_wrap .c_youtube > img{padding:10px;}
 #community > #community_wrap .c_03,
 #community > #community_wrap .c_04{background-color:rgba(188, 188, 188, 0.1)}
 #community > #community_wrap > .container > .title{padding:20px 5px 5px 10px; margin:0 5px 15px 5px; border-bottom:3px double #c5c5c5; color:black; font-weight:bold; font-size:20px; text-shadow:1px 1px 2px #929292;}

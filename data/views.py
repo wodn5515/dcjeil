@@ -83,6 +83,7 @@ def community(request, div):
     data['goal'] = community.goal
     data['worship'] = community.worship.replace('\n', '<br>')
     data['server'] = community.server
+    data['youtube'] = community.youtube
     return JsonResponse(data, safe=False)
 
 def welcome(request):

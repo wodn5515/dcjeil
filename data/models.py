@@ -60,6 +60,12 @@ class Submenu(models.Model):
     def __str__(self):
         return f'{self.mainmenu.name} - {self.name}'
 
+    def get_absolute_url(self):
+        return f'/board/{self.mainmenu.order}0{self.order}' if len(str(self.order)) == 1 else f'/board/{self.mainmenu.order}{self.order}'
+
+    def get_full_menu(self):
+        return f'{self.mainmenu.order}0{self.order}' if len(str(self.order)) == 1 else f'{self.mainmenu.order}{self.order}'
+
 # 인사말 #
 class Welcome(models.Model):
 
@@ -146,8 +152,8 @@ class Worship(models.Model):
 class Community(models.Model):
     
     class Meta:
-        verbose_name = ('커뮤니티 관리')
-        verbose_name_plural = ('커뮤니티 관리')
+        verbose_name = ('교육부서 관리')
+        verbose_name_plural = ('교육부서 관리')
 
     div = models.CharField(_('구분'), max_length=10, choices=COMMUNITY, blank=True)
     image = models.ImageField(_('사진'), blank=True, upload_to=community_image_save)
@@ -155,9 +161,13 @@ class Community(models.Model):
     goal = RichTextField(verbose_name=('교육목표'), blank=True)
     worship = models.TextField(_('예배안내'), blank=True)
     server = RichTextField(verbose_name=('섬기는 사람들'), blank=True)
+    youtube = models.CharField(_('유튜브링크'), max_length=255,  blank=True, default='')
 
     def __str__(self):
         return f'{self.get_div_display()}'
+
+    def get_youtube_url(self):
+        return 'https://www.youtube.com/channel/{}'.format(self.youtube)
 
 
 # 데이터 삭제시 사진삭제 #

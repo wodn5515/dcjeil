@@ -4,7 +4,7 @@
 __pycache__
 venvdcjeil
 venv
-db.sqlite3
+*.sqlite3
 /static
 /uploads
 .DS_Store
@@ -13,3 +13,4 @@ uwsgi.ini
 uwsgi.sock
 django.log
 mysql
+social_login_secret_keys.json
