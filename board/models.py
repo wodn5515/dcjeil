@@ -9,6 +9,7 @@ from imagekit.processors import Thumbnail
 from imagekit.utils import get_cache
 from random import choice
 from member.models import User as account
+from .choices import Divs
 import string
 
 '''--------------------------- Abandoned ----------------------------'''
@@ -42,18 +43,6 @@ class Post(models.Model):
         verbose_name = ('게시글')
         verbose_name_plural = ('게시글 관리')
 
-    Divs = (
-        ('201','금주의 말씀'), ('202','주일오후예배'), ('203','수요예배'),
-        ('204','금요철야예배'), ('205','새벽기도'), ('206','부흥회'),
-        ('301','할렐루야 찬양대'), ('302','호산나 찬양대'), ('303','찬양, 간증 집회'),
-        ('401','공지사항'), ('402','교회소식'), ('403','교우소식'), ('404','새가족소개'),
-        ('405','교회앨범'), ('406','자유게시판'), ('407','기도요청'), ('408','행사동영상'), ('409','큐티나눔방'),
-        ('601','선교위원회'),('602','국내선교'),('603','캄보디아'),('604','인도'),('605','일본'),('606','태국'),
-        ('607','필리핀'),('608','이집트'),('609','탄자니아'),('610','카메룬'),('611','남아공'),('612','러시아'),
-        ('613','볼리비아'),('614','파푸아뉴기니'),('615','헝가리'),('616','단기선교'),
-        ('702','새가족부 자료실'), ('703','확신반 자료실'),
-        ('801','문서자료실'), ('802','기타자료실'), ('803','주보자료실'),
-    )
     div = models.CharField(_("분류"), max_length=10, choices=Divs)
     upload_date = models.DateTimeField(_('등록일'), default=timezone.now)
     date = models.DateField(_('일시'), blank=True, null=True, help_text='설교, 찬양, 기도에만 작성하세요.')

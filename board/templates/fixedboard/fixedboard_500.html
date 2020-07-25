@@ -1,3 +1,4 @@
+{% load static %}
 <community-com inline-template :community_data="community_data" @community="community">
     <div id="community" class="fixedview">
         <div id="community_wrap">
@@ -11,6 +12,9 @@
                 <div class="container c_02">
                     <p class="content" v-html="community_data.worship"></p>
                 </div>
+                <a v-if="community_data.youtube" :href="community_data.youtube" target="_blank" class="container c_youtube">
+                    <img src="{% static 'img/youtube_white.png' %}" width="50px">
+                </a>
             </div>
             <div class="container c_03">
                 <p class="title">교육목표</p>

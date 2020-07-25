@@ -36,12 +36,12 @@ class UserManager(BaseUserManager):
         return user
 
 class User(AbstractBaseUser, PermissionsMixin):
-    name = models.CharField(_('이름'), max_length = 5)
+    name = models.CharField(_('이름'), max_length = 5, default='')
     is_active = models.BooleanField(_('승인'), default=False)
     is_staff = models.BooleanField(_('스태프'), default=False)
     is_superuser = models.BooleanField(_('관리자'), default=False)
     date_joined = models.DateTimeField(_('가입날짜'), default=timezone.now)
-    uid = models.CharField(_('ID'), max_length = 15, unique = True,
+    uid = models.CharField(_('ID'), max_length = 50, unique = True,
         error_messages = {
             'unique' : _("이미 가입된 아이디 입니다."),
         },

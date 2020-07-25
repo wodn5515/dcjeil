@@ -57,11 +57,22 @@ class UpdateForm(forms.ModelForm):
 
     def save(self, commit=True):
         # Save the provided password in hashed format
-        user = super(UpdateForm1, self).save(commit=False)
+        user = super(UpdateForm, self).save(commit=False)
         password = self.cleaned_data.get('password')
         confirm_password = self.cleaned_data.get('confirm_password')
         if not password and not confirm_password:
             user.password = self.initial['password']
         else:
             user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
         return user
+
+class SocialUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
+        super(SocialUpdateForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = User
+        fields = ('name',)

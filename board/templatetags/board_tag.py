@@ -1,5 +1,6 @@
 from django import template
 from django.utils import timezone
+from data.models import Submenu, Mainmenu
 import re, os, datetime
 
 register = template.Library()
@@ -29,4 +30,18 @@ def submenu_idx(idx):
 
 @register.filter
 def get_parameters(url):
-    return '?' + url.split('?')[1]
+    return '?' + url.split('?')[1] if '?' in url else ''
+
+@register.filter_function
+def order_by(queryset, args):
+    args = [x.strip() for x in args.split(',')]
+    return queryset.order_by(*args)
+
+@register.filter
+def get_main_title(idx):
+    return Mainmenu.objects.get(order=int(idx)).name
+
+@register.filter
+def subquery(no):
+    sub_menu = Submenu.objects.filter(mainmenu=no).order_by('order')
+    return sub_menu

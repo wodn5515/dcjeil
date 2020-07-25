@@ -30,8 +30,8 @@ def get_title(pk):
         '301':'할렐루야 찬양대', '302':'호산나 찬양대', '303':'찬양, 간증 집회',
         '401':'공지사항', '402':'교회소식', '403':'교우소식', '404':'새가족소개',
         '405':'교회앨범', '406':'자유게시판', '407':'기도요청', '408':'행사동영상', '409':'큐티나눔방',
-        '501':'영아부', '502':'유치부', '503':'유년부',
-        '504':'초등부', '505':'중등부', '506':'고등부', '507':'사랑부',
+        '501':'사랑부', '502':'영아부', '503':'유치부',
+        '504':'유년부', '505':'초등부', '506':'중등부', '507':'고등부',
         '508':'청년1부', '509':'청년2부', '510':'청년3부',
         '601':'선교위원회','602':'국내선교','603':'아시아','604':'아프리카','605':'기타','606':'단기선교',
         '701':'양육시스템', '702':'새가족부 자료실', '703':'확신반 자료실',
@@ -77,7 +77,6 @@ def board(request, pk):
         end_index = max_index
     page_range = range(start_index, end_index)
     return render(request, 'base_board.html', {
-        'sidenav' : 'side_nav/side_nav_' + menu_nav + '.html',
         'content' : content,
         'menu_nav' : menu_nav,
         'menu_no' : menu_no,
@@ -86,7 +85,6 @@ def board(request, pk):
         'page_range' : page_range,
         'pk' : pk,
         'total': post_list_all.count()+1,
-        'title' : get_title(pk),
         's_keyword' : keyword,
         's_kind' : kind,
         'menu' : menu,
@@ -96,8 +94,8 @@ def board(request, pk):
 def detail(request, borad_pk, pk):
     post = Post.objects.get(pk=pk)
     menu = Mainmenu.objects.all().order_by('order')
-    menu_nav = pk[0]
-    menu_no = pk[1:]
+    menu_nav = borad_pk[0]
+    menu_no = borad_pk[1:]
     now_menu = Submenu.objects.filter(mainmenu=menu_nav).get(order=int(menu_no))
     try:
         prev_post = Post.objects.filter(div=menu, upload_date__lt=post.upload_date).order_by('-upload_date')[0]
@@ -108,12 +106,10 @@ def detail(request, borad_pk, pk):
     except:
         next_post = None
     return render(request, 'base_detail.html', {
-        'sidenav' : 'side_nav/side_nav_' + borad_pk[0] + '.html',
         'content' : 'detail.html',
         'menu_nav' : menu_nav,
         'menu_no' : menu_no,
         'post' : post,
-        'title' : get_title(borad_pk),
         'board_pk' : borad_pk,
         'pk': pk,
         'prev_post' : prev_post,
@@ -206,7 +202,6 @@ def post_write(request,borad_pk):
                 return redirect(new_post)
         return render(request, 'board_write.html', {
             'borad_pk' : borad_pk,
-            'title' : get_title(borad_pk),
             'forms' : forms,
             'fileforms' : fileforms,
             'menu' : menu,
@@ -225,17 +220,15 @@ def post_write(request,borad_pk):
                 fileforms = PostFileFormset(queryset=PostFile.objects.none())
             return render(request, 'board_write.html', {
                 'borad_pk' : borad_pk,
-                'title' : get_title(borad_pk),
                 'forms' : forms,
                 'fileforms' : fileforms,
                 'menu' : menu,
-            'now_menu' : now_menu
+                'now_menu' : now_menu
             })
         else:
             forms = PostWriteForm()
         return render(request, 'board_write.html', {
             'borad_pk' : borad_pk,
-            'title' : get_title(borad_pk),
             'forms' : forms,
             'menu' : menu,
             'now_menu' : now_menu
@@ -264,20 +257,20 @@ def post_update(request, borad_pk, pk):
             fileforms = PostFileFormset(queryset=files)
             return render(request, 'board_write.html', {
                 'borad_pk' : borad_pk,
-                'title' : get_title(borad_pk),
                 'forms' : forms,
                 'fileforms' : fileforms,
-                'menu' : menu
+                'menu' : menu,
+                'now_menu' : now_menu
             }) 
         else:
             forms = PostSuperuserForm(instance=post)
             fileforms = PostFileFormset(queryset=files)
             return render(request, 'board_write.html', {
                 'borad_pk' : borad_pk,
-                'title' : get_title(borad_pk),
                 'forms' : forms,
                 'fileforms' : fileforms,
-                'menu' : menu
+                'menu' : menu,
+                'now_menu' : now_menu
             })
     elif post.writer == user:
         if request.method == 'POST':
@@ -293,17 +286,17 @@ def post_update(request, borad_pk, pk):
                 return redirect(updated_post)
             return render(request, 'board_write.html', {
                 'borad_pk' : borad_pk,
-                'title' : get_title(borad_pk),
                 'forms' : forms,
-                'menu' : menu
+                'menu' : menu,
+                'now_menu' : now_menu
             })
         else:
             forms = PostWriteForm(instance=post)
             return render(request, 'board_write.html', {
                 'borad_pk' : borad_pk,
-                'title' : get_title(borad_pk),
                 'forms' : forms,
-                'menu' : menu
+                'menu' : menu,
+                'now_menu' : now_menu
             })
     else:
         messages.info(request, '권한이 없습니다.')

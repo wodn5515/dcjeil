@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}
-{{title}} | 덕천제일교회
+{{now_menu.name}} | 덕천제일교회
 {% endblock title %}
 {% block content %}
 {% include "board_title.html" %}
 <div id="wrapper" class="after" v-bind:class="{mob_menu_on:menu_token}">
     <div id="side_nav_wrap">
-        {% include sidenav %}
+        {% include 'side_nav.html' %}
     </div>
     <div id="content" class="list">
         {% include content %}

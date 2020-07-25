@@ -6,7 +6,7 @@ body#login{width:480px; margin:0 auto;}
 
 #login_wrap{margin-top:70px;}
 #login_wrap > .wrap{width:100%; margin:0 auto; border:2px solid #0093e9; border-radius:10px; padding:30px 30px 10px 30px;}
-#login_wrap > .wrap input{padding:8px; border:1px solid #c5c5c5; height:40px; font-size:14px; line-height:14px; width:100%; margin-bottom:20px;}
+#login_wrap > .wrap input{padding:8px; border:1px solid #c5c5c5; height:40px; font-size:16px; line-height:14px; width:100%; margin-bottom:20px;}
 #login_wrap > .wrap input[name='password']{margin-bottom:0px;}
 #login_wrap > .wrap input:focus{border:1px solid #0093e9;}
 #login_wrap > .wrap .login_error{font-size:13px; height:20px; vertical-align:middle; text-align:center; color:#fd4141; font-weight:bold;}
@@ -15,10 +15,11 @@ body#login{width:480px; margin:0 auto;}
 #social_login_wrap{margin-top:20px;}
 #social_login_wrap .sl_left{float:left;}
 #social_login_wrap .sl_right{float:right;}
+#social_login_wrap .sl_btn{display:block;}
 
 #footer{margin-top:20px;}
 #footer > .wrap{width:100%; margin:0 auto; border-top:1px solid #c5c5c5; padding-top:5px; text-align:center;}
-#footer > .wrap > a{font-size:12px; display:inline-block; color:#a1a1a1; line-height:13px;}
+#footer > .wrap > a{font-size:14px; display:inline-block; color:#a1a1a1; line-height:13px;}
 #footer .bar{margin:0 4px; display:inline-block; width:1px; background-color:#c5c5c5; height:17px; line-height:14px; text-indent:-999em;}
 
 /*아이디, 비밀번호 찾기*/

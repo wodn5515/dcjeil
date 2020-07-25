@@ -1,21 +1,26 @@
 {% load static%}
 
 {% static 'img/naver_login_green.png' as naver_login %}
-{% static 'img/naver_login_white.png' as naver_login_hover %}
 {% static 'img/kakao_login.png' as kakao_login %}
-{% static 'img/kakao_login_ov.png' as kakao_login_hover %}
+{% static 'img/google_login.png' as google_login %}
+{% static 'img/facebook_login.png' as facebook_login %}
+
 
 <div id="social_login_wrap" class="after">
     <div class="sl_left">
-        <a href="#" onclick="naverLogin()">
-            <img src="{{ naver_login }}" height="50">
+        <a class="sl_btn" href="#" onclick="naverLogin()">
+            <img src="{{ naver_login }}" height="50" width="230">
+        </a>
+        <a class="sl_btn" href="#" onclick="googleLogin()">
+            <img src="{{ google_login }}" height="50" width="230">
         </a>
     </div>
     <div class="sl_right">
-        <a href="#" onclick="">
-            <img src="{{ kakao_login }}"
-            onmouseover="this.src='{{ kakao_login_hover }}'"
-            onmouseleave="this.src='{{ kakao_login }}'" height="50">
+        <a class="sl_btn" href="#" onclick="kakaoLogin()">
+            <img src="{{ kakao_login }}" height="50" width="230">
+        </a>
+        <a class="sl_btn" href="#" onclick="facebookLogin()">
+            <img src="{{ facebook_login }}" height="50" width="230">
         </a>
     </div>
 </div>
