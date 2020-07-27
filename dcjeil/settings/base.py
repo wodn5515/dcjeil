@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from dcjeil.util import get_social_login_secret_key
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -26,11 +27,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'data.apps.DataConfig',
     'board.apps.BoardConfig',
     'rest_framework',
     'ckeditor',
     'ckeditor_uploader'
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'member.oauth.backends.SocialLoginBackend'
 ]
 
 MIDDLEWARE = [
@@ -89,6 +96,21 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = 'member.User'
 LOGIN_URL = '/login/'
+SITE_ID = 1
+
+SECRET_KEYS = get_social_login_secret_key("secret_keys")
+
+NAVER_CLIENT_ID = 'e4ZsoJAd0lfPVJQldldH'
+NAVER_SECRET_KEY = SECRET_KEYS["NAVER_SECRET_KEY"]
+
+KAKAO_CLIENT_ID = '67e7757fd4460f510db528b575e0fa0d'
+KAKAO_SECRET_KEY = SECRET_KEYS["KAKAO_SECRET_KEY"]
+
+GOOGLE_CLIENT_ID = '24302309163-58kin7d8rn88pb8tj8k07srg71cgg9fg.apps.googleusercontent.com'
+GOOGLE_SECRET_KEY = SECRET_KEYS["GOOGLE_SECRET_KEY"]
+
+FACEBOOK_CLIENT_ID = '330925454976805'
+FACEBOOK_SECRET_KEY = SECRET_KEYS["FACEBOOK_SECRET_KEY"]
 
 # Session management
 # https://docs.djangoproject.com/en/3.0/ref/settings/#settings-sessions
