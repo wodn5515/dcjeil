@@ -1,23 +1,5 @@
 <!-- 담임목사소개 -->
-<pastol-com inline-template :pastol_data="pastol_data" @pastol="pastol">
-<div id="pastol" class="fixedview after">
-    <div id="pastol_image">
-        <img :src="pastol_data.image" width="180px" height="100%">
-    </div>
-    <div id="pastol_wrap">
-        <div class="container">
-            <p class="pastol_div">프로필(학력)</p>
-            <p class="pastol_data" v-html="pastol_data.education"></p>
-        </div>
-        <div class="container">
-            <p class="pastol_div">사역경력</p>
-            <p class="pastol_data" v-html="pastol_data.career"></p>
-        </div>
-    </div>
-    <div id="pastol_experience">
-        <div class="container">
-            <p class="pastol_data" v-html="pastol_data.experience"></p>
-        </div>
-    </div>
-</div>
+<pastol-com inline-template :fixedview_data="fixedview_data" @pastol="pastol">
+	<div id="pastol" class="fixedview" v-html="fixedview_data.content">
+	</div>
 </pastol-com>

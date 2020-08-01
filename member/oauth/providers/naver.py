@@ -53,6 +53,7 @@ class NaverLoginMixin:
         user, created = self.model.objects.get_or_create(uid='social//naver/'+profiles.get('id'))
         if created:
             user.set_password(None)
+        user.is_social = True
         user.name = profiles.get('name')
         user.save()
 

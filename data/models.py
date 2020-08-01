@@ -3,12 +3,11 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
-from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 from imagekit.models import ImageSpecField
 from imagekit.processors import Thumbnail
 from imagekit.utils import get_cache
 from random import choice
-from ckeditor.fields import RichTextField
 from member.choice import OFFICE_CHOICES
 from .choice import DIV_CHOICES, COMMUNITY, MENUTYPE
 import string
@@ -73,7 +72,7 @@ class Welcome(models.Model):
         verbose_name = ('인사말 관리')
         verbose_name_plural = ('인사말 관리')
 
-    content = RichTextField()
+    content = RichTextUploadingField(default='')
 
     def __str__(self):
         return f'인사말'
@@ -105,6 +104,44 @@ class History(models.Model):
     def __str__(self):
         return f'{self.content}'
 
+# 우리의 비전 #
+class Vision(models.Model):
+
+    class Meta:
+        verbose_name = ('우리의 비전 관리')
+        verbose_name_plural = ('우리의 비전 관리')
+
+    content = RichTextUploadingField(default='')
+
+    def __str__(self):
+        return f'우리의 비전'
+
+
+# 찾아오시는 길 #
+class Wayto(models.Model):
+
+    class Meta:
+        verbose_name = ('찾아오시는 길 관리')
+        verbose_name_plural = ('찾아오시는 길 관리')
+
+    content = RichTextUploadingField(default='')
+
+    def __str__(self):
+        return f'찾아오시는 길'
+
+
+# 양육시스템 #
+class Nurture(models.Model):
+
+    class Meta:
+        verbose_name = ('양육시스템 관리')
+        verbose_name_plural = ('양육시스템 관리')
+
+    content = RichTextUploadingField(default='')
+
+    def __str__(self):
+        return f'양육시스템'
+
 # 섬기는 사람들 #
 class Server(models.Model):
 
@@ -112,17 +149,10 @@ class Server(models.Model):
         verbose_name = ('섬기는 사람들 관리')
         verbose_name_plural = ('섬기는 사람들 관리')
 
-    name = models.CharField(_('이름'), max_length=5, blank=True)
-    div = models.CharField(_('구분'), max_length=10, choices=DIV_CHOICES, blank=True)
-    office = models.CharField(_('직분'), max_length=10, choices=OFFICE_CHOICES, blank=True)
-    image = models.ImageField(_('사진'), upload_to=server_image_save, blank=True)
-    tp = models.CharField(_('핸드폰'), max_length=15, blank=True, help_text = "'-' 를 제외한 숫자만 입력해주세요.")
-    htp = models.CharField(_('집전화'), max_length=15, blank=True, help_text = "'-' 를 제외한 숫자만 입력해주세요.")
-    email = models.EmailField(_('이메일'), blank=True)
-    charge = models.CharField(_('담당사역'), max_length=50, blank=True)
+    content = RichTextUploadingField(default='')
 
     def __str__(self):
-        return f'{self.get_div_display()} - {self.name} {self.get_office_display()}님'
+        return f'섬기는 사람들'
 
 class Pastol(models.Model):
 
@@ -130,10 +160,7 @@ class Pastol(models.Model):
         verbose_name = ('담임목사소개 관리')
         verbose_name_plural = ('담임목사소개 관리')
 
-    education = models.TextField(_('학력'))
-    career = models.TextField(_('사역경력'))
-    experience = models.TextField(_('활동경력'))
-    image = models.ImageField(_('사진'), upload_to=pastol_image_save, blank=True)
+    content = RichTextUploadingField(default='')
 
     def __str__(self):
         return f'담임목사소개'
@@ -144,10 +171,10 @@ class Worship(models.Model):
         verbose_name = ('예배안내 관리')
         verbose_name_plural = ('예배안내 관리')
     
-    content = RichTextField(blank=True)
+    content = RichTextUploadingField(default='')
 
     def __str__(self):
-        return f'예배안내 시간표'
+        return f'예배안내'
 
 class Community(models.Model):
     
@@ -158,9 +185,9 @@ class Community(models.Model):
     div = models.CharField(_('구분'), max_length=10, choices=COMMUNITY, blank=True)
     image = models.ImageField(_('사진'), blank=True, upload_to=community_image_save)
     title = models.TextField(_('표어'), blank=True)
-    goal = RichTextField(verbose_name=('교육목표'), blank=True)
+    goal = RichTextUploadingField(verbose_name=('교육목표'), blank=True)
     worship = models.TextField(_('예배안내'), blank=True)
-    server = RichTextField(verbose_name=('섬기는 사람들'), blank=True)
+    server = RichTextUploadingField(verbose_name=('섬기는 사람들'), blank=True)
     youtube = models.CharField(_('유튜브링크'), max_length=255,  blank=True, default='')
 
     def __str__(self):

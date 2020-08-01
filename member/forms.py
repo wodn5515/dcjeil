@@ -55,13 +55,13 @@ class LoginForm(forms.Form):
             'autofocus' : 'off',
             'placeholder' : '아이디'
         }
-    ), required=True)
+    ), required=False)
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={
             'autofocus' : 'off',
             'placeholder' : '비밀번호'
         }
-    ), required=True)
+    ), required=False)
 
     def clean(self):
         uid = self.cleaned_data.get('uid')

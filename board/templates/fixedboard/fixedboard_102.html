@@ -3,7 +3,7 @@
 <div id="fixed_pics">
     <img src="{% static 'img/history.jpg' %}" width="100%" height="100%;">
 </div>
-<history-com inline-template :history_data='history_data' @history="history">
+<history-com inline-template :fixedview_data='fixedview_data' @history="history">
     <div id="history" class="fixedview">
         <div id="history_btn_wrap">
             <div class="container" :class="{active:decade=='0'}" @click="history_change('0')">~1979</div>
@@ -13,7 +13,7 @@
             <div class="container" :class="{active:decade=='4'}" @click="history_change('4')">2010~</div>
         </div>
         <div id="history_wrap">
-            <div v-for="(history_decade, index) in history_data" class="history_table" :class="{active:decade==index}">
+            <div v-for="(history_decade, index) in fixedview_data" class="history_table" :class="{active:decade==index}">
                 <table>
                     <tr v-for="history in history_decade">
                         <td class="year">[[history.year]]</td>

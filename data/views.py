@@ -13,7 +13,7 @@ from django.db import IntegrityError
 from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
-from .models import History, Server, Pastol, Worship, Community, Welcome
+from .models import History, Server, Pastol, Worship, Community, Welcome, Vision, Nurture, Wayto
 from .choice import DIV_CHOICES
 import string, os, json
 
@@ -42,31 +42,32 @@ def history(request):
 
 def server(request):
     data = {}
-    for i,j in DIV_CHOICES:
-        server_div = []
-        server_list = Server.objects.filter(div=i)
-        if not server_list:
-            continue
-        for server in server_list:
-            server_temp = {}
-            server_temp['name'] = server.name
-            server_temp['email'] = server.email
-            server_temp['tp'] = server.tp
-            server_temp['htp'] = server.htp
-            server_temp['office'] = server.get_office_display()
-            server_temp['image'] = server.image.url
-            server_temp['charge'] = server.charge
-            server_div.append(server_temp)
-        data[j] = server_div
+    server = Server.objects.get()
+    data['content'] = server.content
     return JsonResponse(data, safe=False)
 
 def pastol(request):
     data = {}
     pastol = Pastol.objects.get()
-    data['education'] = pastol.education.replace('\n', '<br>')
-    data['career'] = pastol.career.replace('\n', '<br>')
-    data['experience'] = pastol.experience.replace('\n', '<br>')
-    data['image'] = pastol.image.url
+    data['content'] = pastol.content
+    return JsonResponse(data, safe=False)
+
+def vision(request):
+    data = {}
+    vision = Vision.objects.get()
+    data['content'] = vision.content
+    return JsonResponse(data, safe=False)
+
+def nurture(request):
+    data = {}
+    nurture = Nurture.objects.get()
+    data['content'] = nurture.content
+    return JsonResponse(data, safe=False)
+
+def wayto(request):
+    data = {}
+    wayto = Wayto.objects.get()
+    data['content'] = wayto.content
     return JsonResponse(data, safe=False)
 
 def worship(request):
