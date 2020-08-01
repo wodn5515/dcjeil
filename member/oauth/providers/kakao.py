@@ -53,6 +53,7 @@ class KakaoLoginMixin:
         user, created = self.model.objects.get_or_create(uid='social//kakao/' + str(profiles.get('id')))
         if created:
             user.set_password(None)
+        user.is_social = True
         user.save()
 
         # 세션데이터 추가

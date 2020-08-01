@@ -44,8 +44,8 @@
                     <input autocomplete="off" placeholder="비밀번호" name="password" type="password">
                     {% endif %}
                     <p class='login_error'>
-                        {% if form.non_field_errors %}
-                                {{form.non_field_errors.0}}
+                        {% if forms.non_field_errors %}
+                                {{forms.non_field_errors.0}}
                         {% endif %}
                     </p>
                     <input class="login_submit" type="submit" value="로그인">

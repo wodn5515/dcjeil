@@ -5,7 +5,7 @@ UserModel = get_user_model()
 
 
 class SocialLoginBackend(ModelBackend):
-    def authenticate(self, request, username=None, **kwargs):
+    def authenticate(self, request, username=None, password=None, **kwargs):
         if username is None:
             username = kwargs.get(UserModel.USERNAME_FIELD)
         try:
@@ -13,5 +13,9 @@ class SocialLoginBackend(ModelBackend):
         except UserModel.DoesNotExist:
             pass
         else:
-            if self.user_can_authenticate(user):
-                return user
+            if user.is_social:
+                if self.user_can_authenticate(user):
+                    return user
+            else:   
+                if user.check_password(password) and self.user_can_authenticate(user):
+                    return user

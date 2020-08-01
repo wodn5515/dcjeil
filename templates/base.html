@@ -246,7 +246,7 @@
 
         // 담임목사소개 Component //
         Vue.component('pastol-com',{
-            props:['pastol_data'],
+            props:['fixedview_data'],
             created:function(){
                 this.$emit('pastol')
             }
@@ -254,7 +254,7 @@
 
         // 예배안내 Component //
         Vue.component('worship-com',{
-            props:['worship_data'],
+            props:['fixedview_data'],
             created:function(){
                 this.$emit('worship')
             }
@@ -262,7 +262,7 @@
 
         // 커뮤니티 Component //
         Vue.component('community-com', {
-            props:['community_data'],
+            props:['fixedview_data'],
             created:function(){
                 this.$emit('community');
             }
@@ -270,9 +270,33 @@
 
         // 인사말 Component //
         Vue.component('welcome-com', {
-            props:['welcome_data'],
+            props:['fixedview_data'],
             created:function(){
                 this.$emit('welcome')
+            }
+        })
+
+        // 우리의 비전 Component //
+        Vue.component('vision-com', {
+            props:['fixedview_data'],
+            created:function(){
+                this.$emit('vision')
+            }
+        })
+
+        // 찾아오시는 길 Component //
+        Vue.component('wayto-com', {
+            props:['fixedview_data'],
+            created:function(){
+                this.$emit('wayto')
+            }
+        })
+
+        // 양육시스템 Component //
+        Vue.component('nurture-com', {
+            props:['fixedview_data'],
+            created:function(){
+                this.$emit('nurture')
             }
         })
 
@@ -286,12 +310,7 @@
                     comments:'',
                     comment_token:true
                 },
-                history_data:'',
-                server_data:'',
-                pastol_data:'',
-                worship_data:'',
-                community_data:'',
-                welcome_data:''
+                fixedview_data:'',
             },
             methods:{
                 // 모바일 사이드메뉴 methods
@@ -388,7 +407,7 @@
                     var self = this;
                     axios.get('/data/history')
                     .then(function(response){
-                        self.history_data = response.data;
+                        self.fixedview_data = response.data;
                     })
                 },
                 // 섬기는 사람들 methods
@@ -396,7 +415,7 @@
                     var self = this;
                     axios.get('/data/server')
                     .then(function(response){
-                        self.server_data = response.data;
+                        self.fixedview_data = response.data;
                     })
                 },
                 // 담임목사소개 methods
@@ -404,7 +423,31 @@
                     var self = this;
                     axios.get('/data/pastol')
                     .then(function(response){
-                        self.pastol_data = response.data;
+                        self.fixedview_data = response.data;
+                    })
+                },
+                // 우리의 비전 methods
+                vision:function(){
+                    var self = this;
+                    axios.get('/data/vision')
+                    .then(function(response){
+                        self.fixedview_data = response.data;
+                    })
+                },
+                // 찾아오시는 길 methods
+                wayto:function(){
+                    var self = this;
+                    axios.get('/data/wayto')
+                    .then(function(response){
+                        self.fixedview_data = response.data;
+                    })
+                },
+                // 양육시스템 methods
+                nurture:function(){
+                    var self = this;
+                    axios.get('/data/nurture')
+                    .then(function(response){
+                        self.fixedview_data = response.data;
                     })
                 },
                 // 예배안내 methods
@@ -412,7 +455,7 @@
                     var self = this;
                     axios.get('/data/worship')
                     .then(function(response){
-                        self.worship_data = response.data;
+                        self.fixedview_data = response.data;
                     })
                 },
                 // 공동체 methods
@@ -420,7 +463,7 @@
                     var self = this;
                     axios.get('/data/community/{{pk}}')
                     .then(function(response){
-                        self.community_data = response.data;
+                        self.fixedview_data = response.data;
                     })
                 },
                 // 인사말 methods
@@ -428,7 +471,7 @@
                     var self = this;
                     axios.get('/data/welcome')
                     .then(function(response){
-                        self.welcome_data = response.data;
+                        self.fixedview_data = response.data;
                     })
                 }
             }

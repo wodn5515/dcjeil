@@ -40,6 +40,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(_('승인'), default=False)
     is_staff = models.BooleanField(_('스태프'), default=False)
     is_superuser = models.BooleanField(_('관리자'), default=False)
+    is_social = models.BooleanField(_('소셜로그인'), default=False)
     date_joined = models.DateTimeField(_('가입날짜'), default=timezone.now)
     uid = models.CharField(_('ID'), max_length = 50, unique = True,
         error_messages = {

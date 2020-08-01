@@ -1,12 +1,5 @@
-{% load static %}
 <!-- 예배안내 -->
-<worship-com inline-template :worship_data="worship_data" @worship="worship">
-    <div id="worship" class="fixedview">
-        <div id="worship_image">
-            <img src="{% static 'img/worship.jpg' %}" width="100%" height="100%">
-        </div>
-        <div id="worship_wrap">
-            <div v-html="worship_data.content"></div>
-        </div>
-    </div>
+<worship-com inline-template :fixedview_data="fixedview_data" @worship="worship">
+	<div id="worship" class="fixedview" v-html="fixedview_data.content">
+	</div>
 </worship-com>

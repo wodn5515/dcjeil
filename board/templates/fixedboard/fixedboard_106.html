@@ -1,12 +1,5 @@
-{% load static %}
 <!-- 찾아오시는 길 -->
-<div id="way_to_church" class="fixedview">
-    <div id="way_to_church_image">
-        <img src="{% static 'img/way_to_church.png' %}" width="100%">
-    </div>
-    <p>찾아오시는 길</p>
-    <ul>
-        <li>버스 : 33, 46, 110, 111, 121, 130, 133, 148, 307 남산정역 하차</li>
-        <li>지하철 : 3호선 남산정역 하차 5번 출구 덕천로타리 방향 70m</li>
-    </ul>
-</div>
+<wayto-com inline-template :fixedview_data="fixedview_data" @wayto="wayto">
+	<div id="wayto" class="fixedview" v-html="fixedview_data.content">
+	</div>
+</wayto-com>
