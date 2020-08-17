@@ -54,11 +54,10 @@ class NaverLoginMixin:
         if created:
             user.set_password(None)
         user.is_social = True
-        user.name = profiles.get('name')
         user.save()
 
         # 세션데이터 추가
-        self.set_session(access_token=access_token, refresh_token=refresh_token, expires_in=expires_in, token_type=token_type)
+        self.set_session(access_token=access_token, refresh_token=refresh_token, expires_in=expires_in, token_type=token_type, uid='social//naver/' + str(profiles.get('id')))
 
         return True, user
 
@@ -67,9 +66,5 @@ class NaverLoginMixin:
 
         if not is_success:
             return False, profiles
-
-        for profile in self.required_profiles:
-            if profile not in profiles:
-                return False, '{}은 필수정보입니다. 정보제공에 동의해주세요.'.format(profile)
 
         return True, profiles

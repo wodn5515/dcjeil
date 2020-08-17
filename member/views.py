@@ -106,49 +106,46 @@ def register(request):
 def registerform(request):
     menu = Mainmenu.objects.all().order_by('order')
     if request.method == "POST":
-        forms = RegisterForm(request.POST)
-        if forms.is_valid():
-            new_account = forms.save(commit=False)
-            new_account.save()
-            request.session['register_submit'] = True
-            return redirect(reverse('registersubmit'))
-        return render(request, 'registration/registerform.html', {
-            'forms' : forms,
-            'menu': menu
-        })
+        if request.user.is_anonymous:
+            uid = request.session.get('uid')
+            user = get_object_or_404(User, uid=uid)
+            forms = SocialUpdateForm(request.POST, instance=user)
+            if forms.is_valid():
+                new_account = forms.save(commit=False)
+                new_account.save()
+                request.session['register_submit'] = True
+                return redirect(reverse('registersubmit'))
+            return render(request, 'registration/registerform_social.html', {
+                'forms' : forms,
+                'menu': menu
+            })
+        else:
+            forms = RegisterForm(request.POST)
+            if forms.is_valid():
+                new_account = forms.save(commit=False)
+                new_account.save()
+                request.session['register_submit'] = True
+                return redirect(reverse('registersubmit'))
+            return render(request, 'registration/registerform.html', {
+                'forms' : forms,
+                'menu': menu
+            })
     else:
         if not request.session.get('register_agree', False):
             return redirect(reverse('register'))
-        forms = RegisterForm()
         request.session['register_agree'] = False
-        return render(request, 'registration/registerform.html', {
-            'forms' : forms,
-            'menu': menu
-        })
-
-@user_passes_test(not_logged_in, 'home')
-def registerformsocial(request):
-    menu = Mainmenu.objects.all().order_by('order')
-    uid = request.session.get('uid')
-    user = get_object_or_404(User, uid=uid)
-    if request.method == "POST":
-        forms = SocialUpdateForm(request.POST, instance=user)
-        if forms.is_valid():
-            new_account = forms.save(commit=False)
-            new_account.save()
-            request.session['register_submit'] = True
-            return redirect(reverse('registersubmit'))
-        else:
+        if request.user.is_anonymous:
+            forms = SocialUpdateForm()
             return render(request, 'registration/registerform_social.html', {
                 'forms': forms,
                 'menu': menu
             })
-    else:
-        forms = SocialUpdateForm()
-        return render(request, 'registration/registerform_social.html', {
-            'forms': forms,
-            'menu': menu
-        })
+        else:
+            forms = RegisterForm()
+            return render(request, 'registration/registerform.html', {
+                'forms' : forms,
+                'menu': menu
+            })
 
 # 회원가입 결과창
 @user_passes_test(not_logged_in, 'home')
@@ -161,12 +158,11 @@ def registersubmit(request):
         'menu': menu
     })
 
-#네이버 소셜 로그인
+# 네이버 소셜 로그인
 class NaverLoginCallbackView(NaverLoginMixin, View):
     
-    success_url = '/'
+    success_url = '/registerform'
     failure_url = settings.LOGIN_URL
-    required_profiles = ['name']
     model = get_user_model()
 
     def get(self, request, *args, **kwargs):
@@ -180,19 +176,25 @@ class NaverLoginCallbackView(NaverLoginMixin, View):
         if not is_success: # 로그인 실패할 경우
             messages.error(request, error, extra_tags='danger')
         if not error.is_active:
-            request.session['register_submit'] = True
-            return redirect(reverse('registersubmit'))
-        login(request, error, 'member.oauth.backends.SocialLoginBackend') # SocialLoginBackend를 통한 인증 시도
-        return HttpResponseRedirect(success_url if is_success else self.failure_url)
+            if not error.name:
+                request.session['register_agree'] = True
+                return HttpResponseRedirect(self.success_url if is_success else self.failure_url)
+            else:
+                request.session['register_submit'] = True
+                return redirect(reverse('registersubmit'))
+        if error.is_active:
+            login(request, error, 'member.oauth.backends.SocialLoginBackend') # SocialLoginBackend를 통한 인증 시도
+            self.success_url = '/'
+            return HttpResponseRedirect(success_url if is_success else self.failure_url)
 
     def set_session(self, **kwargs):
         for key, value in kwargs.items():
             self.request.session[key] = value
 
-
+# 카카오 소셜 로그인
 class KakaoLoginCallbackView(KakaoLoginMixin, View):
 
-    success_url = '/registerform/social'
+    success_url = '/registerform'
     failure_url = settings.LOGIN_URL
     model = get_user_model()
 
@@ -212,6 +214,7 @@ class KakaoLoginCallbackView(KakaoLoginMixin, View):
             return HttpResponseRedirect(self.failure_url)
         if not error.is_active:
             if not error.name:
+                request.session['register_agree'] = True
                 return HttpResponseRedirect(self.success_url if is_success else self.failure_url)
             else:
                 request.session['register_submit'] = True
@@ -225,9 +228,10 @@ class KakaoLoginCallbackView(KakaoLoginMixin, View):
         for key, value in kwargs.items():
             self.request.session[key] = value
 
+# 구글 소셜 로그인
 class GoogleLoginCallbackView(GoogleLoginMixin, View):
 
-    success_url = '/registerform/social'
+    success_url = '/registerform'
     failure_url = settings.LOGIN_URL
     model = get_user_model()
 
@@ -243,6 +247,7 @@ class GoogleLoginCallbackView(GoogleLoginMixin, View):
             return HttpResponseRedirect(self.failure_url)
         if not error.is_active:
             if not error.name:
+                request.session['register_agree'] = True
                 return HttpResponseRedirect(self.success_url if is_success else self.failure_url)
             else:
                 request.session['register_submit'] = True
@@ -256,9 +261,10 @@ class GoogleLoginCallbackView(GoogleLoginMixin, View):
         for key, value in kwargs.items():
             self.request.session[key] = value
 
+# 페이스북 소셜 로그인
 class FacebookLoginCallbackView(FacebookLoginMixin, View):
 
-    success_url = '/registerform/social'
+    success_url = '/registerform'
     failure_url = settings.LOGIN_URL
     model = get_user_model()
 
@@ -277,6 +283,7 @@ class FacebookLoginCallbackView(FacebookLoginMixin, View):
         if not error.is_active:
             # 이름을 입력하지 않았을 경우
             if not error.name:
+                request.session['register_agree'] = True
                 return HttpResponseRedirect(self.success_url if is_success else self.failure_url)
             else:
                 request.session['register_submit'] = True
