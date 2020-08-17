@@ -1,5 +1,5 @@
 from .base import *
-from dcjeil.util import get_server_info_value, get_social_login_secret_key
+from dcjeil.util import get_server_info_value
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '(SyuV>rp:hS7{JS`&80`G70gx]qdoaoB:!)vVD30Ph<AZJ#JkM'

@@ -42,7 +42,6 @@ urlpatterns = [
     path('login/social/facebook/callback', account_views.FacebookLoginCallbackView.as_view(), name='Facebooklogincallback'),
     path('register', account_views.register, name='register'),
     path('registerform', account_views.registerform, name='registerform'),
-    path('registerform/social', account_views.registerformsocial, name='registerformsocial'),
     path('registersubmit', account_views.registersubmit, name='registersubmit'),
     path('comments/<str:pk>', board_views.comments, name='comments'),
     path('comments/<str:pk>/delete', board_views.comment_delete, name='comment_delete'),

@@ -72,9 +72,7 @@ def usercheck(request):
             'menu': menu
             })
     else:
-        user = request.user
-        social_check = True if user.uid.split('//')[0] == 'social' else False
-        if social_check:
+        if request.user.is_social:
             request.session['usercheck'] = True
             return redirect(reverse('userupdate'))
         request.session['usercheck'] = False
@@ -89,23 +87,33 @@ def usercheck(request):
 def userupdate(request):
     menu = Mainmenu.objects.all().order_by('order')
     user = request.user
-    social_check = True if user.uid.split('//')[0] == 'social' else False
+    social_check = user.is_social
     if request.method == "POST":
-        forms = SocialUpdateForm(request.POST, instance=user) if social_check else UpdateForm(request.POST, instance=user)
+        if social_check:
+            forms = SocialUpdateForm(request.POST, instance=user)
+            render_html = 'registration/user/userupdate_social.html'
+        else:
+            UpdateForm(request.POST, instance=user)
+            render_html = 'registration/user/userupdate.html'
         if forms.is_valid():
             forms.save()
             request.session['userupdate'] = True
             return redirect(reverse('userresult'))
-        return render(request, 'registration/user/userupdate.html', {
+        return render(request, render_html, {
             'forms' : forms,
             'menu': menu
         })
     else:
         if not request.session.get('usercheck', False):
             return redirect(reverse('usercheck'))
-        forms = SocialUpdateForm(instance=user) if social_check else UpdateForm(instance=user)
         request.session['user_check'] = False
-        return render(request, 'registration/user/userupdate.html', {
+        if social_check:
+            forms = SocialUpdateForm(instance=user)
+            render_html = 'registration/user/userupdate_social.html'
+        else:
+            forms = UpdateForm(instance=user)
+            render_html = 'registration/user/userupdate.html'
+        return render(request, render_html, {
             'forms' : forms,
             'menu': menu
         })
