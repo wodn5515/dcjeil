@@ -55,6 +55,7 @@ class Submenu(models.Model):
     name = models.CharField(_('메뉴명'), max_length=100)
     order = models.IntegerField(_('순서'), help_text="낮을수록 먼저 배치됩니다")
     m_type = models.CharField(_('타입'), choices=MENUTYPE, max_length=50, default='list')
+    is_allowed_to_not_superuser = models.BooleanField(_('일반회원 작성가능여부'), default=False)
 
     def __str__(self):
         return f'{self.mainmenu.name} - {self.name}'
@@ -199,17 +200,17 @@ class Community(models.Model):
 
 # 데이터 삭제시 사진삭제 #
 @receiver(post_delete, sender=Carousel)
-def submission_delete(sender, instance, **kwargs):
+def submission_delete_carousel(sender, instance, **kwargs):
     instance.image.delete(False)
 
 @receiver(post_delete, sender=Server)
-def submission_delete(sender, instance, **kwargs):
+def submission_delete_server(sender, instance, **kwargs):
     instance.image.delete(False)
 
 @receiver(post_delete, sender=Pastol)
-def submission_delete(sender, instance, **kwargs):
+def submission_delete_pastol(sender, instance, **kwargs):
     instance.image.delete(False)
 
 @receiver(post_delete, sender=Community)
-def submission_delete(sender, instance, **kwargs):
+def submission_delete_community(sender, instance, **kwargs):
     instance.image.delete(False)

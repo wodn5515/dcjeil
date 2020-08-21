@@ -36,7 +36,19 @@ def post_file_save(instance, filename):
 def set_defautwriter_when_deleted():
     return account.objects.get(is_superuser=True)
 
+
 # Create your models here.
+class Posttag(models.Model):
+    
+    class Meta:
+        verbose_name = ('게시글 태그')
+        verbose_name_plural = ('게시글 태그')
+        
+    tag = models.CharField(_('태그'), max_length=10, help_text='최대 10글자입니다.')
+    
+    def __str__(self):
+        return f'{self.tag}'
+
 class Post(models.Model):
     
     class Meta:
@@ -56,6 +68,8 @@ class Post(models.Model):
     published = models.BooleanField(_('공개여부'), default=True)
     notice = models.BooleanField(_('공지사항'), default=False)
     image = models.TextField(_('사진'), blank=True)
+    tag = models.ForeignKey(Posttag, on_delete=models.CASCADE, related_name='post', null=True, blank=True)
+    updated_date = models.DateTimeField(_('수정일'), blank=True, null=True)
 
     def __str__(self):
         return f'{self.get_div_display()} / {self.title}'

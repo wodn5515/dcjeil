@@ -3,6 +3,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from data.models import Submenu
 from .choice import *
 
 # Create your models here.
@@ -41,6 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(_('스태프'), default=False)
     is_superuser = models.BooleanField(_('관리자'), default=False)
     is_social = models.BooleanField(_('소셜로그인'), default=False)
+    has_permission = models.ManyToManyField(Submenu, limit_choices_to={'m_type__contains':'list'}, verbose_name="게시판 권한", related_name='user', blank=True)
     date_joined = models.DateTimeField(_('가입날짜'), default=timezone.now)
     uid = models.CharField(_('ID'), max_length = 50, unique = True,
         error_messages = {

@@ -26,7 +26,7 @@
         <div class="field_wrap">
             {{ field.label_tag }}
             {{ field }}
-            {% if error %}<span class="error">{{error}}</span>{% endif %}
+            {% if error %}<p style="margin:10px 0px 0px 80px;" class="error">{{error}}</span>{% endif %}
             {% if field.help_text %}
             <p class="help">{{ field.help_text|safe }}</p>
             {% endif %}

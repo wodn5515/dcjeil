@@ -66,7 +66,7 @@ def usercheck(request):
             request.session['usercheck'] = True
             return redirect(reverse('userupdate'))
         error = '비밀번호가 일치하지않습니다.'
-        return render(request, 'user/usercheck.html', {
+        return render(request, 'registration/user/usercheck.html', {
             'form':form,
             'error':error,
             'menu': menu
@@ -77,7 +77,7 @@ def usercheck(request):
             return redirect(reverse('userupdate'))
         request.session['usercheck'] = False
         request.session['userupdate'] = False
-        return render(request, 'user/usercheck.html', {
+        return render(request, 'registration/user/usercheck.html', {
             'form':form,
             'menu': menu
         })
@@ -93,7 +93,7 @@ def userupdate(request):
             forms = SocialUpdateForm(request.POST, instance=user)
             render_html = 'registration/user/userupdate_social.html'
         else:
-            UpdateForm(request.POST, instance=user)
+            forms = UpdateForm(request.POST, instance=user)
             render_html = 'registration/user/userupdate.html'
         if forms.is_valid():
             forms.save()
