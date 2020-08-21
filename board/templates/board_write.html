@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}
-글쓰기 | {{title}} | 덕천제일교회
+글쓰기 | {% if title %}{{title}} |{% endif %}덕천제일교회
 {% endblock title %}
 {% block content %}
 {% include "board_title.html" %}
@@ -18,12 +18,12 @@
                 {{ field.label_tag }}
                 {% endif %}
                 {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
-                {% if field.help_text %}
-                <div class="help_text">{{ field.help_text }}</div>
-                {% endif %}
                 <div class="input_wrap">
                     {{ field }}
                 </div>
+                {% if field.help_text %}
+                <div class="help_text">{{ field.help_text }}</div>
+                {% endif %}
             </div>
             {% endfor %}
             {% if fileforms %}

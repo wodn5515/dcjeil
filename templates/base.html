@@ -82,7 +82,7 @@
                                 <ul>
                                     {% for main in menu %}
                                     <li{% if menu_nav == forloop.counter|stringformat:'s' %} class="on"{% endif %}>
-                                        <a href="/board/{{main.order}}{{main.submenu.first.order|submenu_idx}}">{{ main.name }}
+                                        <a href="/board/{{main.order}}01">{{ main.name }}
                                             <u></u>
                                         </a>
                                         <ul class="sub_menu">
@@ -110,7 +110,7 @@
                         {% for main in menu %}
                         <ul id="sub1"{% if menu_nav == forloop.counter %} class="on"{% endif %}>
                             <h3 @click="submenuShowHide">{{ main.name }}<img class="mob_menu_toggle down" src="{% static 'img/cmt_opener.png' %}"></h3>
-                            {% for sub in main.submenu.all %}
+                            {% for sub in main.submenu.all|order_by:'order' %}
                             <li>
                                 <a href="/board/{{main.order}}{{sub.order|submenu_idx}}">{{sub.name}}</a>
                             </li>

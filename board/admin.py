@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, PostFile, Comment
+from .models import Post, PostFile, Comment, Posttag
 
 class PostFileInline(admin.StackedInline):
     model = PostFile
@@ -29,5 +29,6 @@ class PostFileadmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(Post, Postadmin)
+admin.site.register(Posttag)
 admin.site.register(Comment)
 admin.site.register(PostFile, PostFileadmin)

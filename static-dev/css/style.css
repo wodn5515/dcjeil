@@ -151,7 +151,7 @@
 #list_table .th_no{width:40px;}
 #list_table .th_title{width:500px;}
 #list_table .th_writer{width:60px;}
-#list_table .th_date{width:80px;}
+#list_table .th_date{width:90px;}
 #list_table .th_views{width:55px;}
 #list_table .td_title #mob_list_info{display:none;}
 #list_table .td_title a{width:100%; display:block;}
@@ -332,7 +332,9 @@
 #content.write{width:700px; margin:0 auto;}
 #write_wrap h2{text-align:center;}
 #write_wrap select{border:1px solid #c5c5c5; height:40px; font-size:14px; line-height:14px; background-color:white; width:80px; margin-right:20px;}
-#write_wrap .field_wrap input{padding:8px; border:1px solid #c5c5c5; width:500px; height:40px; font-size:14px; line-height:14px;}
+#write_wrap .field_wrap input{padding:8px; border:1px solid #c5c5c5; width:420px; height:40px; font-size:14px; line-height:14px;}
+#write_wrap .field_wrap input.full{width:600px;}
+#write_wrap .field_wrap .tag{margin:0px;}
 #write_wrap .field_wrap input.half{width:300px;}
 #write_wrap .field_wrap input.required{background-image:url(../img/required.png); background-repeat:no-repeat; background-position:right top;}
 #write_wrap #button_wrap{text-align:center;}
@@ -343,7 +345,7 @@
 #write_wrap .field_wrap .error{font-size:12px; color:#fa5555; font-weight:bold;}
 #write_wrap .field_wrap .input_wrap{margin-top:5px;}
 #write_wrap .field_wrap .help_text{font-size:12px;}
-#write_wrap .field_wrap input[type="checkbox"]{display:inline-block; width:40px;}
+#write_wrap .field_wrap input[type="checkbox"]{display:inline-block; width:40px; margin:0px;}
 #write_wrap .field_wrap .input_wrap > a{display:inline-block; margin-bottom:10px;}
 #write_wrap #file_add{padding:0px; vertical-align:baseline; cursor:pointer; background-color:white; color:#0093e9; border:none; font-weight:bold; font-size:14px;}
 #write_wrap .file_delete{cursor:pointer; vertical-align:middle; margin-left:5px;}
@@ -535,8 +537,8 @@ body.mob_menu_on{overflow:hidden;}
     #history_btn_wrap > .container{padding:10px 0px; margin:0 5px; font-size:18px;}
     #history_wrap > .history_table > table td{padding:10px 5px; font-size:12px;}
     #history_wrap > .history_table > table .date{width:50px;}
-    #content.write .field_wrap{display:block;}
     #content.write .input_wrap input{width:300px;}
+    #content.write .input_wrap input[type="checkbox"]{width:40px;}
     #fileform_wrap .field_wrap input[type='file']{width:220px;}
 }
 
