@@ -21,7 +21,7 @@
             <div class="carousel-inner">
                 {% for carousel in carousel_list %}
                 <div class="carousel-item{% if forloop.counter == 1 %} active{% endif %}">
-                    <img class="d-block w-100" src="{{carousel.image.url}}" width="100%" height="100%" alt="{{carousel.title}}">
+                    <img class="d-block w-100" src="{{carousel.image.url}}" width="100%" height="800px" alt="{{carousel.title}}">
                 </div>
                 {% endfor %}
             </div>
@@ -82,7 +82,7 @@
                     {% now "y" as this_year %}
                     {% for post in recent %}
                     <li>
-                        <a href="{{post.get_absolute_url}}">[{{post.get_div_display}}] {{post.title}}</a>
+                        <a href="{{post.get_absolute_url}}">[{{post.get_div_display}}{% if post.tag %}<em>-{{post.tag}}</em>{% endif %}] {{post.title}}</a>
                         {% if post.upload_date|post_new %}
                         <span>
                             <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
@@ -231,7 +231,7 @@
                     {% now "y" as this_year %}
                     {% for post in main6 %}
                     <li>
-                        <a href="{{post.get_absolute_url}}">{{post.title}}</a>
+                        <a href="{{post.get_absolute_url}}">{% if post.tag %}[{{post.tag}}]{% endif %}{{post.title}}</a>
                         {% if post.upload_date|post_new %}
                         <span>
                             <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
