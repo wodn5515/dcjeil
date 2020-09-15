@@ -12,7 +12,7 @@ from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
 from board.models import Post
-from data.models import Carousel, Mainmenu
+from data.models import Carousel, Mainmenu, Popup
 from .forms import UserCheckForm, UpdateForm, SocialUpdateForm
 import string, os
 
@@ -39,7 +39,7 @@ def home(request):
     main5 = Post.objects.filter(div='407').order_by('-upload_date')[:8]
     main6 = Post.objects.filter(div__startswith='6').order_by('-upload_date')[:8]
     photo = Post.objects.filter(div='405').order_by('-upload_date')[:5]
-    return render(request, 'home.html', {
+    context = {
         'carousel_list' : carousel_list,
         'tab1' : tab1,
         'tab2' : tab2,
@@ -52,7 +52,15 @@ def home(request):
         'main6' : main6,
         'photo' : photo,
         'menu' : menu
-        })
+        }
+    if not request.COOKIES.get("popup", False):
+        try:
+            popup = Popup.objects.last()
+        except:
+            pass
+        else:
+            context['popup'] = popup
+    return render(request, 'home.html', context)
 
 # 정보수정 비밀번호 확인
 @login_required

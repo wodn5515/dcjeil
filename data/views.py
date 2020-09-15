@@ -14,7 +14,6 @@ from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
 from .models import History, Server, Pastol, Worship, Community, Welcome, Vision, Nurture, Wayto
-from .choice import DIV_CHOICES
 import string, os, json
 
 # Create your views here.
