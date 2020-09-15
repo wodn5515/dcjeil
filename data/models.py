@@ -9,7 +9,7 @@ from imagekit.processors import Thumbnail
 from imagekit.utils import get_cache
 from random import choice
 from member.choice import OFFICE_CHOICES
-from .choice import DIV_CHOICES, COMMUNITY, MENUTYPE
+from .choice import COMMUNITY, MENUTYPE
 import string
 
 # Create your models here.
@@ -17,6 +17,10 @@ import string
 # 슬라이드쇼 이미지 저장 #
 def carousel_image_save(instance, filename):
     return f'data/home_carousel/{filename}'
+
+# 팝업 이미지 저장 #
+def popup_image_save(instance, filename):
+    return f'data/popup/{filename}'
 
 # 섬기는사람들 이미지 저장 #
 def server_image_save(instance, filename):
@@ -78,6 +82,19 @@ class Welcome(models.Model):
     def __str__(self):
         return f'인사말'
 
+# 팝업 #
+class Popup(models.Model):
+    
+    class Meta:
+        verbose_name = ('팝업 관리')
+        verbose_name_plural = ('팝업 관리')
+
+    title = models.CharField(verbose_name='한줄설명', max_length=15)
+    image = models.ImageField(_('사진'), upload_to=popup_image_save)
+    
+    def __str__(self):
+        return '{}'.format(self.title)
+    
 # 홈화면 왼쪽 슬라이드쇼 #
 class Carousel(models.Model):
     

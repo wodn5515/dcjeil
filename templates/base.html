@@ -148,9 +148,10 @@
                     </p>
                 </div>
             </div>
-            <div id="modal" :class="{mob_menu_on:menu_token}" @click="menuShowHide"></div>
+            <div id="modal" :class="{on:menu_token}" @click="menuShowHide"></div>
         </div>
         {% block js %}
+        <script type="text/javascript" src="{% static 'js/common.js' %}"></script>
         <script type="text/javascript">
         // 댓글화면 Component //
         Vue.component('comment-com', {

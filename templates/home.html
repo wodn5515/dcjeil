@@ -3,6 +3,7 @@
 {% block head %}
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+<link rel="stylesheet" href="{% static 'css/popup.css' %}">
 {% endblock head %}
 {% block content %}
 <div id="header_mob">
@@ -274,14 +275,30 @@
 {{ block.super }}
 <script type="text/javascript">
     $(".tabbtn").click(function(e){
-        var no = $(e.currentTarget).attr("id").split("_")[1]
-        var tabitem = $("#tabevent_"+no)
-        var tabitem_bef = tabitem.siblings(".tab_item.active")
+        let no = $(e.currentTarget).attr("id").split("_")[1]
+        let tabitem = $("#tabevent_"+no)
+        let tabitem_bef = tabitem.siblings(".tab_item.active")
         $(e.currentTarget).addClass("active")
         $(e.currentTarget).siblings(".tabbtn").removeClass("active")
         tabitem.addClass("active");
         tabitem_bef.removeClass("active")
     })
 </script>
+{% if popup %}
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        const wrap = document.querySelector("#wrap")
+        wrap.innerHTML += "<div id='popup'><img src='{{popup.image.url}}'><div class='pop_close_box'><label class='pop_never_chk_wrap'>\
+        <input class='pop_never_chk' type='checkbox'>오늘 하루 창을 띄우지 않음.</label><div class='pop_close_btn' onclick='popupClose()'>닫기</div></div></div>"
+    })
+    function popupClose(){
+        let is_pop_never_check = document.querySelector('.pop_never_chk').checked;
+        if(is_pop_never_check){
+            setCookieAt00('popup', 'never')
+        }
+        document.querySelector('#popup').remove();
+    }
+</script>
+{% endif %}
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 {% endblock js %}
