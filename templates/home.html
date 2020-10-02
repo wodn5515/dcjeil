@@ -39,9 +39,9 @@
     <div id="main_right">
         <div id="maintabevent">
             <div id="tabbtnlist">
-                <div id="tabbtn_01" class="tabbtn active">말씀</div>
-                <div id="tabbtn_02" class="tabbtn">찬양</div>
-                <div id="tabbtn_03" class="tabbtn">기도</div>
+                <div id="tabbtn_01" class="tabbtn active" onclick="tabEvent(event)">말씀</div>
+                <div id="tabbtn_02" class="tabbtn" onclick="tabEvent(event)">찬양</div>
+                <div id="tabbtn_03" class="tabbtn" onclick="tabEvent(event)">기도</div>
             </div>
             <div id="tabevent_inner">
                 <div id="tabevent_01" class="tab_item active" title="{{tab1.title}}">
@@ -274,22 +274,12 @@
 {% block js %}
 {{ block.super }}
 <script type="text/javascript">
-    $(".tabbtn").click(function(e){
-        let no = $(e.currentTarget).attr("id").split("_")[1]
-        let tabitem = $("#tabevent_"+no)
-        let tabitem_bef = tabitem.siblings(".tab_item.active")
-        $(e.currentTarget).addClass("active")
-        $(e.currentTarget).siblings(".tabbtn").removeClass("active")
-        tabitem.addClass("active");
-        tabitem_bef.removeClass("active")
-    })
-</script>
 {% if popup %}
-<script>
     document.addEventListener("DOMContentLoaded", function(){
-        const wrap = document.querySelector("#wrap")
+        let wrap = document.querySelector("#popup_wrap")
         wrap.innerHTML += "<div id='popup'><img src='{{popup.image.url}}'><div class='pop_close_box'><label class='pop_never_chk_wrap'>\
         <input class='pop_never_chk' type='checkbox'>오늘 하루 창을 띄우지 않음.</label><div class='pop_close_btn' onclick='popupClose()'>닫기</div></div></div>"
+        console.log('asd')
     })
     function popupClose(){
         let is_pop_never_check = document.querySelector('.pop_never_chk').checked;
@@ -298,7 +288,19 @@
         }
         document.querySelector('#popup').remove();
     }
-</script>
 {% endif %}
+    function tabEvent(e){
+        let no = $(e.currentTarget).attr("id").split("_")[1]
+        console.log(no)
+        let tabitem = $("#tabevent_"+no)
+        console.log(tabitem)
+        let tabitem_bef = tabitem.siblings(".tab_item.active")
+        console.log(tabitem_bef)
+        $(e.currentTarget).addClass("active")
+        $(e.currentTarget).siblings(".tabbtn").removeClass("active")
+        tabitem.addClass("active");
+        tabitem_bef.removeClass("active")
+    }
+</script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 {% endblock js %}

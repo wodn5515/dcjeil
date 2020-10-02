@@ -12,7 +12,8 @@ from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
 from board.models import Post
-from data.models import Carousel, Mainmenu, Popup
+from data.models import Carousel, Popup
+from menu.models import Mainmenu 
 from .forms import UserCheckForm, UpdateForm, SocialUpdateForm
 import string, os
 

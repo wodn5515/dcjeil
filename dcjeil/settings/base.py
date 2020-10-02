@@ -27,9 +27,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
     'data.apps.DataConfig',
     'board.apps.BoardConfig',
+    'menu.apps.MenuConfig',
     'rest_framework',
     'ckeditor',
     'ckeditor_uploader'

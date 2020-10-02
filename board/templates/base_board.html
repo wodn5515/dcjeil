@@ -10,7 +10,11 @@
         {% include 'side_nav.html' %}
     </div>
     <div id="content" class="list">
-        {% include content %}
+        {% include content_type %}
     </div>
 </div>
 {% endblock content %}
+{% block js %}
+{{ block.super }}
+<script src="{% static 'js/board.js' %}"></script>
+{% endblock js %}

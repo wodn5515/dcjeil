@@ -149,6 +149,7 @@
                 </div>
             </div>
             <div id="modal" :class="{on:menu_token}" @click="menuShowHide"></div>
+            <div id="popup_wrap"></div>
         </div>
         {% block js %}
         <script type="text/javascript" src="{% static 'js/common.js' %}"></script>
@@ -201,106 +202,6 @@
             }
         });
 
-        // 교회연혁 Component //
-        Vue.component('history-com', {
-            data:function () {
-                return {
-                    'decade' : '0'
-                }
-            },
-            props:['history_data'],
-            created:function(){
-                this.$emit('history');
-            },
-            methods:{
-                history_change:function(decade){
-                    this.decade = decade;
-                }
-            }
-        });
-
-        // 섬기는 사람들 Component //
-        Vue.component('server-com', {
-            props:['server_data'],
-            created:function(){
-                this.$emit('server')
-            },
-            filters:{
-                // 전화번호 filter
-                tpFilter:function(value){
-                    var length = value.length;
-                    if(length==11){
-                        var pattern = /\B(?=(\d{4})+(?!\d))/g
-                        value = value.replace(pattern,'-')
-                        return value
-                    }else{
-                        var pattern = /\B(?=(\d{7})+(?!\d))/
-                        value = value.replace(pattern,'-')
-                        var pattern = /\B(?=(\d{4})+(?!\d))/
-                        value = value.replace(pattern,'-')
-                        return value
-                    }
-                    return value
-                }
-            }
-        })
-
-        // 담임목사소개 Component //
-        Vue.component('pastol-com',{
-            props:['fixedview_data'],
-            created:function(){
-                this.$emit('pastol')
-            }
-        })
-
-        // 예배안내 Component //
-        Vue.component('worship-com',{
-            props:['fixedview_data'],
-            created:function(){
-                this.$emit('worship')
-            }
-        })
-
-        // 커뮤니티 Component //
-        Vue.component('community-com', {
-            props:['fixedview_data'],
-            created:function(){
-                this.$emit('community');
-            }
-        })
-
-        // 인사말 Component //
-        Vue.component('welcome-com', {
-            props:['fixedview_data'],
-            created:function(){
-                this.$emit('welcome')
-            }
-        })
-
-        // 우리의 비전 Component //
-        Vue.component('vision-com', {
-            props:['fixedview_data'],
-            created:function(){
-                this.$emit('vision')
-            }
-        })
-
-        // 찾아오시는 길 Component //
-        Vue.component('wayto-com', {
-            props:['fixedview_data'],
-            created:function(){
-                this.$emit('wayto')
-            }
-        })
-
-        // 양육시스템 Component //
-        Vue.component('nurture-com', {
-            props:['fixedview_data'],
-            created:function(){
-                this.$emit('nurture')
-            }
-        })
-
         // Vue //
         var mob_menu = new Vue({
             el:'#wrap',
@@ -310,14 +211,14 @@
                 comment_data:{
                     comments:'',
                     comment_token:true
-                },
-                fixedview_data:'',
+                }
             },
             methods:{
                 // 모바일 사이드메뉴 methods
                 menuShowHide:function(){
                     this.menu_token = !this.menu_token;
                     document.getElementsByTagName("BODY")[0].classList.toggle('mob_menu_on');
+                    console.log('asd')
                 },
                 submenuShowHide:function(e){
                     var temp = document.getElementById('mob_menu').getElementsByClassName('show')[0]
@@ -402,78 +303,6 @@
                     }
                     this.comment_data.comment_token = !this.comment_data.comment_token
                     //console.log(this.comment_token)
-                },
-                // 교회연혁 표시 methods
-                history:function(){
-                    var self = this;
-                    axios.get('/data/history')
-                    .then(function(response){
-                        self.fixedview_data = response.data;
-                    })
-                },
-                // 섬기는 사람들 methods
-                server:function(){
-                    var self = this;
-                    axios.get('/data/server')
-                    .then(function(response){
-                        self.fixedview_data = response.data;
-                    })
-                },
-                // 담임목사소개 methods
-                pastol:function(){
-                    var self = this;
-                    axios.get('/data/pastol')
-                    .then(function(response){
-                        self.fixedview_data = response.data;
-                    })
-                },
-                // 우리의 비전 methods
-                vision:function(){
-                    var self = this;
-                    axios.get('/data/vision')
-                    .then(function(response){
-                        self.fixedview_data = response.data;
-                    })
-                },
-                // 찾아오시는 길 methods
-                wayto:function(){
-                    var self = this;
-                    axios.get('/data/wayto')
-                    .then(function(response){
-                        self.fixedview_data = response.data;
-                    })
-                },
-                // 양육시스템 methods
-                nurture:function(){
-                    var self = this;
-                    axios.get('/data/nurture')
-                    .then(function(response){
-                        self.fixedview_data = response.data;
-                    })
-                },
-                // 예배안내 methods
-                worship:function(){
-                    var self = this;
-                    axios.get('/data/worship')
-                    .then(function(response){
-                        self.fixedview_data = response.data;
-                    })
-                },
-                // 공동체 methods
-                community:function(){
-                    var self = this;
-                    axios.get('/data/community/{{pk}}')
-                    .then(function(response){
-                        self.fixedview_data = response.data;
-                    })
-                },
-                // 인사말 methods
-                welcome:function(){
-                    var self = this;
-                    axios.get('/data/welcome')
-                    .then(function(response){
-                        self.fixedview_data = response.data;
-                    })
                 }
             }
         })

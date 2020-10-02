@@ -1,29 +1,37 @@
 {% load static %}
-<community-com inline-template :fixedview_data="fixedview_data" @community="community">
-    <div id="community" class="fixedview">
-        <div id="community_wrap">
-            <div class="c_top after">
-                <div class="community_image">
-                    <img :src="fixedview_data.image" width="100%">
-                </div>
-                <div class="container c_01">
-                    <p class="content" v-html="fixedview_data.title"></p>
-                </div>
-                <div class="container c_02">
-                    <p class="content" v-html="fixedview_data.worship"></p>
-                </div>
-                <a v-if="fixedview_data.youtube" :href="fixedview_data.youtube" target="_blank" class="container c_youtube">
-                    <img src="{% static 'img/youtube_white.png' %}" width="50px">
+<div id="community" class="fixedview">
+    <div id="community_wrap">
+        <div class="c_top after">
+            <div class="container c_01">
+                <em class="title">표어<u></u></em>
+                <p class="content">{{fixed_data.title}}</p>
+            </div>
+            <div class="community_image">
+                {% if fixed_data.image.url %}
+                <img src="{{fixed_data.image.url}}" width="100%">
+                {% endif %}
+                {% if fixed_data.youtube %}
+                <a href="{{fixed_data.youtube}}" target="_blank" class="container c_youtube">
+                    <img src="{% static 'img/youtube_white.png' %}" width="80px">{{fixed_data.get_div_display}} 유튜브
                 </a>
+                {% endif %}
             </div>
-            <div class="container c_03">
-                <p class="title">교육목표</p>
-                <p class="content" v-html="fixedview_data.goal"></p>
-            </div>
-            <div class="container c_04">
-                <p class="title">섬기는 이</p>
-                <p class="content" v-html="fixedview_data.server"></p>
+            <div class="container c_02">
+                <em class="title">예배안내<u></u></em>
+                <p class="content"> {{fixed_data.worship}}</p>
             </div>
         </div>
+        {% if fixed_data.goal %}
+        <div class="container c_03">
+            <p class="title">교육목표</p>
+            <div class="content">{{fixed_data.goal|safe}}</div>
+        </div>
+        {% endif %}
+        {% if fixed_data.server %}
+        <div class="container c_04">
+            <p class="title">섬기는 이</p>
+            <div class="content">{{fixed_data.server|safe}}</div>
+        </div>
+        {% endif %}
     </div>
-</community-com>
+</div>

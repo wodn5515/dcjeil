@@ -64,13 +64,5 @@ class PostSuperuserForm(forms.ModelForm):
             raise forms.ValidationError('내용이나 동영상을 입력해주세요.')
         return content
 
-    def clean_video(self):
-        video = self.cleaned_data.get('video')
-        if video.find('.com') == -1:
-            video = video.split('/')[-1]
-        else:
-            start = video.find('v=') + 2
-            video = video[start:start+11]
-        return video
 
 PostFileFormset = forms.modelformset_factory(PostFile, extra=0, max_num=5, fields=('file',), can_delete=True)

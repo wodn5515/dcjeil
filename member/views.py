@@ -20,7 +20,7 @@ from .oauth.providers.kakao import KakaoLoginMixin
 from .oauth.providers.google import GoogleLoginMixin
 from .oauth.providers.facebook import FacebookLoginMixin
 from board.models import Post
-from data.models import Mainmenu
+from menu.models import Mainmenu
 from dcjeil.forms import SocialUpdateForm
 import string, os
 

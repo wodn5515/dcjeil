@@ -40,7 +40,7 @@
 #main_right{float:left; margin-left:10px; width:790px;}
 #maintabevent{position:relative; height:300px;}
 #tabbtnlist{z-index:8; position:absolute; bottom:15px; left:50%; transform:translateX(-50%);}
-#tabbtnlist > div{background-color:white; float:left; line-height:13px; font-size:13px; color:#6b6b6b; font-weight:bold; border:1px solid #e3e3e3; margin:0 10px; padding:10px 15px; cursor:pointer;}
+#tabbtnlist > div{user-select:none; background-color:white; float:left; line-height:13px; font-size:13px; color:#6b6b6b; font-weight:bold; border:1px solid #e3e3e3; margin:0 10px; padding:10px 15px; cursor:pointer;}
 #tabbtnlist > div:hover{color:#0093e9;}
 #tabbtnlist > div.active{background-color:#0093e9; color:#eeeeee; border:1px solid #0093e9;}
 #tabevent_inner{position:relative; height:100%; overflow:hidden; width:100%;}
@@ -195,11 +195,11 @@
 
 /* board style - fixedview - history */
 #history_btn_wrap{text-align:right; font-family:'NanumBarunGothic'; margin-bottom:20px;}
-#history_btn_wrap > .container{display:inline-block; padding:10px 10px; margin:0 10px; font-weight:bold; text-shadow:2px 2px #e6e6e6; font-size:20px; color:#b6b6b6; cursor:pointer; transition:color .3s;}
-#history_btn_wrap > .container.active{color:#0093e9;}
+#history_btn_wrap > .container{user-select:none; display:inline-block; padding:10px 10px; margin:0 10px; font-weight:bold; text-shadow:2px 2px #e6e6e6; font-size:20px; color:#b6b6b6; cursor:pointer;}
+#history_btn_wrap > .container.on{color:#0093e9;}
 #history_wrap{width:100%;}
 #history_wrap > .history_table{display:none;}
-#history_wrap > .history_table.active{display:block;}
+#history_wrap > .history_table.on{display:block;}
 #history_wrap > .history_table > table{table-layout:fixed; width:100%;}
 #history_wrap > .history_table > table td{padding:10px; font-size:14px;}
 #history_wrap > .history_table > table .year{width:60px; font-size:16px; font-weight:bold;}
@@ -247,17 +247,21 @@
 
 /* board style - fixedview - community */
 #community > #community_wrap{font-size:0px;}
-#community > #community_wrap > .c_top{background-image:url(../img/community_bg_01.png); position:relative;}
-#community > #community_wrap .community_image{float:right; margin:20px; box-shadow:0px 0px 10px 5px #ffffff;}
-#community > #community_wrap .community_image > img{width:400px;}
-#community > #community_wrap .c_01{font-size:20px; font-weight:bold; padding:100px 40px; color:black; text-shadow:0px 0px 10px #333333; word-break:keep-all;}
-#community > #community_wrap .c_02{font-size:16px; font-weight:bold; position:absolute; bottom:30px; left:50px; color:black; text-shadow:0px 0px 10px #333333;}
-#community > #community_wrap .c_youtube{position:absolute; bottom:18px; right:470px; background-color:rgba(0,0,0,0.5); border-radius:50px; cursor:pointer;}
-#community > #community_wrap .c_youtube:hover{background-color:rgba(0,0,0,0.7);}
-#community > #community_wrap .c_youtube > img{padding:10px;}
+#community > #community_wrap > .c_top{background-image:url(../img/community_bg_01.png); position:relative; text-align:center;}
+#community > #community_wrap .c_01{font-size:30px; padding:30px 40px; word-break:keep-all;}
+#community > #community_wrap .community_image{position:relative;}
+#community > #community_wrap .community_image > img{width:calc(100% - 40px); margin:0 20px; border:8px double black;}
+#community > #community_wrap .c_02{font-size:20px; padding:20px; word-break:keep-all;}
+#community > #community_wrap .c_youtube{position:absolute; transition:all .5s; max-width:80px; float:left; max-height:80px; overflow:hidden; bottom:20px; left:40px; background-color:rgba(0,0,0,0.7); border-radius:50px; cursor:pointer; color:white; font-weight:bold; font-size:14px; padding-right:20px; line-height:80px;}
+#community > #community_wrap .c_youtube:hover{transition:all .5s; max-width:200px;}
+#community > #community_wrap .c_youtube:hover > img{transform:rotate(360deg); transition:all .5s;}
+#community > #community_wrap .c_youtube > img{padding:10px; float:left; transition:all .5s;}
 #community > #community_wrap .c_03,
 #community > #community_wrap .c_04{background-color:rgba(188, 188, 188, 0.1)}
-#community > #community_wrap > .container > .title{padding:20px 5px 5px 10px; margin:0 5px 15px 5px; border-bottom:3px double #c5c5c5; color:black; font-weight:bold; font-size:20px; text-shadow:1px 1px 2px #929292;}
+#community > #community_wrap > .c_top > .container > .title{font-size:35px; position:relative; padding:10px; color:black; font-weight:bold;}
+#community > #community_wrap > .c_top > .container > .title > u{width:200%; height:5px; background-color:#333333; position: absolute; bottom:0px; left:-50%; box-shadow:0px 0px 10px 3px #333333;}
+#community > #community_wrap > .c_top > .container > .content{padding:15px 0px; color:black; font-weight:bold; background-color:rgba(255,255,255,0.5);}
+#community > #community_wrap > .container > .title{padding:20px 5px 5px 10px; margin:0 5px 15px 5px; border-bottom:3px double #c5c5c5; color:black; font-weight:bold; font-size:30px; text-shadow:1px 1px 2px #929292;}
 #community > #community_wrap > .container > .content{font-size:13px; padding:10px;}
 
 /* board style - fixedview - nurture */
@@ -531,7 +535,7 @@ body.mob_menu_on{overflow:hidden;}
 
 @media screen and (max-width:600px){
     #mob_menu{padding:5px 0;}
-    #tabbtnlist{bottom:0px; width:100%; left:0px; transform:none;}
+    #tabbtnlist{bottom:-8px; width:100%; left:0px; transform:none;}
     #tabbtnlist > div{width:33.333%; margin:0px; text-align:center; padding:10px 5px;}
     #home_wrap{padding-top:0;}
     #main_photo{display:none;}
@@ -544,7 +548,6 @@ body.mob_menu_on{overflow:hidden;}
 }
 
 @media screen and (max-width:500px){
-    #main_left{display:block; float:none; width:100%; height:auto;}
     #maingrid{
         -ms-grid-rows:240px 5px 240px 5px 240px 5px 240px 5px 240px;grid-template-rows:240px 240px 240px 240px 240px;
         -ms-grid-columns:100%; grid-template-columns:100%;
@@ -561,7 +564,7 @@ body.mob_menu_on{overflow:hidden;}
     #mob_home_btn{transform:scale(0.8); margin:15px 5px;}
     #home_wrap,
     #wrapper{max-height:100%;}
-    #maintabevent{height:200px; margin-top:10px; border-top:3px double #bebebe; padding-top:10px;}
+    #maintabevent{height:200px;}
     .tab_item > a > .container{height:160px; margin-top:0px;}
     .tab_item > a > .container > .tab_title{font-size:18px; margin-top:10px; width:90%;}
     .tab_item > a > .container > .tab_date{margin-top:50px;}
@@ -593,4 +596,19 @@ body.mob_menu_on{overflow:hidden;}
     #worship_table{word-break:keep-all;}
     #nurture > .section > .content > .image_02{width:300px;}
     #write_wrap .field_wrap .input_wrap > a{max-width:180px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden; vertical-align:text-bottom;}
+    #community > #community_wrap{font-size:0px;}
+    #community > #community_wrap > .c_top{background-image:url(../img/community_bg_01.png); position:relative; text-align:center;}
+    #community > #community_wrap .c_01{font-size:20px; padding:10px; word-break:keep-all;}
+    #community > #community_wrap .community_image{position:relative;}
+    #community > #community_wrap .community_image > img{width:calc(100% - 40px); margin:0 20px; border:8px double black;}
+    #community > #community_wrap .c_02{font-size:16px; padding:10px; word-break:keep-all;}
+    #community > #community_wrap .c_youtube{position:absolute; transition:all .5s; max-width:80px; float:left; transform:translate(-50%, 50%); max-height:80px; overflow:hidden; bottom:50%; left:50%; background-color:rgba(0,0,0,0.7); border-radius:50px; cursor:pointer; color:white; font-weight:bold; font-size:14px; padding-right:20px; line-height:80px;}
+    #community > #community_wrap .c_youtube:hover{transition:all .5s; max-width:80px;}
+    #community > #community_wrap .c_youtube:hover > img{transform:none; transition:all .5s;}
+    #community > #community_wrap .c_youtube > img{padding:10px; float:left; transition:all .5s;}
+    #community > #community_wrap > .c_top > .container > .title{font-size:22px; position:relative; padding:10px; color:black; font-weight:bold;}
+    #community > #community_wrap > .c_top > .container > .title > u{width:150%; height:5px; background-color:#333333; position: absolute; bottom:0px; left:-25%; box-shadow:0px 0px 10px 3px #333333;}
+    #community > #community_wrap > .c_top > .container > .content{padding:15px 0px; color:black; font-weight:bold; background-color:rgba(255,255,255,0.5);}
+    #community > #community_wrap > .container > .title{padding:20px 5px 5px 10px; margin:0 0 15px 0; border-bottom:3px double #c5c5c5; color:black; font-weight:bold; font-size:22px; text-shadow:1px 1px 2px #929292;}
+    #community > #community_wrap > .container > .content{font-size:13px; padding:10px;}
 }

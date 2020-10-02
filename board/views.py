@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404
 from django.urls import reverse
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from django.utils import timezone
 from django.utils.dateparse import parse_date
 from django.db import IntegrityError
@@ -16,67 +16,74 @@ from django.db.models import Q
 from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
-from data.models import Mainmenu, Submenu
+from menu.models import Mainmenu, Submenu, FixedMenu
+from data.models import History, Community
+from .utils import *
 from .models import Post, Comment, PostFile
 from .forms import AddCommentForm, PostWriteForm, PostSuperuserForm, PostFileFormset
 import string, os, json, re
 
 # Create your views here.
 
-# 게시판 목록
-def board(request, pk):
-    kind = request.GET.get('s_kind', '')
-    keyword = request.GET.get('s_keyword', '')
-    menu = Mainmenu.objects.all().order_by('order')
-    menu_nav = pk[0]
-    menu_no = pk[1:]
-    now_menu = Submenu.objects.filter(mainmenu=menu_nav).get(order=int(menu_no))
-    if now_menu.m_type == 'fixed':
-        content = 'fixedboard/fixedboard_' + pk + '.html'
-    else:
-        content = now_menu.m_type + '.html'
-    notice_list = Post.objects.filter(div=pk).filter(notice=True).order_by('-upload_date')
-    page = request.GET.get('page','1')
-    page_number_range = 5
-    if kind == 'title':
-        post_list_all =  Post.objects.filter(div=pk).filter(Q(title__contains=keyword)|Q(date__contains=keyword)).order_by('-upload_date')
-    elif kind == 'content':
-        post_list_all =  Post.objects.filter(div=pk).filter(content__contains=keyword).order_by('-upload_date')
-    elif kind == 'title_content':
-        post_list_all =  Post.objects.filter(div=pk).filter(Q(title__contains=keyword)|Q(content__contains=keyword)|Q(date__contains=keyword)).order_by('-upload_date')
-    elif kind == 'writer':
-        post_list_all =  Post.objects.filter(div=pk).filter(writer__name__contains=keyword).order_by('-upload_date')
-    else:
-        post_list_all = Post.objects.filter(div=pk).order_by('-upload_date')
-    paginator = Paginator(post_list_all, 16)
-    try:
-        post_list = paginator.page(page)
-    except PageNotAnInteger:
-        post_list = paginator.page(1)
-    except EmptyPage:
-        post_list = paginator.page(paginator.num_pages)
-    start_index = page_number_range * ((int(page)-1)//page_number_range) + 1
-    end_index = start_index + page_number_range
-    max_index = len(paginator.page_range)+1
-    if end_index >= max_index:
-        end_index = max_index
-    page_range = range(start_index, end_index)
-    return render(request, 'base_board.html', {
-        'content' : content,
-        'menu_nav' : menu_nav,
-        'menu_no' : menu_no,
-        'notice_list' : notice_list,
-        'post_list' : post_list,
-        'page_range' : page_range,
-        'pk' : pk,
-        'total': post_list_all.count()+1,
-        's_keyword' : keyword,
-        's_kind' : kind,
-        'menu' : menu,
-        'now_menu' : now_menu
-    })
+# 게시판 - 목록
+class Board(ListView, BoardMixin):
+    
+    model = Post
+    template_name = 'base_board.html'
+    paginate_by = 10
+    context_object_name = 'post_list'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        kind = self.request.GET.get('s_kind', '')
+        keyword = self.request.GET.get('s_keyword', '')
+        paginator = context['paginator']
+        page = self.request.GET.get('page', '1')
+        now_menu = Submenu.objects.filter(mainmenu=pk[0]).get(order=int(pk[1:]))
+        if now_menu.m_type == 'fixed_uneditable':
+            content_type = 'fixedboard/fixedboard_' + pk + '.html'
+            if now_menu.name == '교회연혁':
+                context['history_decade'], fixed_data = self.get_history()
+            else:
+                fixed_data = self.get_community(pk)
+        else:
+            content_type = now_menu.m_type + '.html'
+            fixed_data = FixedMenu.objects.filter(menu=now_menu).last()
+        context['page_range'] = self.page_range(paginator, page)
+        context['pk'] = pk
+        context['menu'] = Mainmenu.objects.all().order_by('order')
+        context['s_kind'] = kind
+        context['s_keyword'] = keyword
+        context['menu_nav'] = pk[0]
+        context['menu_no'] = pk[1:]
+        context['now_menu'] = now_menu
+        context['content_type'] = content_type
+        context['fixed_data'] = fixed_data
+        return context
+    
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        kind = self.request.GET.get('s_kind', '')
+        keyword = self.request.GET.get('s_keyword', '')
+        post_list = Post.objects.filter(div=pk)
+        if kind == 'title':
+            post_list =  post_list.filter(Q(title__contains=keyword)|Q(date__contains=keyword))
+        elif kind == 'content':
+            post_list =  post_list.filter(content__contains=keyword)
+        elif kind == 'title_content':
+            post_list =  post_list.filter(Q(title__contains=keyword)|Q(content__contains=keyword)|Q(date__contains=keyword))
+        elif kind == 'writer':
+            post_list =  post_list.filter(writer__name__contains=keyword)
+        return post_list.order_by('-upload_date')
+        
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+        context = self.get_context_data()
+        return self.render_to_response(context)
 
-# 게시판
+
+# 게시판 - 디테일
 def detail(request, board_pk, pk):
     post = Post.objects.get(pk=pk)
     menu = Mainmenu.objects.all().order_by('order')
@@ -84,11 +91,11 @@ def detail(request, board_pk, pk):
     menu_no = board_pk[1:]
     now_menu = Submenu.objects.filter(mainmenu=menu_nav).get(order=int(menu_no))
     try:
-        prev_post = Post.objects.filter(div=menu, upload_date__lt=post.upload_date).order_by('-upload_date')[0]
+        prev_post = Post.objects.filter(div=board_pk, upload_date__lt=post.upload_date).order_by('-upload_date')[0]
     except:
         prev_post = None
     try:
-        next_post = Post.objects.filter(div=menu, upload_date__gt=post.upload_date).order_by('upload_date')[0]
+        next_post = Post.objects.filter(div=board_pk, upload_date__gt=post.upload_date).order_by('upload_date')[0]
     except:
         next_post = None
     return render(request, 'base_detail.html', {
@@ -327,3 +334,89 @@ def post_delete(request, menu, pk):
     else:
         messages.info(request, '권한이 없습니다.')
         return redirect(post)
+    
+###############################################################################################
+########################################## Abandoned ##########################################
+###############################################################################################
+###############################################################################################
+########################################## Abandoned ##########################################
+###############################################################################################
+###############################################################################################
+########################################## Abandoned ##########################################
+###############################################################################################
+###############################################################################################
+########################################## Abandoned ##########################################
+###############################################################################################
+###############################################################################################
+########################################## Abandoned ##########################################
+###############################################################################################    
+'''
+# 게시판 목록
+def board(request, pk):
+    kind = request.GET.get('s_kind', '')
+    keyword = request.GET.get('s_keyword', '')
+    menu = Mainmenu.objects.all().order_by('order')
+    menu_nav = pk[0]
+    menu_no = pk[1:]
+    now_menu = Submenu.objects.filter(mainmenu=menu_nav).get(order=int(menu_no))
+    notice_list = Post.objects.filter(div=pk).filter(notice=True).order_by('-upload_date')
+    page = request.GET.get('page','1')
+    page_number_range = 5
+    if kind == 'title':
+        post_list_all =  Post.objects.filter(div=pk).filter(Q(title__contains=keyword)|Q(date__contains=keyword)).order_by('-upload_date')
+    elif kind == 'content':
+        post_list_all =  Post.objects.filter(div=pk).filter(content__contains=keyword).order_by('-upload_date')
+    elif kind == 'title_content':
+        post_list_all =  Post.objects.filter(div=pk).filter(Q(title__contains=keyword)|Q(content__contains=keyword)|Q(date__contains=keyword)).order_by('-upload_date')
+    elif kind == 'writer':
+        post_list_all =  Post.objects.filter(div=pk).filter(writer__name__contains=keyword).order_by('-upload_date')
+    else:
+        post_list_all = Post.objects.filter(div=pk).order_by('-upload_date')
+    paginator = Paginator(post_list_all, 16)
+    try:
+        post_list = paginator.page(page)
+    except PageNotAnInteger:
+        post_list = paginator.page(1)
+    except EmptyPage:
+        post_list = paginator.page(paginator.num_pages)
+    start_index = page_number_range * ((int(page)-1)//page_number_range) + 1
+    end_index = start_index + page_number_range
+    max_index = len(paginator.page_range)+1
+    if end_index >= max_index:
+        end_index = max_index
+    page_range = range(start_index, end_index)
+    if now_menu.m_type == 'fixed_uneditable':
+        content = 'fixedboard/fixedboard_' + pk + '.html'
+    else:
+        content = now_menu.m_type + '.html'
+    return render(request, 'base_board.html', {
+        'content' : content,
+        'menu_nav' : menu_nav,
+        'menu_no' : menu_no,
+        'notice_list' : notice_list,
+        'post_list' : post_list,
+        'page_range' : page_range,
+        'pk' : pk,
+        'total': post_list_all.count()+1,
+        's_keyword' : keyword,
+        's_kind' : kind,
+        'menu' : menu,
+        'now_menu' : now_menu
+    })
+'''
+    
+###############################################################################################
+########################################## Abandoned ##########################################
+###############################################################################################
+###############################################################################################
+########################################## Abandoned ##########################################
+###############################################################################################
+###############################################################################################
+########################################## Abandoned ##########################################
+###############################################################################################
+###############################################################################################
+########################################## Abandoned ##########################################
+###############################################################################################
+###############################################################################################
+########################################## Abandoned ##########################################
+############################################################################################### 

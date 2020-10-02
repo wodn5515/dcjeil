@@ -30,8 +30,8 @@
 <!---------- 내용 ----------->
 <div id="detail_content" class="after">
     {% if post.video %}
-    <div class="youtube_container"><iframe src="http://www.youtube.com/embed/{{post.video}}" frameborder="0" allowfullscreen></iframe></div>
-    <p class=youtube_link><img src="{% static 'img/link.png' %}"><a href="https://youtu.be/{{post.video}}" target="_blank">https://youtu.be/{{post.video}}</a></p>
+    <div class="youtube_container"><iframe src="{{post.video|youtube_embed}}" frameborder="0" allowfullscreen></iframe></div>
+    <p class=youtube_link><img src="{% static 'img/link.png' %}"><a href="{{post.video}}" target="_blank">{{post.video}}</a></p>
     {% endif %}<p>{{post.content|safe}}</p>
 </div>
 <!---------- 댓글 ----------->
