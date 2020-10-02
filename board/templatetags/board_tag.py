@@ -1,18 +1,27 @@
 from django import template
 from django.utils import timezone
-from data.models import Submenu, Mainmenu
+from menu.models import Submenu, Mainmenu
 import re, os, datetime
 
 register = template.Library()
 
 @register.simple_tag
-def td_no(value, total, start):
-    return total-start-value
+def td_no(value, start):
+    return value+start
 
 @register.filter
 def url_target_blank(text):
     return text.replace('<a ', '<a target="_blank" ')
 url_target_blank = register.filter(url_target_blank, is_safe = True)
+
+@register.filter
+def youtube_embed(link):
+    if link.find('.com') == -1:
+            link = link.split('/')[-1]
+    else:
+        start = link.find('v=') + 2
+        link = link[start:start+11]
+    return "http://www.youtube.com/embed/" + link
 
 @register.filter
 def filename(value):

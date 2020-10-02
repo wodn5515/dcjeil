@@ -5,12 +5,5 @@ app_name = 'data'
 
 urlpatterns = [
     path('history', views.history, name="history"),
-    path('server', views.server, name="server"),
-    path('pastol', views.pastol, name="pastol"),
-    path('worship', views.worship, name="worship"),
     path('community/<str:div>', views.community, name='community'),
-    path('welcome', views.welcome, name="welcome"),
-    path('vision', views.vision, name='vision'),
-    path('wayto', views.wayto, name='wayto'),
-    path('nurture', views.nurture, name='nurture')
 ]

@@ -13,7 +13,7 @@ from django.db import IntegrityError
 from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
-from .models import History, Server, Pastol, Worship, Community, Welcome, Vision, Nurture, Wayto
+from .models import History, Community
 import string, os, json
 
 # Create your views here.
@@ -21,7 +21,7 @@ import string, os, json
 def history(request):
     decade = 1970
     data = []
-    for i in range(5):
+    for i in range(6):
         history_list = History.objects.filter(date__year__gte=decade, date__year__lt=decade+10).order_by('date')
         year_temp = 0
         data_temp = []
@@ -39,42 +39,6 @@ def history(request):
         decade += 10
     return JsonResponse(data, safe=False)
 
-def server(request):
-    data = {}
-    server = Server.objects.get()
-    data['content'] = server.content
-    return JsonResponse(data, safe=False)
-
-def pastol(request):
-    data = {}
-    pastol = Pastol.objects.get()
-    data['content'] = pastol.content
-    return JsonResponse(data, safe=False)
-
-def vision(request):
-    data = {}
-    vision = Vision.objects.get()
-    data['content'] = vision.content
-    return JsonResponse(data, safe=False)
-
-def nurture(request):
-    data = {}
-    nurture = Nurture.objects.get()
-    data['content'] = nurture.content
-    return JsonResponse(data, safe=False)
-
-def wayto(request):
-    data = {}
-    wayto = Wayto.objects.get()
-    data['content'] = wayto.content
-    return JsonResponse(data, safe=False)
-
-def worship(request):
-    data = {}
-    worship = Worship.objects.get()
-    data['content'] = worship.content
-    return JsonResponse(data, safe=False)
-
 def community(request, div):
     data = {}
     community = Community.objects.get(div=div)
@@ -84,10 +48,4 @@ def community(request, div):
     data['worship'] = community.worship.replace('\n', '<br>')
     data['server'] = community.server
     data['youtube'] = community.youtube
-    return JsonResponse(data, safe=False)
-
-def welcome(request):
-    data = {}
-    welcome = Welcome.objects.get()
-    data['content'] = welcome.content
     return JsonResponse(data, safe=False)

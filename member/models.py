@@ -3,7 +3,6 @@ from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from data.models import Submenu
 from .choice import *
 
 # Create your models here.
@@ -35,14 +34,20 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.save(using=self._db)
         return user
-
+    
+class PermissionsGroup(models.Model):
+    name = models.CharField(_('그룹명'), max_length=100, default='')
+    
+    class Meta:
+        verbose_name = "그룹관리"
+        verbose_name_plural = "그룹관리"
+        
 class User(AbstractBaseUser, PermissionsMixin):
-    name = models.CharField(_('이름'), max_length = 5, default='')
+    name = models.CharField(_('이름'), max_length=5, default='')
     is_active = models.BooleanField(_('승인'), default=False)
-    is_staff = models.BooleanField(_('스태프'), default=False)
-    is_superuser = models.BooleanField(_('관리자'), default=False)
+    is_staff = models.BooleanField(_('스태프'), default=False, help_text="관리자페이지 접속권한")
+    is_superuser = models.BooleanField(_('관리자'), default=False, help_text="최고등급의 관리자권한")
     is_social = models.BooleanField(_('소셜로그인'), default=False)
-    has_permission = models.ManyToManyField(Submenu, limit_choices_to={'m_type__contains':'list'}, verbose_name="게시판 권한", related_name='user', blank=True)
     date_joined = models.DateTimeField(_('가입날짜'), default=timezone.now)
     uid = models.CharField(_('ID'), max_length = 50, unique = True,
         error_messages = {
