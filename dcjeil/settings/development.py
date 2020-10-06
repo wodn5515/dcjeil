@@ -21,8 +21,12 @@ ALLOWED_HOSTS = ['*']
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'dcjeil_develop.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dcjeil_local',
+        'USER': 'dcjeil_local',
+        'PASSWORD': 'dcjeil_local',
+        'HOST': 'localhost',
+        'PORT': '3306'
     }
 }
 

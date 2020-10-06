@@ -395,7 +395,7 @@ body.mob_menu_on{overflow:hidden;}
     #main_menu > ul > li:hover > ul.sub_menu{box-shadow:0px 3px 3px 1px #e3e3e3;}
     .sub_menu{width:100%; padding-top:2px;}
     #main_menu > ul > li:hover > ul.sub_menu > li{border-top:1px solid #ffffff;}
-    .sub_menu li{float:none; background-color:#00598d; border-top:1px solid #ffffff; transition:all .2s;}
+    .sub_menu li{float:none; background-color:#00598d; transition:all .2s;}
     .sub_menu li a{color:#ffffff;}
     .sub_menu li a:hover{color:#a8dfff;}
     #top_frame{width:90%;}
