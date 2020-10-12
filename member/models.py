@@ -1,8 +1,9 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
-from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.models import PermissionsMixin, Permission, GroupManager
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from menu.models import Submenu
 from .choice import *
 
 # Create your models here.
@@ -35,24 +36,77 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
     
-class PermissionsGroup(models.Model):
-    name = models.CharField(_('그룹명'), max_length=100, default='')
-    
+
+class AdminPermissionGroup(models.Model):
+    name = models.CharField(_('그룹명'), max_length=80, unique=True)
+    permissions = models.ManyToManyField(
+        Permission,
+        verbose_name=_('권한'),
+        blank=True,
+    )
+
+    objects = GroupManager()
+
     class Meta:
-        verbose_name = "그룹관리"
-        verbose_name_plural = "그룹관리"
+        verbose_name = _('관리자페이지 권한')
+        verbose_name_plural = _('관리자페이지 권한')
+
+    def __str__(self):
+        return self.name
+
+    def natural_key(self):
+        return (self.name,)
+    
+    
+class BoardPermissionGroup(models.Model):
+    name = models.CharField(_('그룹명'), max_length=80, unique=True)
+    permissions = models.ManyToManyField(
+        Submenu,
+        verbose_name=_('게시판'),
+        blank=True,
+        limit_choices_to={'m_type__contains':'list'}
+    )
+
+    class Meta:
+        verbose_name = _('게시판 권한')
+        verbose_name_plural = _('게시판 권한')
+        
+    def __str__(self):
+        return self.name
         
 class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(_('이름'), max_length=5, default='')
     is_active = models.BooleanField(_('승인'), default=False)
-    is_staff = models.BooleanField(_('스태프'), default=False, help_text="관리자페이지 접속권한")
-    is_superuser = models.BooleanField(_('관리자'), default=False, help_text="최고등급의 관리자권한")
+    is_staff = models.BooleanField(_('스태프'), default=False, help_text=_('관리자페이지 접속권한'))
+    is_superuser = models.BooleanField(_('관리자'), default=False, help_text=_('최고등급의 관리자권한'))
     is_social = models.BooleanField(_('소셜로그인'), default=False)
     date_joined = models.DateTimeField(_('가입날짜'), default=timezone.now)
-    uid = models.CharField(_('ID'), max_length = 50, unique = True,
+    uid = models.CharField(
+        _('ID'),
+        max_length = 50,
+        unique = True,
         error_messages = {
             'unique' : _("이미 가입된 아이디 입니다."),
         },
+    )
+    email = models.EmailField(
+        _('이메일'),
+        help_text=_('회원정보를 찾을 때 필요합니다'),
+        unique=True,
+        null=True,
+        error_messages = {
+            'unique' : _("이미 가입된 이메일 입니다."),
+        }
+    )
+    adminpermissiongroups = models.ManyToManyField(
+        AdminPermissionGroup,
+        verbose_name=_('관리자페이지 권한'),
+        blank=True
+    )
+    boardpermissiongroups = models.ManyToManyField(
+        BoardPermissionGroup,
+        verbose_name=_('게시판 권한'),
+        blank=True
     )
 
     objects = UserManager()

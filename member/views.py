@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.middleware.csrf import _compare_salted_tokens
+from django.middleware.csrf import _compare_masked_tokens
 from django.views.decorators.http import require_POST, require_GET
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404
@@ -95,6 +95,7 @@ def register(request):
             'menu': menu
         })
     else:
+        request.session['social_login'] = False
         request.session['register_agree'] = False
         request.session['register_submit'] = False
         return render(request, 'registration/register.html', {
@@ -106,7 +107,7 @@ def register(request):
 def registerform(request):
     menu = Mainmenu.objects.all().order_by('order')
     if request.method == "POST":
-        if request.user.is_anonymous:
+        if request.session.get('social_login', False):
             uid = request.session.get('uid')
             user = get_object_or_404(User, uid=uid)
             forms = SocialUpdateForm(request.POST, instance=user)
@@ -131,16 +132,16 @@ def registerform(request):
                 'menu': menu
             })
     else:
-        if not request.session.get('register_agree', False):
-            return redirect(reverse('register'))
-        request.session['register_agree'] = False
-        if request.user.is_anonymous:
+        if request.session.get('social_login', False):
             forms = SocialUpdateForm()
             return render(request, 'registration/registerform_social.html', {
                 'forms': forms,
                 'menu': menu
             })
         else:
+            if not request.session.get('register_agree', False):
+                return redirect(reverse('register'))
+            request.session['register_agree'] = False
             forms = RegisterForm()
             return render(request, 'registration/registerform.html', {
                 'forms' : forms,
@@ -169,7 +170,7 @@ class NaverLoginCallbackView(NaverLoginMixin, View):
         success_url = request.GET.get('next', '/')
         csrf_token = request.GET.get('state')
         code = request.GET.get('code')
-        if not _compare_salted_tokens(csrf_token, request.COOKIES.get('csrftoken')): # state(csrf_token)이 잘못된 경우
+        if not _compare_masked_tokens(csrf_token, request.COOKIES.get('csrftoken')): # state(csrf_token)이 잘못된 경우
             messages.error(request, '잘못된 경로로 로그인하셨습니다.', extra_tags='danger')
             return HttpResponseRedirect(self.failure_url)
         is_success, error = self.login_with_naver(csrf_token, code)
@@ -177,7 +178,7 @@ class NaverLoginCallbackView(NaverLoginMixin, View):
             messages.error(request, error, extra_tags='danger')
         if not error.is_active:
             if not error.name:
-                request.session['register_agree'] = True
+                self.set_session(register_agree=True, social_login=True)
                 return HttpResponseRedirect(self.success_url if is_success else self.failure_url)
             else:
                 request.session['register_submit'] = True
@@ -205,7 +206,7 @@ class KakaoLoginCallbackView(KakaoLoginMixin, View):
         if error_desc:
             messages.error(request, '로그인에 실패하셨습니다.', extra_tags='danger')
             return HttpResponseRedirect(self.failure_url)
-        if not _compare_salted_tokens(csrf_token, request.COOKIES.get('csrftoken')): # state(csrf_token)이 잘못된 경우
+        if not _compare_masked_tokens(csrf_token, request.COOKIES.get('csrftoken')): # state(csrf_token)이 잘못된 경우
             messages.error(request, '잘못된 경로로 로그인 하셨습니다.', extra_tags='danger')
             return HttpResponseRedirect(self.failure_url)
         is_success, error = self.login_with_kakao(code)
@@ -214,7 +215,7 @@ class KakaoLoginCallbackView(KakaoLoginMixin, View):
             return HttpResponseRedirect(self.failure_url)
         if not error.is_active:
             if not error.name:
-                request.session['register_agree'] = True
+                self.set_session(register_agree=True, social_login=True)
                 return HttpResponseRedirect(self.success_url if is_success else self.failure_url)
             else:
                 request.session['register_submit'] = True
@@ -238,7 +239,7 @@ class GoogleLoginCallbackView(GoogleLoginMixin, View):
     def get(self, request, *args, **kwargs):
         csrf_token = request.GET.get('state')
         code = request.GET.get('code')
-        if not _compare_salted_tokens(csrf_token, request.COOKIES.get('csrftoken')): # state(csrf_token)이 잘못된 경우
+        if not _compare_masked_tokens(csrf_token, request.COOKIES.get('csrftoken')): # state(csrf_token)이 잘못된 경우
             messages.error(request, '잘못된 경로로 로그인 하셨습니다.', extra_tags='danger')
             return HttpResponseRedirect(self.failure_url)
         is_success, error = self.login_with_google(code)
@@ -247,7 +248,7 @@ class GoogleLoginCallbackView(GoogleLoginMixin, View):
             return HttpResponseRedirect(self.failure_url)
         if not error.is_active:
             if not error.name:
-                request.session['register_agree'] = True
+                self.set_session(register_agree=True, social_login=True)
                 return HttpResponseRedirect(self.success_url if is_success else self.failure_url)
             else:
                 request.session['register_submit'] = True
@@ -271,7 +272,7 @@ class FacebookLoginCallbackView(FacebookLoginMixin, View):
     def get(self, request, *args, **kwargs):
         csrf_token = request.GET.get('state')
         code = request.GET.get('code')
-        if not _compare_salted_tokens(csrf_token, request.COOKIES.get('csrftoken')): # state(csrf_token)이 잘못된 경우
+        if not _compare_masked_tokens(csrf_token, request.COOKIES.get('csrftoken')): # state(csrf_token)이 잘못된 경우
             messages.error(request, '잘못된 경로로 로그인 하셨습니다.', extra_tags='danger')
             return HttpResponseRedirect(self.failure_url)
         is_success, error = self.login_with_facebook(code)
@@ -283,7 +284,7 @@ class FacebookLoginCallbackView(FacebookLoginMixin, View):
         if not error.is_active:
             # 이름을 입력하지 않았을 경우
             if not error.name:
-                request.session['register_agree'] = True
+                self.set_session(register_agree=True, social_login=True)
                 return HttpResponseRedirect(self.success_url if is_success else self.failure_url)
             else:
                 request.session['register_submit'] = True

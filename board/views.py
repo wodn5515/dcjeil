@@ -160,10 +160,9 @@ def post_write(request, board_pk):
     menu_no = board_pk[1:]
     now_menu = Submenu.objects.filter(mainmenu=menu_nav).get(order=int(menu_no))
     permission_menus = []
-    for permission_menu in user.has_permission.all():
-        main = str(permission_menu.mainmenu.order)
-        sub = str(permission_menu.order)
-        permission_menus.append(main+'0'+sub) if len(sub) == 1 else permission_menus.append(main+sub)
+    for permissions_group in user.boardpermissiongroups.all():
+        for permission in permissions_group.permissions.all():
+            permission_menus.append(permission.get_full_menu())
     if request.method == "POST":
         if board_pk in permission_menus or user.is_superuser:
             forms = PostSuperuserForm(request.POST)
@@ -191,7 +190,7 @@ def post_write(request, board_pk):
                 'now_menu' : now_menu
             }
         else:
-            if now_menu.is_allowed_to_not_superuser:
+            if now_menu.is_allowed_to_all:
                 forms = PostWriteForm(request.POST)
             else:
                 messages.info(request, '권한이 없습니다.')
@@ -226,7 +225,7 @@ def post_write(request, board_pk):
                 'now_menu' : now_menu
             }
         else:
-            if now_menu.is_allowed_to_not_superuser:
+            if now_menu.is_allowed_to_all:
                 forms = PostWriteForm()
                 context = {
                     'board_pk' : board_pk,
