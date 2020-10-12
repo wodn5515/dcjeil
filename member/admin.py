@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import Group
 from django.utils.translation import ugettext_lazy as _
-from .models import User, PermissionsGroup
+from .models import User, AdminPermissionGroup, BoardPermissionGroup
 from .forms import UserChangeForm, UserCreationForm
 
 def make_is_active(modeladmin, request, queryset):
@@ -23,9 +24,9 @@ class UserAdmin(BaseUserAdmin):
     list_display_links = ('name',)
     list_filter = ('is_active',)
     fieldsets = (
-        (None, {'fields': ('uid', 'password',)}),
+        (_('회원정보'), {'fields': ('uid', 'password',)}),
         (_('Personal info'), {'fields': ('name',)}),
-        (_('Permissions'), {'fields': ('is_active', 'is_superuser', 'is_staff', 'groups',)}),
+        (_('Permissions'), {'fields': ('is_active', 'is_superuser', 'is_staff', 'adminpermissiongroups', 'boardpermissiongroups',)}),
     )
     add_fieldsets = (
         (None, {'fields': ('uid', 'password',)}),
@@ -35,3 +36,24 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
     ordering = ['uid',]
     actions = [make_is_active, make_is_inactive]
+
+@admin.register(AdminPermissionGroup)
+class AdminPermissionGroupAdmin(admin.ModelAdmin):
+    search_fields = ('name',)
+    ordering = ('name',)
+    filter_horizontal = ('permissions',)
+
+    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
+        if db_field.name == 'permissions':
+            qs = kwargs.get('queryset', db_field.remote_field.model.objects)
+            # Avoid a major performance hit resolving permission names which
+            # triggers a content_type load:
+            kwargs['queryset'] = qs.select_related('content_type')
+        return super().formfield_for_manytomany(db_field, request=request, **kwargs)
+    
+@admin.register(BoardPermissionGroup)
+class BoardPermissionGroupAdmin(admin.ModelAdmin):
+    search_fields = ('name',)
+    ordering = ('name',)
+        
+admin.site.unregister(Group)

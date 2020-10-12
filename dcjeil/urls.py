@@ -25,6 +25,10 @@ from . import views
 from board import views as board_views
 from member import views as account_views
 
+admin.site.site_header = "덕천제일교회 관리"
+admin.site.site_title = "덕천제일교회 관리"
+admin.site.index_title = "Home"
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
