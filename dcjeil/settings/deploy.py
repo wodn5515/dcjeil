@@ -7,7 +7,10 @@ DEBUG = False
 
 SECRET_KEY = SETTING_PRD_DIC["SECRET_KEY"]
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'http://13.209.219.30/',
+    'http://dcjeil.net/'
+    ]
 
 DATABASES = {
     'default': SETTING_PRD_DIC['DATABASES']["default"]
