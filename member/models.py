@@ -9,17 +9,18 @@ from .choice import *
 # Create your models here.
 
 class UserManager(BaseUserManager):
-    def create_user(self, uid, name, password):
+    def create_user(self, uid, name, password, email):
         user = self.model(
             uid=uid,
             name=name,
+            email=email
             )
         
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, uid, name, password):
+    def create_superuser(self, uid, name, password, email):
         """
         주어진 이메일, 닉네임, 비밀번호 등 개인정보로 User 인스턴스 생성
         단, 최상위 사용자이므로 권한을 부여한다. 
@@ -28,6 +29,7 @@ class UserManager(BaseUserManager):
             uid=uid,
             name=name,
             password=password,
+            email=email
         )
 
         user.is_superuser = True
