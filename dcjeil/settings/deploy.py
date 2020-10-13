@@ -9,7 +9,8 @@ SECRET_KEY = SETTING_PRD_DIC["SECRET_KEY"]
 
 ALLOWED_HOSTS = [
     '13.209.219.30',
-    'dcjeil.net'
+    'dcjeil.net',
+    'www.dcjeil.net'
     ]
 
 DATABASES = {
