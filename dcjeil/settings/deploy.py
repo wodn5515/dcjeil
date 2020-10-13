@@ -8,8 +8,8 @@ DEBUG = False
 SECRET_KEY = SETTING_PRD_DIC["SECRET_KEY"]
 
 ALLOWED_HOSTS = [
-    'http://13.209.219.30/',
-    'http://dcjeil.net/'
+    '13.209.219.30',
+    'dcjeil.net'
     ]
 
 DATABASES = {
