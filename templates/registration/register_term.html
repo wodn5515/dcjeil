@@ -1,3 +1,6 @@
+<div class="register_term">
+        <p>회원가입약관</p>
+        <textarea readonly>
 덕천제일교회 약관
 
 제 1 조 (목적) 
@@ -185,3 +188,10 @@
 
 [부칙] 
 이 약관은 2005년 12월 15일 부터 시행합니다.
+</textarea>
+        <div class="agree_wrap">
+            {% csrf_token %}
+            <input type="checkbox" name="term_agree" id="term_agree" value="agree">
+            <label for="term_agree">회원가입약관의 내용에 동의합니다.</label>
+        </div>
+    </div>

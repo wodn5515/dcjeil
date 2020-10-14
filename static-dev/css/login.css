@@ -13,9 +13,8 @@ body#login{width:480px; margin:0 auto;}
 #login_wrap > .wrap .login_submit{background-color:#0093e9; cursor:pointer; border:1px solid #0187d4;}
 
 #social_login_wrap{margin-top:20px;}
-#social_login_wrap .sl_left{float:left;}
-#social_login_wrap .sl_right{float:right;}
-#social_login_wrap .sl_btn{display:block;}
+#social_login_wrap .sl_btn_wrap{text-align:center;}
+#social_login_wrap .sl_btn{display:inline-block; width:230px;}
 
 #footer{margin-top:20px;}
 #footer > .wrap{width:100%; margin:0 auto; border-top:1px solid #c5c5c5; padding-top:5px; text-align:center;}

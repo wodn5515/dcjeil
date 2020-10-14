@@ -9,7 +9,7 @@ class KakaoClient:
     redirect_uri = 'http://localhost:8000/login/social/kakao/callback'
 
     token_url = 'https://kauth.kakao.com/oauth/token'
-    profile_url = 'https://kapi.kakao.com/v1/user/access_token_info'
+    profile_url = 'https://kapi.kakao.com/v2/user/me'
 
     __instance = None
 
@@ -52,9 +52,11 @@ class KakaoLoginMixin:
         # 유저 생성 또는 업데이트
         user, created = self.model.objects.get_or_create(uid='social//kakao/' + str(profiles.get('id')))
         if created:
+            user.email = profiles.get('kakao_account').get('email')
+            user.name = profiles.get('kakao_account').get('profile').get('nickname')
             user.set_password(None)
-        user.is_social = True
-        user.save()
+            user.is_social = True
+            user.save()
 
         # 세션데이터 추가
         self.set_session(access_token=access_token, refresh_token=refresh_token, expires_in=expires_in, token_type=token_type, uid='social//kakao/' + str(profiles.get('id')))

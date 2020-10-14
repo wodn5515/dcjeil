@@ -1,16 +1,24 @@
-<table id="private_table">
-<thead>
-    <tr>
-        <th>목적</th>
-        <th>항목</th>
-        <th>보유기간</th>
-    </tr>
-</thead>
-<tbody>
-    <tr>
-        <td>이용자 식별 및 본인여부 확인</td>
-        <td>아이디, 이름, 비밀번호</td>
-        <td>회원 탈퇴 시까지</td>
-    </tr>
-</tbody>
-</table>
+    <div class="register_term">
+        <p>개인정보처리방침안내</p>
+        <table id="private_table">
+            <thead>
+                <tr>
+                    <th>목적</th>
+                    <th>항목</th>
+                    <th>보유기간</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>이용자 식별 및 본인여부 확인</td>
+                    <td>아이디, 이름, 비밀번호</td>
+                    <td>회원 탈퇴 시까지</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="agree_wrap">
+            {% csrf_token %}
+            <input type="checkbox" name="private_agree" id="private_agree" value="agree">
+            <label for="private_agree">개인정보처리방침안내의 내용에 동의합니다.</label>
+        </div>
+    </div><table id="private_table">

@@ -26,7 +26,7 @@ class UpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('name', 'uid', 'password')
+        fields = ('name', 'uid', 'email', 'password')
         widget = {
             'uid' : forms.TextInput(attrs={
                 'autofocus' : 'on'
@@ -74,8 +74,8 @@ class SocialUpdateForm(forms.ModelForm):
         kwargs.setdefault('label_suffix', '')
         super(SocialUpdateForm, self).__init__(*args, **kwargs)
         
-    name = forms.CharField(label='이름', widget=forms.TextInput, help_text="소셜로그인을 통해 가입된 회원입니다.")
+    name = forms.CharField(label='이름', widget=forms.TextInput, help_text="◈ 소셜로그인을 통해 가입된 회원입니다.")
 
     class Meta:
         model = User
-        fields = ('name',)
+        fields = ('name', 'email')
