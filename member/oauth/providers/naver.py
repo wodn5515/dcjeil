@@ -52,9 +52,11 @@ class NaverLoginMixin:
         # 유저 생성 또는 업데이트
         user, created = self.model.objects.get_or_create(uid='social//naver/'+profiles.get('id'))
         if created:
+            user.email = profiles.get('email')
+            user.name = profiles.get('name')
             user.set_password(None)
-        user.is_social = True
-        user.save()
+            user.is_social = True
+            user.save()
 
         # 세션데이터 추가
         self.set_session(access_token=access_token, refresh_token=refresh_token, expires_in=expires_in, token_type=token_type, uid='social//naver/' + str(profiles.get('id')))

@@ -38,7 +38,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
             model = User
-            fields = ('uid', 'password', 'name')
+            fields = ('uid', 'password', 'name', 'email')
 
     def save(self, commit=True):
         # Save the provided password in hashed format
@@ -111,7 +111,7 @@ class RegisterForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('name', 'uid', 'password')
+        fields = ('name', 'uid', 'email', 'password')
         widget = {
             'uid' : forms.TextInput(attrs={
                 'autofocus' : 'on'

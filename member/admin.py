@@ -25,12 +25,12 @@ class UserAdmin(BaseUserAdmin):
     list_filter = ('is_active',)
     fieldsets = (
         (_('회원정보'), {'fields': ('uid', 'password',)}),
-        (_('Personal info'), {'fields': ('name',)}),
+        (_('Personal info'), {'fields': ('name', 'email',)}),
         (_('Permissions'), {'fields': ('is_active', 'is_superuser', 'is_staff', 'adminpermissiongroups', 'boardpermissiongroups',)}),
     )
     add_fieldsets = (
         (None, {'fields': ('uid', 'password',)}),
-        (_('Personal info'), {'fields': ('name',)}),
+        (_('Personal info'), {'fields': ('name', 'email',)}),
     )
     search_fields = ('name', 'uid',)
     filter_horizontal = ()

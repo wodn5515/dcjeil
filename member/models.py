@@ -93,9 +93,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     email = models.EmailField(
         _('이메일'),
-        help_text=_('회원정보를 찾을 때 필요합니다'),
+        help_text=_('◈ 회원정보를 찾을 때 필요합니다'),
         unique=True,
-        null=True,
         error_messages = {
             'unique' : _("이미 가입된 이메일 입니다."),
         }
@@ -114,7 +113,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'uid'
-    REQUIRED_FIELDS = ['name']
+    REQUIRED_FIELDS = ['name', 'email']
 
     class Meta:
         verbose_name = _('회원')

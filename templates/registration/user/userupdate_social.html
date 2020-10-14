@@ -30,7 +30,7 @@
                 </div>
                 {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
                 {% if field.help_text %}
-                <p style="display:inline-block; font-size:12px; margin-left:10px;">{{ field.help_text|safe }}</p>
+                <p class="help">{{ field.help_text|safe }}</p>
                 {% endif %}
             </div>
         {% endfor %}

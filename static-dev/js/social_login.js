@@ -39,14 +39,3 @@ function googleLogin(){ // 구글 로그인
     url = buildUrl('https://accounts.google.com/o/oauth2/v2/auth', params)
     location.replace(url)
 }
-
-function facebookLogin(){ // 페이스북 로그인
-    params = {
-        response_type: 'code',
-        client_id: '330925454976805',
-        redirect_uri: location.origin + '/login/social/facebook/callback',
-        state: document.querySelector('input[name=csrfmiddlewaretoken]').value
-    }
-    url = buildUrl('https://www.facebook.com/v7.0/dialog/oauth', params)
-    location.replace(url)
-}
