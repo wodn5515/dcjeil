@@ -50,9 +50,9 @@ class NaverLoginMixin:
             return False, profiles
         
         # 유저 생성 또는 업데이트
-        user, created = self.model.objects.get_or_create(uid='social//naver/'+profiles.get('id'))
+        user, created = self.model.objects.get_or_create(email = profiles.get('email'))
         if created:
-            user.email = profiles.get('email')
+            user.uid='social//naver/'+profiles.get('id')
             user.name = profiles.get('name')
             user.set_password(None)
             user.is_social = True

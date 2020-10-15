@@ -50,9 +50,9 @@ class KakaoLoginMixin:
             return False, profiles
 
         # 유저 생성 또는 업데이트
-        user, created = self.model.objects.get_or_create(uid='social//kakao/' + str(profiles.get('id')))
+        user, created = self.model.objects.get_or_create(email=profiles.get('kakao_account').get('email'))
         if created:
-            user.email = profiles.get('kakao_account').get('email')
+            user.uid='social//kakao/' + str(profiles.get('id'))
             user.name = profiles.get('kakao_account').get('profile').get('nickname')
             user.set_password(None)
             user.is_social = True

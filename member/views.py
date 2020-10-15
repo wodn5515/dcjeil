@@ -18,7 +18,6 @@ from .forms import FinduidForm, FindPasswordForm, RegisterForm, LoginForm
 from .oauth.providers.naver import NaverLoginMixin
 from .oauth.providers.kakao import KakaoLoginMixin
 from .oauth.providers.google import GoogleLoginMixin
-from .oauth.providers.facebook import FacebookLoginMixin
 from board.models import Post
 from menu.models import Mainmenu
 from dcjeil.forms import SocialUpdateForm
@@ -253,43 +252,6 @@ class GoogleLoginCallbackView(GoogleLoginMixin, View):
             else:
                 request.session['register_submit'] = True
                 return redirect(reverse('registersubmit'))
-        if error.is_active:
-            login(request, error, 'member.oauth.backends.SocialLoginBackend') # SocialLoginBackend를 통한 인증 시도
-            self.success_url = '/'
-        return HttpResponseRedirect(self.success_url if is_success else self.failure_url)
-
-    def set_session(self, **kwargs):
-        for key, value in kwargs.items():
-            self.request.session[key] = value
-
-# 페이스북 소셜 로그인
-class FacebookLoginCallbackView(FacebookLoginMixin, View):
-
-    success_url = '/registerform'
-    failure_url = settings.LOGIN_URL
-    model = get_user_model()
-
-    def get(self, request, *args, **kwargs):
-        csrf_token = request.GET.get('state')
-        code = request.GET.get('code')
-        if not _compare_masked_tokens(csrf_token, request.COOKIES.get('csrftoken')): # state(csrf_token)이 잘못된 경우
-            messages.error(request, '잘못된 경로로 로그인 하셨습니다.', extra_tags='danger')
-            return HttpResponseRedirect(self.failure_url)
-        is_success, error = self.login_with_facebook(code)
-        # 로그인 실패할 경우
-        if not is_success:
-            messages.error(request, error, extra_tags='danger')
-            return HttpResponse(error)
-        # 승인이 안된 계정일 경우
-        if not error.is_active:
-            # 이름을 입력하지 않았을 경우
-            if not error.name:
-                self.set_session(register_agree=True, social_login=True)
-                return HttpResponseRedirect(self.success_url if is_success else self.failure_url)
-            else:
-                request.session['register_submit'] = True
-                return redirect(reverse('registersubmit'))
-        # 승인된 계정일 경우
         if error.is_active:
             login(request, error, 'member.oauth.backends.SocialLoginBackend') # SocialLoginBackend를 통한 인증 시도
             self.success_url = '/'
