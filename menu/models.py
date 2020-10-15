@@ -1,8 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from .choices import MENUTYPE
 from ckeditor_uploader.fields import RichTextUploadingField
-
+from .choices import MENUTYPE
 
 
 # Create your models here.
