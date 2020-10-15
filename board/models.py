@@ -34,7 +34,7 @@ def post_file_save(instance, filename):
     return f'{instance.post.title}/file/{filename}'
 
 def set_defautwriter_when_deleted():
-    return account.objects.get(is_superuser=True)
+    return "탈퇴한 회원"
 
 
 # Create your models here.
@@ -60,7 +60,7 @@ class Post(models.Model):
     date = models.DateField(_('일시'), blank=True, null=True, help_text='설교, 찬양, 기도에만 작성하세요.')
     title = models.CharField(_('제목'), max_length=50, blank=True)
     preacher = models.CharField(_('설교자'), max_length=20, blank=True, help_text='설교에만 작성하세요.')
-    writer = models.ForeignKey(account, on_delete=models.SET(set_defautwriter_when_deleted), related_name='post')
+    writer = models.ForeignKey(account, on_delete=models.CASCADE, related_name='post')
     video = models.CharField(_('동영상'), max_length=255, blank=True, help_text='유튜브 주소를 입력하세요.')
     words = models.CharField(_('오늘의 말씀'), max_length=50, blank=True, help_text='설교에만 작성하세요.')
     content = RichTextUploadingField(verbose_name='내용', blank=True, null=True)
