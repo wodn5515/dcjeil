@@ -251,10 +251,9 @@ def post_update(request, board_pk, pk):
     menu_no = board_pk[1:]
     now_menu = Submenu.objects.filter(mainmenu=menu_nav).get(order=int(menu_no))
     permission_menus = []
-    for permission_menu in user.has_permission.all():
-        main = str(permission_menu.mainmenu.order)
-        sub = str(permission_menu.order)
-        permission_menus.append(main+'0'+sub) if len(sub) == 1 else permission_menus.append(main+sub)
+    for permissions_group in user.boardpermissiongroups.all():
+        for permission in permissions_group.permissions.all():
+            permission_menus.append(permission.get_full_menu())
     if post.writer == user:
         if request.method == 'POST':
             if board_pk in permission_menus or user.is_superuser:

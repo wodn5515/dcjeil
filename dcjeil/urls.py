@@ -43,7 +43,6 @@ urlpatterns = [
     path('login/social/naver/callback', account_views.NaverLoginCallbackView.as_view(), name='naverlogincallback'),
     path('login/social/kakao/callback', account_views.KakaoLoginCallbackView.as_view(), name='kakaologincallback'),
     path('login/social/google/callback', account_views.GoogleLoginCallbackView.as_view(), name='Googlelogincallback'),
-    path('login/social/facebook/callback', account_views.FacebookLoginCallbackView.as_view(), name='Facebooklogincallback'),
     path('register', account_views.register, name='register'),
     path('registerform', account_views.registerform, name='registerform'),
     path('registersubmit', account_views.registersubmit, name='registersubmit'),
