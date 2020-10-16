@@ -9,9 +9,9 @@
 #top_logo{float:left;}
 #top_logo > a{margin:15px 0 0 50px; display:block;}
 #top_navbar{float:right; text-align:center; margin-top:25px;}
-#top_navbar li{float:left; font-size:12px;}
+#top_navbar li{float:left; font-size:12px; padding:0 10px;}
 #top_navbar li.log{font-weight:bold;}
-#top_navbar li a{padding:0 10px; line-height:20px; display:inline-block; color:#000000;}
+#top_navbar li a{line-height:20px; display:inline-block; color:#000000;}
 #top_navbar li a:hover{text-decoration:underline;}
 
 /* menu */
@@ -440,11 +440,18 @@ body.mob_menu_on{overflow:hidden;}
     #mob_home_btn{float:right; margin:16px 20px 0 0; border:2px solid #818181; border-radius:5px;}
     #mob_logo{width:180px; margin:0 auto; height:auto;}
     #mob_logo img{margin-top:10px;}
-    #mob_menu_wrap{opacity:0; display:block; flex:0; width:260px; transform:translateX(-100%); position:fixed; background-color:white; height:100vh; z-index:9999; overflow-y:auto; overflow-x:hidden; transition:all .1s ease-in-out 0s;}
+    /* 모바일 사이드 메뉴 */
+    #mob_menu_wrap{opacity:0; display:block; flex:0; width:280px; transform:translateX(-100%); position:fixed; box-shadow:0px 0px 5px 3px #444444; background-color:white; height:100vh; z-index:9999; overflow-y:auto; overflow-x:hidden; transition:all .3s ease-in-out 0s;}
     #mob_menu_wrap.mob_menu_on{opacity:1; transform:translateX(0); flex:0 0 100%;}
-    #mob_menu_close{position:relative; top:16px; background-color:white;}
-    #mob_menu_close img{float:right; margin-right:10px;}
-    #mob_menu{display:block; padding:5px 0; display:block; width:100%; margin-top:10px; overflow:auto; height:calc(100vh - 100px);}
+    #mob_menu_top_wrap{height:80px; background-color:#0093e9}
+    #mob_menu_top_wrap .container_01{user-select:none; color:white; font-size:12px; padding:2px; background-color:#00598d; text-align:center;}
+    #mob_menu_top_wrap .container_02{height:calc(100% - 22px)}
+    #mob_menu_close{float:right; height:100%; width:58px; line-height:54px; background-color:#818181; text-align:center;}
+    #mob_login_wrap{float:left; width:calc(100% - 58px); text-align:center;}
+    #mob_login_wrap > ul > li{float:left; font-size:10px;}
+    #mob_login_wrap > ul > li.half{width:50%;}
+    #mob_login_wrap > ul > li.full{width:100%;}
+    #mob_menu{display:block; width:100%; overflow:auto; height:100%;}
     #mob_menu a{display:block;}
     #mob_menu > ul{float:left; text-align:left; width:100%;}
     #mob_menu > ul.on > h3{border-right:3px solid #0093e9;}
@@ -463,10 +470,7 @@ body.mob_menu_on{overflow:hidden;}
     #mob_menu > ul > li.mission.show img{transform:rotate(0deg);}
     #mob_menu .mob_menu_toggle{display:block; float:right; margin-top:5px; transform: rotate(180deg); transition:all .3s;}
     #mob_menu > ul.show .mob_menu_toggle{transform: rotate(0deg);}
-    #mob_login_wrap{text-align:center; width:320px; margin:0 auto; position:absolute; bottom:10px; background-color:white; left:50%; transform:translateX(-50%);}
-    #mob_login_wrap > div{display:inline-block;}
-    #mob_login_wrap > div:first-child{margin-right:10px;}
-    #mob_login_wrap > div > a{font-size:13px; color:#999999; display:block;}
+
 
     /* base */
     #menu_frame, #main_wrap, #wrapper, #footer_wrap{width:100%;}
@@ -534,7 +538,6 @@ body.mob_menu_on{overflow:hidden;}
 }
 
 @media screen and (max-width:600px){
-    #mob_menu{padding:5px 0;}
     #tabbtnlist{bottom:-8px; width:100%; left:0px; transform:none;}
     #tabbtnlist > div{width:33.333%; margin:0px; text-align:center; padding:10px 5px;}
     #home_wrap{padding-top:0;}

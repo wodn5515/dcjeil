@@ -47,6 +47,11 @@
                         </div>
                         <div id="top_navbar" class="after">
                             <ul class="after">
+                                {% if user.is_active %}
+                                <li style="line-height:50px; user-select:none;">
+                                    <em style="text-decoration: underline; font-weight:bold;">{{user.name}}</em><em> 님, 반갑습니다.</em>
+                                </li>
+                                {% endif %}
                                 {% if user.is_superuser %}
                                 <li>
                                     <a href="/admin"><img src="{% static 'img/settings.png' %}" width="30px" height="30px"><p>관리자 페이지로..</p></a>
@@ -68,7 +73,7 @@
                                 </li>
                                 {% endif %}
                                 <li class="youtube">
-                                    <a target="_blank" href="https://www.youtube.com/channel/UCZYQiJFdOTlQ6jnoif2kPQQ"><img src="{% static 'img/youtube_black.png' %}" width="30px" height="30px"><p>Youtube</p/></a>
+                                    <a target="_blank" href="https://www.youtube.com/channel/UCZYQiJFdOTlQ6jnoif2kPQQ"><img src="{% static 'img/youtube_black.png' %}" width="30px" height="30px"><p>Youtube</p></a>
                                 </li>
                             </ul>
                         </div>
@@ -102,9 +107,48 @@
             </div>
             <!-- 중단(메인) -->
             <div id="main_wrap">
+                <!-- 모바일 사이드 메뉴 -->
                 <div id="mob_menu_wrap" v-bind:class="{mob_menu_on:menu_token}">
-                    <div id="mob_menu_close" class="after">
-                        <img @click="menuShowHide" src="{% static 'img/mob_menu_close.png' %}">
+                    <div id="mob_menu_top_wrap">
+                        <div class="container_01">
+                            {% if user.is_active %}
+                            <em style="text-decoration: underline;">{{user.name}}</em><em> 님, 반갑습니다.</em>
+                            {% else %}
+                            <em>덕천제일교회</em>
+                            {% endif %}
+                        </div>
+                        <div class="container_02 after">
+                            <div id="mob_login_wrap">
+                                <ul class="after">
+                                    {% if user.is_superuser %}
+                                    <li class="half">
+                                        <a href="/admin"><img src="{% static 'img/settings.png' %}" width="30px" height="30px"><em>관리자 페이지로..</em></a>
+                                    </li>
+                                    {% endif %}
+                                    {% if user.is_active %}
+                                    <li class="half">
+                                        <a href="{% url 'usercheck' %}"><img src="{% static 'img/user_info.png' %}" width="30px" height="30px"><em>내 정보</em></a>
+                                    </li>
+                                    <li class="half">
+                                        <a href="/logout?next={{request.path}}"><img src="{% static 'img/logout.png' %}" width="30px" height="30px"><em>로그아웃</em></a>
+                                    </li>
+                                    {% else %}
+                                    <li class="half">
+                                        <a href="/login?next={{request.path}}"><img src="{% static 'img/login.png' %}" width="30px" height="30px"><em>로그인</em></a>
+                                    </li>
+                                    <li class="half">
+                                        <a href="{% url 'register' %}"><img src="{% static 'img/registration.png' %}" width="30px" height="30px"><em>회원가입</em></a>
+                                    </li>
+                                    {% endif %}
+                                    <li class="{% if user.is_superuser %}half{% else %}full{% endif %}">
+                                        <a target="_blank" href="https://www.youtube.com/channel/UCZYQiJFdOTlQ6jnoif2kPQQ"><img src="{% static 'img/youtube_black.png' %}" width="30px" height="30px"><em>Youtube</em></a>
+                                    </li>
+                                </ul>   
+                            </div>
+                            <div id="mob_menu_close" @click="menuShowHide" class="after">
+                                <img src="{% static 'img/mob_menu_close.png' %}" width="40px" height="40px">
+                            </div>
+                        </div>
                     </div>
                     <div id="mob_menu" class="after">
                         {% for main in menu %}
@@ -117,15 +161,6 @@
                             {% endfor %}
                         </ul>
                         {% endfor %}
-                    </div>
-                    <div id="mob_login_wrap">
-                        {% if user.is_authenticated %}
-                        <div id="mob_user"><a href="/usercheck">내 정보</a></div>
-                        <div id="mob_login"><a href="/logout?next={{request.path}}">로그아웃</a></div>
-                        {% else %}
-                        <div id="mob_login"><a href="/login?next={{request.path}}">로그인</a></div>
-                        <div id="mob_register"><a href="/register">회원가입</a></div>
-                        {% endif %}
                     </div>
                 </div>
                 {% block content %}
