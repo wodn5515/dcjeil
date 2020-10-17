@@ -439,7 +439,7 @@ body.mob_menu_on{overflow:hidden;}
     #mob_home_btn img{vertical-align:middle;}
     #mob_home_btn{float:right; margin:16px 20px 0 0; border:2px solid #818181; border-radius:5px;}
     #mob_logo{width:180px; margin:0 auto; height:auto;}
-    #mob_logo img{margin-top:10px;}
+    #mob_logo img{margin-top:20px;}
     /* 모바일 사이드 메뉴 */
     #mob_menu_wrap{opacity:0; display:block; flex:0; width:280px; transform:translateX(-100%); position:fixed; box-shadow:0px 0px 5px 3px #444444; background-color:white; height:100vh; z-index:9999; overflow-y:auto; overflow-x:hidden; transition:all .3s ease-in-out 0s;}
     #mob_menu_wrap.mob_menu_on{opacity:1; transform:translateX(0); flex:0 0 100%;}
