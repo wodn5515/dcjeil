@@ -35,19 +35,17 @@ def home(request):
         tab3 = Post.objects.filter(div='205').order_by('-upload_date')[0]
     except:
         tab3 = None
-    recent = Post.objects.order_by('-upload_date')[:8]
-    main1 = Post.objects.filter(div='401').order_by('-upload_date')[:8]
-    main2 = Post.objects.filter(div='402').order_by('-upload_date')[:8]
-    main3 = Post.objects.filter(div='403').order_by('-upload_date')[:8]
-    main5 = Post.objects.filter(div='407').order_by('-upload_date')[:8]
+    main1 = Post.objects.order_by('-upload_date')[:8]
+    main2 = Post.objects.filter(div='401').order_by('-upload_date')[:8]
+    main3 = Post.objects.filter(div='402').order_by('-upload_date')[:8]
+    main5 = Post.objects.filter(div='406').order_by('-upload_date')[:8]
     main6 = Post.objects.filter(div__startswith='6').order_by('-upload_date')[:8]
-    photo = Post.objects.filter(div='405').order_by('-upload_date')[:5]
+    photo = Post.objects.filter(div='404').order_by('-upload_date')[:5]
     context = {
         'carousel_list' : carousel_list,
         'tab1' : tab1,
         'tab2' : tab2,
         'tab3' : tab3,
-        'recent' : recent,
         'main1' : main1,
         'main2' : main2,
         'main3' : main3,
