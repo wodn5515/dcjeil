@@ -54,3 +54,7 @@ def get_main_title(idx):
 def subquery(no):
     sub_menu = Submenu.objects.filter(mainmenu=no).order_by('order')
     return sub_menu
+
+@register.filter
+def is_mobile(user_agent):
+    return True if 'Mobi' in user_agent else False

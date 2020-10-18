@@ -20,3 +20,19 @@ function setCookieAt00(name, value){
         document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todaydate.toUTCString(); + ";";
     }
 }
+
+function setCookie(name, value, days){
+    if(days){
+        let todaydate = new Date();
+        todaydate.setTime(todaydate.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = " expires=" + todaydate.toUTCString() + ";";
+    }else{
+        expires = '';
+    }
+    document.cookie = name + "=" + escape(value) + "; path=/;" + expires;
+}
+
+function desktopMode(token){
+    setCookie('desktop_mode', token);
+    location.reload();
+}

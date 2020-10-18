@@ -5,7 +5,7 @@
 <html lang="ko">
     <head>
         <!--================================= Meta =================================-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width={% if request.COOKIES.desktop_mode == 'true' and request.META.HTTP_USER_AGENT|is_mobile %}}1251{% else %}device-width{% endif %}, initial-scale=1.0">
         <meta name="subject" content="덕천제일교회">
         <meta name="title" content="덕천제일교회">
         <meta name="author" content="덕천제일교회">
@@ -180,8 +180,17 @@
                         <b>www.dcjeil.net</b>
                         <span>All rights reserved.</span>
                     </p>
+                    {% if request.META.HTTP_USER_AGENT|is_mobile and request.COOKIES.desktop_mode != "true" %}
+                    <p id="desktop_mode" onclick="desktopMode(true)">
+                        PC버전
+                    </p>
+                    {% endif %}
                 </div>
             </div>
+            {% if request.COOKIES.desktop_mode == "true" and request.META.HTTP_USER_AGENT|is_mobile %}
+            <div id="to_mobile" onclick="desktopMode(false)">모바일로 돌아가기</div>
+            {% else %}
+            {% endif %}
             <div id="modal" :class="{on:menu_token}" @click="menuShowHide"></div>
             <div id="popup_wrap"></div>
         </div>
