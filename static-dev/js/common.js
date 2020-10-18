@@ -11,9 +11,9 @@ function getCookie(name){
     return false;
 }
 
-function setCookieAt00(name, value){
+function setPopupCookie(name, value){
     let todaydate = new Date();
-    todaydate = new Date(parseInt(todaydate.getTime()/86400000)*86400000 + 54000000);
+    todaydate = new Date(parseInt(todaydate.getTime() + (24 * 60 * 60 * 1000)))
     if(getCookie(name)){
         document.cookie = name + "=" + getCookie(name) + "|" + escape(value) + "; path=/; expires=" + todaydate.toUTCString(); + ";";
     }else{

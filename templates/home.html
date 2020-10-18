@@ -284,15 +284,17 @@
         left = "{{popup.location}}".split("/")[0]
         wrap.innerHTML += "<div class='container popup{{popup.id}}' style='top:" + top + "px; left:" + left + "px;'><img src='{{popup.image.url}}''>\
         <div class='pop_close_box'><label class='pop_never_chk_wrap'>\
-        <input class='pop_never_chk_{{popup.id}}' type='checkbox'>오늘 하루 창을 띄우지 않음.</label>\
+        <input class='pop_never_chk_{{popup.id}}' type='checkbox'>24시간 동안 창을 띄우지 않음.</label>\
         <div class='pop_close_btn' onclick='popupClose({{popup.id}})'>닫기</div></div></div>"
         {% endfor %}
     })
 
     function popupClose(id){
         let is_pop_never_check = document.querySelector('.pop_never_chk_'+id).checked;
+        console.log(is_pop_never_check);
         if(is_pop_never_check){
-            setCookieAt00('popup', id)
+            setPopupCookie('popup', id);
+            console.log('1')
         }
         document.querySelector('.popup' + id).remove();
     }
