@@ -76,12 +76,12 @@
         </div>
         {% load board_tag %}
         <div id="maingrid">
-            <div id="main_recent" class="listbox">
+            <div id="main1" class="listbox">
                 <p class="after">최근게시글</p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
-                    {% for post in recent %}
+                    {% for post in main1 %}
                     <li>
                         <a href="{{post.get_absolute_url}}">[{{post.get_div_display}}{% if post.tag %}<em>-{{post.tag}}</em>{% endif %}] {{post.title}}</a>
                         {% if post.upload_date|post_new %}
@@ -102,34 +102,8 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div id="main1" class="listbox">
-                <p class="after">공지사항<a href="board/401">더보기 +</a></p>
-                <ul>
-                    {% now "y-m-d" as todays_date %}
-                    {% now "y" as this_year %}
-                    {% for post in main1 %}
-                    <li>
-                        <a href="{{post.get_absolute_url}}">{{post.title}}</a>
-                        {% if post.upload_date|post_new %}
-                        <span>
-                            <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
-                        </span>
-                        {% endif %}
-                        <span class="date"><!--
-                            -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
-                            -->{{ post.upload_date|date:"H:i" }}<!--
-                            -->{% elif this_year == post.upload_date|date:"y" %}<!--
-                            -->{{ post.upload_date|date:"m-d"}}<!--
-                            -->{% else %}<!--
-                            -->{{ post.upload_date|date:"y-m-d" }}<!--
-                            -->{% endif %}<!--
-                        --></span>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
             <div id="main2" class="listbox">
-                <p class="after">교회소식<a href="board/402">더보기 +</a></p>
+                <p class="after">공지사항<a href="board/401">더보기 +</a></p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
@@ -155,7 +129,7 @@
                 </ul>
             </div>
             <div id="main3" class="listbox">
-                <p class="after">교우소식<a href="board/403">더보기 +</a></p>
+                <p class="after">교회소식<a href="board/402">더보기 +</a></p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
@@ -200,7 +174,7 @@
                 <div></div>
             </div>
             <div id="main5" class="listbox">
-                <p class="after">기도요청<a href="board/407">더보기</a></p>
+                <p class="after">기도요청<a href="board/406">더보기</a></p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
