@@ -38,6 +38,9 @@ class Popup(models.Model):
 
     title = models.CharField(verbose_name='한줄설명', max_length=15)
     image = models.ImageField(_('사진'), upload_to=popup_image_save)
+    start_date = models.DateTimeField(_('시작일시'), default=timezone.now)
+    end_date = models.DateTimeField(_('종료일시'), default=timezone.now)
+    location = models.CharField(_('팝업창 위치'), max_length=30, default='0/0', help_text='가로/세로(px)<br>다른 팝업과 겹치지 않도록 유의하세요.')
     
     def __str__(self):
         return '{}'.format(self.title)
