@@ -6,8 +6,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
+from django.utils import timezone
 from django.utils.dateparse import parse_date
 from django.db import IntegrityError
+from django.db.models import Q
 from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
@@ -15,7 +17,7 @@ from board.models import Post
 from data.models import Carousel, Popup
 from menu.models import Mainmenu 
 from .forms import UserCheckForm, UpdateForm, SocialUpdateForm
-import string, os
+import string, os, datetime
 
 # 홈화면
 def home(request):
@@ -54,13 +56,12 @@ def home(request):
         'photo' : photo,
         'menu' : menu
         }
-    if not request.COOKIES.get("popup", False):
-        try:
-            popup = Popup.objects.last()
-        except:
-            pass
-        else:
-            context['popup'] = popup
+    popup_cookies = request.COOKIES.get("popup", False)
+    popup_list = Popup.objects.filter(Q(start_date__lt=datetime.datetime.now())|Q(end_date__gt=datetime.datetime.now()))
+    if popup_cookies:
+        popup_cookies_list = popup_cookies.split('|')
+        popup_list = popup_list.exclude(pk__in=popup_cookies_list)
+    context['popup_list'] = popup_list
     return render(request, 'home.html', context)
 
 # 정보수정 비밀번호 확인
