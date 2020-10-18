@@ -367,7 +367,7 @@
 /* Footer */
 #footer_wrap{position:relative; bottom:0; margin-top:30px; background-color:#c5c5c5; padding:20px 0;}
 #footer_wrap .container{text-align:center;}
-#footer_wrap .container address{margin-top:10px; font-size:12px;}
+#footer_wrap .container address p{margin-top:10px; font-size:15px;}
 #footer_wrap .container address span{display:inline-block; padding:2px 5px;}
 #footer_wrap .container p{font-size:12px; margin-top:10px;}
 
@@ -614,4 +614,5 @@ body.mob_menu_on{overflow:hidden;}
     #community > #community_wrap > .c_top > .container > .content{padding:15px 0px; color:black; font-weight:bold; background-color:rgba(255,255,255,0.5);}
     #community > #community_wrap > .container > .title{padding:20px 5px 5px 10px; margin:0 0 15px 0; border-bottom:3px double #c5c5c5; color:black; font-weight:bold; font-size:22px; text-shadow:1px 1px 2px #929292;}
     #community > #community_wrap > .container > .content{font-size:13px; padding:10px;}
+    #footer_wrap .container address p{font-size:12px;}
 }
