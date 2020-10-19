@@ -29,6 +29,7 @@ class Submenu(models.Model):
     order = models.IntegerField(_('순서'), help_text="낮을수록 먼저 배치됩니다")
     m_type = models.CharField(_('타입'), choices=MENUTYPE, max_length=50, default='list')
     is_allowed_to_all = models.BooleanField(_('전체작성가능'), default=False)
+    exposure_home = models.IntegerField(_('홈 화면 노출 여부'), default=0, help_text="<table><tbody><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></tbody></table>")
 
     def __str__(self):
         return f'{self.mainmenu.name} - {self.name}'

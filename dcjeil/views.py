@@ -15,7 +15,7 @@ from imagekit.utils import get_cache
 from random import choice
 from board.models import Post
 from data.models import Carousel, Popup
-from menu.models import Mainmenu 
+from menu.models import Mainmenu, Submenu
 from .forms import UserCheckForm, UpdateForm, SocialUpdateForm
 import string, os, datetime
 
@@ -24,34 +24,29 @@ def home(request):
     carousel_list = Carousel.objects.all().order_by('order')
     menu = Mainmenu.objects.all().order_by('order')
     try:
-        tab1 = Post.objects.filter(div='201').order_by('-upload_date')[0]
+        tab1 = Post.objects.filter(div__mainmenu__order=2).last()
     except:
         tab1 = None
     try:
-        tab2 = Post.objects.filter(div__startswith='30').order_by('-upload_date')[0]
+        tab2 = Post.objects.filter(div__mainmenu__order=3).last()
     except:
         tab2 = None
-    try:
-        tab3 = Post.objects.filter(div='205').order_by('-upload_date')[0]
-    except:
-        tab3 = None
     main1 = Post.objects.order_by('-upload_date')[:8]
-    main2 = Post.objects.filter(div='401').order_by('-upload_date')[:8]
-    main3 = Post.objects.filter(div='402').order_by('-upload_date')[:8]
-    main5 = Post.objects.filter(div='406').order_by('-upload_date')[:8]
-    main6 = Post.objects.filter(div__startswith='6').order_by('-upload_date')[:8]
-    photo = Post.objects.filter(div='404').order_by('-upload_date')[:5]
+    main2_menu = Submenu.objects.filter(exposure_home=1).first()
+    main3_menu = Submenu.objects.filter(exposure_home=2).first()
+    main5_menu = Submenu.objects.filter(exposure_home=3).first()
+    main6_menu = Submenu.objects.filter(exposure_home=4).first()
+    photo_menu = Submenu.objects.filter(name='교회앨범').first()
     context = {
         'carousel_list' : carousel_list,
         'tab1' : tab1,
         'tab2' : tab2,
-        'tab3' : tab3,
         'main1' : main1,
-        'main2' : main2,
-        'main3' : main3,
-        'main5' : main5,
-        'main6' : main6,
-        'photo' : photo,
+        'main2_menu' : main2_menu,
+        'main3_menu' : main3_menu,
+        'main5_menu' : main5_menu,
+        'main6_menu' : main6_menu,
+        'photo_menu' : photo_menu,
         'menu' : menu
         }
     popup_cookies = request.COOKIES.get("popup", False)

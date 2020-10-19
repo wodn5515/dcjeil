@@ -1,6 +1,7 @@
 from django import template
 from django.utils import timezone
 from menu.models import Submenu, Mainmenu
+from board.models import Post
 import re, os, datetime
 
 register = template.Library()
@@ -58,3 +59,7 @@ def subquery(no):
 @register.filter
 def is_mobile(user_agent):
     return True if 'Mobi' in user_agent else False
+
+@register.filter
+def get_query_home(submenu):
+    return Post.objects.filter(div=submenu).order_by('-upload_date')[:8]

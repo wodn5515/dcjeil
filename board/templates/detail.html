@@ -6,7 +6,7 @@
 <!---------- 헤더 ----------->
 <div id="detail_header" class="after">
     <div>
-        <h2>{% if post.tag %}<em style="color:#aaaaaa">[{{post.tag}}]</em>{% endif %}{{post.title}}</h2>
+        <h2>{% if post.tag %}<em style="color:#aaaaaa">[{{post.tag}}]</em>{% endif %}{% if post.date %}[{{post.date|date:"Y-m-d"}}] {% endif %}{{post.title}}</h2>
     </div>
     <div id="post_info">
         <span style="margin-right:10px;">{{post.writer}}</span>

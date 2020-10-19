@@ -170,7 +170,7 @@ def post_write(request, board_pk):
             if forms.is_valid() and fileforms.is_valid():
                 reg = re.compile('/upload_files\S*[jpg,png,gif]')
                 new_post = forms.save(commit=False)
-                new_post.div = board_pk
+                new_post.div = Submenu.objects.filter(mainmenu=int(board_pk[0])).get(order=int(board_pk[1:]))
                 new_post.writer = request.user
                 try:
                     new_post.image = reg.search(new_post.content).group()
@@ -198,7 +198,7 @@ def post_write(request, board_pk):
             if forms.is_valid():
                 reg = re.compile('/upload_files\S*[jpg,png,gif]')
                 new_post = forms.save(commit=False)
-                new_post.div = board_pk
+                new_post.div = Submenu.objects.filter(mainmenu=int(board_pk[0])).get(order=int(board_pk[1:]))
                 new_post.writer = request.user
                 try:
                     new_post.image = reg.search(new_post.content).group()

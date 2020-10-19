@@ -9,7 +9,7 @@ from imagekit.processors import Thumbnail
 from imagekit.utils import get_cache
 from random import choice
 from member.models import User as account
-from .choices import Divs
+from menu.models import Submenu
 import string
 
 '''--------------------------- Abandoned ----------------------------'''
@@ -55,9 +55,14 @@ class Post(models.Model):
         verbose_name = ('게시글')
         verbose_name_plural = ('게시글 관리')
 
-    div = models.CharField(_("분류"), max_length=10, choices=Divs)
+    div = models.ForeignKey(
+        Submenu,
+        verbose_name=_('게시판'),
+        on_delete=models.CASCADE,
+        limit_choices_to={'m_type__contains':'list'}
+    )
     upload_date = models.DateTimeField(_('등록일'), default=timezone.now)
-    date = models.DateField(_('일시'), blank=True, null=True, help_text='설교, 찬양, 기도에만 작성하세요.')
+    date = models.DateField(_('일시'), blank=True, null=True, help_text='필요시에만 작성하세요.<br>작성일이 아닙니다.')
     title = models.CharField(_('제목'), max_length=50, blank=True)
     preacher = models.CharField(_('설교자'), max_length=20, blank=True, help_text='설교에만 작성하세요.')
     writer = models.ForeignKey(account, on_delete=models.CASCADE, related_name='post')
@@ -72,10 +77,10 @@ class Post(models.Model):
     updated_date = models.DateTimeField(_('수정일'), blank=True, null=True)
 
     def __str__(self):
-        return f'{self.get_div_display()} / {self.title}'
+        return f'{self.div.name} / {self.title}'
 
     def get_absolute_url(self):
-        return f'/board/{self.div}/detail/{self.id}'
+        return f'/board/{self.div.get_full_menu()}/detail/{self.id}'
 
     @property
     def viewsup(self):
