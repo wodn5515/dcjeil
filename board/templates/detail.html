@@ -9,12 +9,36 @@
         <h2>{% if post.tag %}<em style="color:#aaaaaa">[{{post.tag}}]</em>{% endif %}{% if post.date %}[{{post.date|date:"Y-m-d"}}] {% endif %}{{post.title}}</h2>
     </div>
     <div id="post_info">
-        <span style="margin-right:10px;">{{post.writer}}</span>
+        <span style="margin-right:10px;">{% if post.writer.is_superuser %}관리자{% else %}{{post.writer}}{% endif %}</span>
         <span style="margin-right:10px;">{{post.upload_date|date:"Y.m.d   H:m"}}</span>
         <span>조회</span>
         <span>{{post.views}}</span>
     </div>
 </div>
+<!--------------------------->
+<!-------- 추가정보 --------->
+{% if post.preacher or post.words or post.date %}
+<div id="post_additional_info">
+    {% if post.date %}
+    <div class="container">
+        <div class="title">일시</div>
+        {{ post.date }}
+    </div>
+    {% endif %}
+    {% if post.preacher %}
+    <div class="container">
+        <div class="title">설교자</div>
+        {{ post.preacher }}
+    </div>
+    {% endif %}
+    {% if post.words %}
+    <div class="container">
+        <div class="title">설교 본문</div>
+        {{ post.words }}
+    </div>
+    {% endif %}
+</div>
+{% endif %}
 <!--------------------------->
 <!-------- 첨부파일 --------->
 {% for file in post.file.all %}

@@ -4,6 +4,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from menu.models import Submenu
+from data.models import Duty, Belong
 from .choice import *
 
 # Create your models here.
@@ -75,6 +76,7 @@ class BoardPermissionGroup(models.Model):
         
     def __str__(self):
         return self.name
+    
         
 class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(_('이름'), max_length=5, default='')
@@ -82,6 +84,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(_('스태프'), default=False, help_text=_('관리자페이지 접속권한'))
     is_superuser = models.BooleanField(_('관리자'), default=False, help_text=_('최고등급의 관리자권한'))
     is_social = models.BooleanField(_('소셜로그인'), default=False)
+    is_registered = models.BooleanField(_('교인여부'), default=False, help_text=_('본 교회 교인만 체크해주세요.'))
     date_joined = models.DateTimeField(_('가입날짜'), default=timezone.now)
     uid = models.CharField(
         _('ID'),
@@ -98,6 +101,18 @@ class User(AbstractBaseUser, PermissionsMixin):
         error_messages = {
             'unique' : _("이미 가입된 이메일 입니다."),
         }
+    )
+    duty = models.ForeignKey(
+        Duty,
+        verbose_name=_('교구'),
+        on_delete=models.SET_NULL,
+        null=True
+    )
+    belong = models.ForeignKey(
+        Belong,
+        verbose_name=_('소속'),
+        on_delete=models.SET_NULL,
+        null=True
     )
     adminpermissiongroups = models.ManyToManyField(
         AdminPermissionGroup,

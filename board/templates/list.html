@@ -6,7 +6,6 @@
             <th class="th_no">번호</th>
             <th class="th_title">제목</th>
             <th class="th_writer">작성자</th>
-            <th class="th_date">등록일</th>
             <th class="th_views">조회수</th>
         </tr>
     </thead>
@@ -40,52 +39,13 @@
                         {% endif %}
                     </div>
                     <div id="mob_list_info">
-                        <em>{{post.writer}}</em>
-                        <span class="bar">|</span>
-                        <em><!--
-                            -->{% if post.updated_date %}<!--
-                            -->{% if todays_date == post.updated_date|date:"y-m-d" %}<!--
-                            -->{{ post.updated_date|date:"H:i" }}<!--
-                            -->{% elif this_year == post.updated_date|date:"y" %}<!--
-                            -->{{ post.updated_date|date:"m-d"}}<!--
-                            -->{% else %}<!--
-                            -->{{ post.updated_date|date:"y-m-d" }}<!--
-                            -->{% endif %}(수정됨)<!--
-                            -->{% else %}<!--
-                            -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
-                            -->{{ post.upload_date|date:"H:i" }}<!--
-                            -->{% elif this_year == post.upload_date|date:"y" %}<!--
-                            -->{{ post.upload_date|date:"m-d"}}<!--
-                            -->{% else %}<!--
-                            -->{{ post.upload_date|date:"y-m-d" }}<!--
-                            -->{% endif %}<!--
-                            -->{% endif %}<!--
-                        --></em>
+                        <em>{% if post.writer.is_superuser %}관리자{% else %}{{post.writer}}{% endif %}</em>
                         <span class="bar">|</span>
                         <em>조회수 : {{post.views}}</em>
                     </div>
                 </a>
             </td>
-            <td class="td_writer">{{post.writer}}</td>
-            <td class="td_date"><!--
-                -->{% if post.updated_date %}<!--
-                -->{% if todays_date == post.updated_date|date:"y-m-d" %}<!--
-                -->{{ post.updated_date|date:"H:i" }}<!--
-                -->{% elif this_year == post.updated_date|date:"y" %}<!--
-                -->{{ post.updated_date|date:"m-d"}}<!--
-                -->{% else %}<!--
-                -->{{ post.updated_date|date:"y-m-d" }}<!--
-                -->{% endif %}(수정됨)<!--
-                -->{% else %}<!--
-                -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
-                -->{{ post.upload_date|date:"H:i" }}<!--
-                -->{% elif this_year == post.upload_date|date:"y" %}<!--
-                -->{{ post.upload_date|date:"m-d"}}<!--
-                -->{% else %}<!--
-                -->{{ post.upload_date|date:"y-m-d" }}<!--
-                -->{% endif %}<!--
-                -->{% endif %}<!--
-            --></td>
+            <td class="td_writer">{% if post.writer.is_superuser %}관리자{% else %}{{post.writer}}{% endif %}</td>
             <td class="td_views">{{post.views}}</td>
         </tr>
         {% endfor%}
@@ -117,52 +77,13 @@
                         {% endif %}
                     </div>
                     <div id="mob_list_info">
-                        <em>{{post.writer}}</em>
-                        <span class="bar">|</span>
-                        <em><!--
-                            -->{% if post.updated_date %}<!--
-                            -->{% if todays_date == post.updated_date|date:"y-m-d" %}<!--
-                            -->{{ post.updated_date|date:"H:i" }}<!--
-                            -->{% elif this_year == post.updated_date|date:"y" %}<!--
-                            -->{{ post.updated_date|date:"m-d"}}<!--
-                            -->{% else %}<!--
-                            -->{{ post.updated_date|date:"y-m-d" }}<!--
-                            -->{% endif %}(수정됨)<!--
-                            -->{% else %}<!--
-                            -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
-                            -->{{ post.upload_date|date:"H:i" }}<!--
-                            -->{% elif this_year == post.upload_date|date:"y" %}<!--
-                            -->{{ post.upload_date|date:"m-d"}}<!--
-                            -->{% else %}<!--
-                            -->{{ post.upload_date|date:"y-m-d" }}<!--
-                            -->{% endif %}<!--
-                            -->{% endif %}<!--
-                        --></em>
+                        <em>{% if post.writer.is_superuser %}관리자{% else %}{{post.writer}}{% endif %}</em>
                         <span class="bar">|</span>
                         <em>조회수 : {{post.views}}</em>
                     </div>
                 </a>
             </td>
-            <td class="td_writer">{{post.writer}}</td>
-            <td class="td_date"><!--
-                -->{% if post.updated_date %}<!--
-                -->{% if todays_date == post.updated_date|date:"y-m-d" %}<!--
-                -->{{ post.updated_date|date:"H:i" }}<!--
-                -->{% elif this_year == post.updated_date|date:"y" %}<!--
-                -->{{ post.updated_date|date:"m-d"}}<!--
-                -->{% else %}<!--
-                -->{{ post.updated_date|date:"y-m-d" }}<!--
-                -->{% endif %}(수정됨)<!--
-                -->{% else %}<!--
-                -->{% if todays_date == post.upload_date|date:"y-m-d" %}<!--
-                -->{{ post.upload_date|date:"H:i" }}<!--
-                -->{% elif this_year == post.upload_date|date:"y" %}<!--
-                -->{{ post.upload_date|date:"m-d"}}<!--
-                -->{% else %}<!--
-                -->{{ post.upload_date|date:"y-m-d" }}<!--
-                -->{% endif %}<!--
-                -->{% endif %}<!--
-            --></td>
+            <td class="td_writer">{% if post.writer.is_superuser %}관리자{% else %}{{post.writer}}{% endif %}</td>
             <td class="td_views">{{post.views}}</td>
         </tr>
         {% endfor %}
