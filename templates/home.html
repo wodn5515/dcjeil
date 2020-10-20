@@ -39,9 +39,8 @@
     <div id="main_right">
         <div id="maintabevent">
             <div id="tabbtnlist">
-                <div id="tabbtn_01" class="tabbtn active" onclick="tabEvent(event)">말씀</div>
-                <div id="tabbtn_02" class="tabbtn" onclick="tabEvent(event)">찬양</div>
-                <div id="tabbtn_03" class="tabbtn" onclick="tabEvent(event)">기도</div>
+                <div id="tabbtn_01" class="tabbtn active" onclick="tabEvent(event)">예배와말씀</div>
+                <div id="tabbtn_02" class="tabbtn" onclick="tabEvent(event)">찬양과경배</div>
             </div>
             <div id="tabevent_inner">
                 <div id="tabevent_01" class="tab_item active" title="{{tab1.title}}">
@@ -63,15 +62,6 @@
                         </div>
                     </a>
                 </div>
-                <div id="tabevent_03" class="tab_item" title="{{tab3.title}}">
-                    <a href="{{tab3.get_absolute_url}}">
-                        <img src="{% static 'img/home_pray.png' %}" height="100%" width="100%" alt="Tab Event_03">
-                        <div class="container">
-                            <p class="tab_title">{{tab3.title}}</p>
-                            <p class="tab_date">{{tab3.date|date:"Y-m-d"}}</p>
-                        </div>
-                    </a>
-                </div>
             </div>
         </div>
         {% load board_tag %}
@@ -83,7 +73,7 @@
                     {% now "y" as this_year %}
                     {% for post in main1 %}
                     <li>
-                        <a href="{{post.get_absolute_url}}">[{{post.get_div_display}}{% if post.tag %}<em>-{{post.tag}}</em>{% endif %}] {{post.title}}</a>
+                        <a href="{{post.get_absolute_url}}">[{{post.div.name}}{% if post.tag %}<em>-{{post.tag}}</em>{% endif %}] {% if post.date %}{{post.date|date:"Y-m-d"}} {% endif %}{{post.title}}</a>
                         {% if post.upload_date|post_new %}
                         <span>
                             <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
@@ -103,13 +93,13 @@
                 </ul>
             </div>
             <div id="main2" class="listbox">
-                <p class="after">공지사항<a href="board/401">더보기 +</a></p>
+                <p class="after">{{main2_menu.name}}<a href="{{main2_menu.get_absolute_url}}">더보기 +</a></p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
-                    {% for post in main2 %}
+                    {% for post in main2_menu|get_query_home %}
                     <li>
-                        <a href="{{post.get_absolute_url}}">{{post.title}}</a>
+                        <a href="{{post.get_absolute_url}}">{% if post.tag %}[{{post.tag}}]{% endif %}{% if post.date %}{{post.date|date:"Y-m-d"}} {% endif %}{{post.title}}</a>
                         {% if post.upload_date|post_new %}
                         <span>
                             <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
@@ -129,13 +119,13 @@
                 </ul>
             </div>
             <div id="main3" class="listbox">
-                <p class="after">교회소식<a href="board/402">더보기 +</a></p>
+                <p class="after">{{main3_menu.name}}<a href="{{main3_menu.get_absolute_url}}">더보기 +</a></p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
-                    {% for post in main3 %}
+                    {% for post in main3_menu|get_query_home %}
                     <li>
-                        <a href="{{post.get_absolute_url}}">{{post.title}}</a>
+                        <a href="{{post.get_absolute_url}}">{% if post.tag %}[{{post.tag}}]{% endif %}{% if post.date %}{{post.date|date:"Y-m-d"}} {% endif %}{{post.title}}</a>
                         {% if post.upload_date|post_new %}
                         <span>
                             <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
@@ -174,13 +164,13 @@
                 <div></div>
             </div>
             <div id="main5" class="listbox">
-                <p class="after">기도요청<a href="board/406">더보기</a></p>
+                <p class="after">{{main5_menu.name}}<a href="{{main5_menu.get_absolute_url}}">더보기 +</a></p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
-                    {% for post in main5 %}
+                    {% for post in main5_menu|get_query_home %}
                     <li>
-                        <a href="{{post.get_absolute_url}}">{{post.title}}</a>
+                        <a href="{{post.get_absolute_url}}">{% if post.tag %}[{{post.tag}}]{% endif %}{% if post.date %}{{post.date|date:"Y-m-d"}} {% endif %}{{post.title}}</a>
                         {% if post.upload_date|post_new %}
                         <span>
                             <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
@@ -200,13 +190,13 @@
                 </ul>
             </div>
             <div id="main6" class="listbox">
-                <p class="after">선교지소식<a href="board/601">더보기 +</a></p>
+                <p class="after">{{main6_menu.name}}<a href="{{main6_menu.get_absolute_url}}">더보기 +</a></p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
-                    {% for post in main6 %}
+                    {% for post in main6_menu|get_query_home %}
                     <li>
-                        <a href="{{post.get_absolute_url}}">{% if post.tag %}[{{post.tag}}]{% endif %}{{post.title}}</a>
+                        <a href="{{post.get_absolute_url}}">{% if post.tag %}[{{post.tag}}]{% endif %}{% if post.date %}{{post.date|date:"Y-m-d"}}{% endif %} {{post.title}}</a>
                         {% if post.upload_date|post_new %}
                         <span>
                             <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
@@ -228,9 +218,9 @@
         </div>
     </div>
     <div id="main_photo" class="after">
-        <p>교회 앨범<a href="/board/405">더보기 +</a></p>
+        <p>{{photo_menu.name}}<a href="{{photo_menu.get_absolute_url}}">더보기 +</a></p>
         <div id="photowrap">
-            {% for post in photo %}
+            {% for post in photo_menu|get_query_home %}
             <div class="photobox">
                 <a href="{{post.get_absolute_url}}">
                     <div class="photo">

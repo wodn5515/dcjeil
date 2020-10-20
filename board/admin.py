@@ -6,21 +6,26 @@ class PostFileInline(admin.StackedInline):
     extra = 0
 
 class Postadmin(admin.ModelAdmin):
-    list_display = ['title', 'div', 'upload_date', 'views']
+    list_display = ['title', 'get_div', 'upload_date', 'views']
     exclude = ['image',]
-    list_filter = ['div', 'published']
+    list_filter = ['div__name', 'published']
     list_per_page = 20
     inlines = [PostFileInline]
+    
+    def get_div(self, obj):
+        return obj.div.name
+    get_div.short_description = '메뉴'
+    
 
 class PostFileadmin(admin.ModelAdmin):
-    list_display = ['get_imagename','get_div', 'get_title']
-    list_filter = ['post__div']
+    list_display = ['get_imagename', 'get_div', 'get_title']
+    list_filter = ['post__div__name']
     search_fields = ['file']
 
     def get_imagename(self, obj):
         return obj.file.name.split('/')[-1]
     def get_div(self, obj):
-        return obj.post.get_div_display()
+        return obj.post.div.name
     def get_title(self, obj):
         return obj.post.title
     get_imagename.short_description = '파일명'
