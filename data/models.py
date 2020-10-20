@@ -44,6 +44,7 @@ class Popup(models.Model):
     
     def __str__(self):
         return '{}'.format(self.title)
+    
 
 # 홈화면 왼쪽 슬라이드쇼 #
 class Carousel(models.Model):
@@ -58,6 +59,7 @@ class Carousel(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+    
 
 # 교회연혁 #
 class History(models.Model):
@@ -71,7 +73,9 @@ class History(models.Model):
 
     def __str__(self):
         return f'{self.content}'
+    
 
+# 교육부서 #
 class Community(models.Model):
     
     class Meta:
@@ -88,7 +92,30 @@ class Community(models.Model):
 
     def __str__(self):
         return f'{self.get_div_display()}'
+    
+# 직분 #
+class Duty(models.Model):
+    name = models.CharField(_('직분'), max_length=50)
+    
+    class Meta:
+        verbose_name = _('직분 관리')
+        verbose_name_plural = _('직분 관리')
+        
+    def __str__(self):
+        return f'{self.name}'
 
+
+# 소속 #
+class Belong(models.Model):
+    name = models.CharField(_('소속'), max_length=50)
+    
+    class Meta:
+        verbose_name = _('소속 관리')
+        verbose_name_plural = _('소속 관리')
+
+    def __str__(self):
+        return f'{self.name}'
+    
 
 # 데이터 삭제시 사진삭제 #
 @receiver(post_delete, sender=Carousel)
