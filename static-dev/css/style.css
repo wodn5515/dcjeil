@@ -74,7 +74,7 @@
 .listbox li{padding:3px 0;}
 .listbox li::after{clear:both; visibility:hidden; display:block; content:""}
 .listbox li:first-child{padding-top:0px;}
-.listbox li > a{display:block; float:left; max-width:calc(100% - 60px); text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
+.listbox li > a{display:block; float:left; max-width:calc(100% - 20px); text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
 .listbox .icon{margin-left:2px; vertical-align:text-top;}
 .listbox .date{float:right; text-align:right;}
 #main_mob{

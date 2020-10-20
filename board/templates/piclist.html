@@ -2,14 +2,11 @@
 <div id="pic_table" class="after">
     {% if post_list %}
     {% for post in post_list %}
-    <a href="/board/{{post.div}}/detail/{{post.id}}">
+    <a href="{{ post.get_absolute_url }}">
         <div class="container">
             <img src="{{post.image}}" width='100%' height="150px">
             <div class="con_title">
                 {{post.title}}
-            </div>
-            <div class="con_date">
-            {{post.upload_date|date:"Y-m-d"}}
             </div>
         </div>
     </a>
