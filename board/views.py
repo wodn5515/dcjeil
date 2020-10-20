@@ -137,7 +137,7 @@ def comments(request, pk):
             comment['id'] = i.id
             comment['content'] = i.content
             comment['date'] = i.date
-            comment['name'] = i.writer.name
+            comment['name'] = '관리자' if i.writer.is_superuser else i.writer.name
             comments_list.append(comment)
         return JsonResponse(comments_list, safe=False)
 
