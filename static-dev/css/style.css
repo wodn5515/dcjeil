@@ -546,7 +546,7 @@ body.mob_menu_on{overflow:hidden;}
 
 @media screen and (max-width:600px){
     #tabbtnlist{bottom:-8px; width:100%; left:0px; transform:none;}
-    #tabbtnlist > div{width:33.333%; margin:0px; text-align:center; padding:10px 5px;}
+    #tabbtnlist > div{width:50%; margin:0px; text-align:center; padding:10px 5px;}
     #home_wrap{padding-top:0;}
     #main_photo{display:none;}
     #history_btn_wrap > .container{padding:10px 0px; margin:0 5px; font-size:18px;}
