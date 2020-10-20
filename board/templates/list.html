@@ -18,7 +18,7 @@
         <tr class="notice">
             <td class="td_no">공지</td>
             <td class="td_title">
-                <a href="{% url 'board:detail' post.div post.id %}">
+                <a href="{{ post.get_absolute_url }}">
                     <div class="td_title_title after">
                         <div><em>{% if post.date %}{{post.date|date:"Y-m-d"}} | {% endif %}{% if post.tag %}<em style="color:#9b9b9b;">[{{post.tag}}]</em>{% endif %}{{post.title}}</em></div>
                         <span class="icon_wrap after"><!--
@@ -95,7 +95,7 @@
         <tr>
             <td class="td_no">{% td_no forloop.counter0 page_obj.start_index %}</td>
             <td class="td_title">
-                <a href="{% url 'board:detail' post.div post.id %}">
+                <a href="{{ post.get_absolute_url }}">
                     <div class="td_title_title after">
                         <div><em>{% if post.date %}{{post.date|date:"Y-m-d"}} | {% endif %}{% if post.tag %}<em style="color:#aaaaaa;">[{{post.tag}}]</em>{% endif %}{{post.title}}</em></div>
                         <span class="icon_wrap after"><!--
