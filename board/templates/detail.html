@@ -16,6 +16,30 @@
     </div>
 </div>
 <!--------------------------->
+<!-------- 추가정보 --------->
+{% if post.preacher or post.words or post.date %}
+<div id="post_additional_info">
+    {% if post.date %}
+    <div class="container">
+        <div class="title">일시</div>
+        {{ post.date }}
+    </div>
+    {% endif %}
+    {% if post.preacher %}
+    <div class="container">
+        <div class="title">설교자</div>
+        {{ post.preacher }}
+    </div>
+    {% endif %}
+    {% if post.words %}
+    <div class="container">
+        <div class="title">설교 본문</div>
+        {{ post.words }}
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+<!--------------------------->
 <!-------- 첨부파일 --------->
 {% for file in post.file.all %}
 <div id="file_wrap">
