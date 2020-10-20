@@ -64,9 +64,10 @@ class Board(ListView, BoardMixin):
     
     def get_queryset(self):
         pk = self.kwargs['pk']
+        now_menu = Submenu.objects.filter(mainmenu=pk[0]).get(order=int(pk[1:]))
         kind = self.request.GET.get('s_kind', '')
         keyword = self.request.GET.get('s_keyword', '')
-        post_list = Post.objects.filter(div=pk)
+        post_list = Post.objects.filter(div=now_menu)
         if kind == 'title':
             post_list =  post_list.filter(Q(title__contains=keyword)|Q(date__contains=keyword))
         elif kind == 'content':
@@ -91,11 +92,11 @@ def detail(request, board_pk, pk):
     menu_no = board_pk[1:]
     now_menu = Submenu.objects.filter(mainmenu=menu_nav).get(order=int(menu_no))
     try:
-        prev_post = Post.objects.filter(div=board_pk, upload_date__lt=post.upload_date).order_by('-upload_date')[0]
+        prev_post = Post.objects.filter(div=now_menu, upload_date__lt=post.upload_date).order_by('-upload_date')[0]
     except:
         prev_post = None
     try:
-        next_post = Post.objects.filter(div=board_pk, upload_date__gt=post.upload_date).order_by('upload_date')[0]
+        next_post = Post.objects.filter(div=now_menu, upload_date__gt=post.upload_date).order_by('upload_date')[0]
     except:
         next_post = None
     return render(request, 'base_detail.html', {
