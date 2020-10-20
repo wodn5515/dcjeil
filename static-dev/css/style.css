@@ -141,7 +141,7 @@
 #side_nav > ul > li > ul > li > a:hover{color:#0093e9}
 #side_nav > ul > li > ul > li.on > a{color:#0093e9; font-weight:bold;}
 
-#list_table{margin:10px 0 20px 0; width:100%; table-layout:fixed;}
+#list_table{margin:10px 0 20px 0; width:100%;}
 #list_table tr.notice{font-weight:bold; background-color:#e3e3e3;}
 #list_table th{padding:10px 0; border-top:3px solid #666666;}
 #list_table tbody tr{border-top:1px solid #e3e3e3;}

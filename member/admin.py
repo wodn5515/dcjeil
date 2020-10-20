@@ -23,7 +23,7 @@ class UserAdmin(BaseUserAdmin):
     list_filter = ('belong', 'duty', 'is_active', 'is_superuser', 'is_staff',)
     fieldsets = (
         (_('회원정보'), {'fields': ('uid', 'password',)}),
-        (_('Personal info'), {'fields': ('name', 'email',)}),
+        (_('Personal info'), {'fields': ('name', 'email', 'tp',)}),
         (_('추가정보'), {'fields': ('is_registered', 'belong', 'duty',)}),
         (_('Permissions'), {'fields': ('is_active', 'is_superuser', 'is_staff', 'adminpermissiongroups', 'boardpermissiongroups',)}),
     )
