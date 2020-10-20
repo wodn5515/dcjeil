@@ -81,17 +81,17 @@ class BoardPermissionGroup(models.Model):
 class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(_('이름'), max_length=5, default='')
     is_active = models.BooleanField(_('승인'), default=False)
-    is_staff = models.BooleanField(_('스태프'), default=False, help_text=_('관리자페이지 접속권한'))
-    is_superuser = models.BooleanField(_('관리자'), default=False, help_text=_('최고등급의 관리자권한'))
+    is_staff = models.BooleanField(_('스태프'), default=False, help_text=_('◈ 관리자페이지 접속권한'))
+    is_superuser = models.BooleanField(_('관리자'), default=False, help_text=_('◈ 최고등급의 관리자권한'))
     is_social = models.BooleanField(_('소셜로그인'), default=False)
-    is_registered = models.BooleanField(_('교인여부'), default=False, help_text=_('본 교회 교인만 체크해주세요.'))
+    is_registered = models.BooleanField(_('교인여부'), default=False, help_text=_('◈ 본 교회 교인만 체크해주세요.'))
     date_joined = models.DateTimeField(_('가입날짜'), default=timezone.now)
     uid = models.CharField(
         _('ID'),
         max_length = 50,
         unique = True,
         error_messages = {
-            'unique' : _("이미 가입된 아이디 입니다."),
+            'unique' : _("이미 가입된 아이디입니다."),
         },
     )
     email = models.EmailField(
@@ -99,7 +99,17 @@ class User(AbstractBaseUser, PermissionsMixin):
         help_text=_('◈ 회원정보를 찾을 때 필요합니다'),
         unique=True,
         error_messages = {
-            'unique' : _("이미 가입된 이메일 입니다."),
+            'unique' : _("이미 가입된 이메일입니다."),
+        }
+    )
+    tp = models.CharField(
+        _('연락처'),
+        max_length=15,
+        help_text=_("◈ ' - '를 제외하고 입력해주세요."),
+        unique=True,
+        null=True,
+        error_messages = {
+            'unique' : _("이미 가입된 연락처입니다."),
         }
     )
     duty = models.ForeignKey(
