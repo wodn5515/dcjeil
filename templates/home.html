@@ -117,58 +117,16 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div id="main_mob" class="listbox">
-                <a href="/board/103" class="container">
-                    <img src="{% static 'img/vision.png' %}">
-                    <p>교회비전</p>
-                </a>
-                <a href="/board/207" class="container">
-                    <img src="{% static 'img/clock.png' %}">
-                    <p>예배시간</p>
-                </a>
-                <a href="/board/106" class="container">
-                    <img src="{% static 'img/location.png' %}">
-                    <p>오시는 길</p>
-                </a>
-                <a href="/board/803" class="container">
-                    <img src="{% static 'img/weekly.png' %}">
-                    <p>주보게시판</p>
-                </a>
-                <div></div>
+            <div id="main4" class="link worship">
+                <a href="/board/207"><img src="{% static 'img/worship_home.png' %}" width="100%" height="100%"></a>
             </div>
-            <div id="main5" class="listbox">
-                <p class="after">{{main5_menu.name}}<a href="{{main5_menu.get_absolute_url}}">더보기 +</a></p>
-                <ul>
-                    {% now "y-m-d" as todays_date %}
-                    {% now "y" as this_year %}
-                    {% for post in main5_menu|get_query_home %}
-                    <li>
-                        <a href="{{post.get_absolute_url}}">{% if post.tag %}[{{post.tag}}]{% endif %}{% if post.date %}{{post.date|date:"Y-m-d"}} {% endif %}{{post.title}}</a>
-                        {% if post.upload_date|post_new %}
-                        <span>
-                            <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
-                        </span>
-                        {% endif %}
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div id="main6" class="listbox">
-                <p class="after">{{main6_menu.name}}<a href="{{main6_menu.get_absolute_url}}">더보기 +</a></p>
-                <ul>
-                    {% now "y-m-d" as todays_date %}
-                    {% now "y" as this_year %}
-                    {% for post in main6_menu|get_query_home %}
-                    <li>
-                        <a href="{{post.get_absolute_url}}">{% if post.tag %}[{{post.tag}}]{% endif %}{% if post.date %}{{post.date|date:"Y-m-d"}}{% endif %} {{post.title}}</a>
-                        {% if post.upload_date|post_new %}
-                        <span>
-                            <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
-                        </span>
-                        {% endif %}
-                    </li>
-                    {% endfor %}
-                </ul>
+            <div id="main5" class="link map">
+                <div id="map"></div>
+                <div class="map_desc">
+                    <div class="container">
+                        <img src="{% static 'img/map_home.png' %}">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -193,43 +151,82 @@
 {% block js %}
 {{ block.super }}
 <script type="text/javascript">
-{% if popup_list %}
-    document.addEventListener("DOMContentLoaded", function(){
-        let wrap = document.querySelector("#popup_wrap")
-        let top;
-        let left;
-        {% for popup in popup_list %}
-        top = "{{popup.location}}".split("/")[1]
-        left = "{{popup.location}}".split("/")[0]
-        wrap.innerHTML += "<div class='container popup{{popup.id}}' style='top:" + top + "px; left:" + left + "px;'><img src='{{popup.image.url}}''>\
-        <div class='pop_close_box'><label class='pop_never_chk_wrap'>\
-        <input class='pop_never_chk_{{popup.id}}' type='checkbox'>24시간 동안 창을 띄우지 않음.</label>\
-        <div class='pop_close_btn' onclick='popupClose({{popup.id}})'>닫기</div></div></div>"
-        {% endfor %}
-    })
+    {% if popup_list %}
+        document.addEventListener("DOMContentLoaded", function(){
+            let wrap = document.querySelector("#popup_wrap")
+            let top;
+            let left;
+            {% for popup in popup_list %}
+            top = "{{popup.location}}".split("/")[1]
+            left = "{{popup.location}}".split("/")[0]
+            wrap.innerHTML += "<div class='container popup{{popup.id}}' style='top:" + top + "px; left:" + left + "px;'><img src='{{popup.image.url}}''>\
+            <div class='pop_close_box'><label class='pop_never_chk_wrap'>\
+            <input class='pop_never_chk_{{popup.id}}' type='checkbox'>24시간 동안 창을 띄우지 않음.</label>\
+            <div class='pop_close_btn' onclick='popupClose({{popup.id}})'>닫기</div></div></div>"
+            {% endfor %}
+        })
 
-    function popupClose(id){
-        let is_pop_never_check = document.querySelector('.pop_never_chk_'+id).checked;
-        console.log(is_pop_never_check);
-        if(is_pop_never_check){
-            setPopupCookie('popup', id);
-            console.log('1')
+        function popupClose(id){
+            let is_pop_never_check = document.querySelector('.pop_never_chk_'+id).checked;
+            console.log(is_pop_never_check);
+            if(is_pop_never_check){
+                setPopupCookie('popup', id);
+                console.log('1')
+            }
+            document.querySelector('.popup' + id).remove();
         }
-        document.querySelector('.popup' + id).remove();
-    }
-{% endif %}
-    function tabEvent(e){
-        let no = $(e.currentTarget).attr("id").split("_")[1]
-        console.log(no)
-        let tabitem = $("#tabevent_"+no)
-        console.log(tabitem)
-        let tabitem_bef = tabitem.siblings(".tab_item.active")
-        console.log(tabitem_bef)
-        $(e.currentTarget).addClass("active")
-        $(e.currentTarget).siblings(".tabbtn").removeClass("active")
-        tabitem.addClass("active");
-        tabitem_bef.removeClass("active")
-    }
+    {% endif %}
+        function tabEvent(e){
+            let no = $(e.currentTarget).attr("id").split("_")[1]
+            console.log(no)
+            let tabitem = $("#tabevent_"+no)
+            console.log(tabitem)
+            let tabitem_bef = tabitem.siblings(".tab_item.active")
+            console.log(tabitem_bef)
+            $(e.currentTarget).addClass("active")
+            $(e.currentTarget).siblings(".tabbtn").removeClass("active")
+            tabitem.addClass("active");
+            tabitem_bef.removeClass("active")
+        }
+</script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=085c70d50f6f67acd43809e58b2a6cb6"></script>
+<script>
+    var container = document.querySelector('#map'); //지도를 담을 영역의 DOM 레퍼런스
+    var options = { //지도를 생성할 때 필요한 기본 옵션
+        center: new kakao.maps.LatLng(35.21276502792265, 129.02208208012863), //지도의 중심좌표.
+        level: 4 //지도의 레벨(확대, 축소 정도)
+    };
+
+    var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+    
+    var imageSrc = "{% static 'img/map_marker.png' %}", // 마커이미지의 주소입니다    
+    imageSize = new kakao.maps.Size(65, 80), // 마커이미지의 크기입니다
+    imageOption = {offset: new kakao.maps.Point(32.5, 77.5)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+      
+    // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+        markerPosition = new kakao.maps.LatLng(35.21276502792265, 129.02208208012863); // 마커가 표시될 위치입니다
+
+    // 마커를 생성합니다
+    var marker = new kakao.maps.Marker({
+        position: markerPosition, 
+        image: markerImage // 마커이미지 설정 
+    });
+
+    // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+    var mapTypeControl = new kakao.maps.MapTypeControl();
+
+    // 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+    // kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPLEFT);
+
+    // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+    var zoomControl = new kakao.maps.ZoomControl();
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+    // 마커가 지도 위에 표시되도록 설정합니다
+    marker.setMap(map);
+    map.setZoomable(false);
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 {% endblock js %}
