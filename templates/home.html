@@ -45,7 +45,7 @@
             <div id="tabevent_inner">
                 <div id="tabevent_01" class="tab_item active" title="{{tab1.title}}">
                     <a href="{{tab1.get_absolute_url}}">
-                        <img src="" height="100%" width="100%" alt="Tab Event_01">
+                        <img src="" height="100%" alt="Tab Event_01">
                         <div class="container">
                             <p class="tab_title">{{tab1.title}}</p>
                             <p class="tab_date">{{tab1.date|date:"Y-m-d"}}</p>
@@ -55,7 +55,7 @@
                 </div>
                 <div id="tabevent_02" class="tab_item" title="{{tab2.title}}">
                     <a href="{{tab2.get_absolute_url}}">
-                        <img src="{% static 'img/home_worship.png' %}" height="100%" width="100%" alt="Tab Event_02">
+                        <img src="{% static 'img/home_worship.png' %}" height="100%" alt="Tab Event_02">
                         <div class="container">
                             <p class="tab_title">{{tab2.title}}</p>
                             <p class="tab_date">{{tab2.date|date:"Y-m-d"}}</p>
@@ -73,7 +73,7 @@
                     {% now "y" as this_year %}
                     {% for post in main1 %}
                     <li>
-                        <a href="{{post.get_absolute_url}}">[{{post.div.name}}{% if post.tag %}<em>-{{post.tag}}</em>{% endif %}] {% if post.date %}{{post.date|date:"Y-m-d"}} {% endif %}{{post.title}}</a>
+                        <a href="{{post.get_absolute_url}}">[{{post.div.name}}{% if post.tag %}<em>-{{post.tag}}</em>{% endif %}] {% if post.date %}{{post.date|date:"Y-m-d"}} {% endif %}{{post.title}}{% if post.preacher %} - {{post.preacher}}{% endif %}</a>
                         {% if post.upload_date|post_new %}
                         <span>
                             <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
