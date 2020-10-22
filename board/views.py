@@ -41,6 +41,7 @@ class Board(ListView, BoardMixin):
         paginator = context['paginator']
         page = self.request.GET.get('page', '1')
         now_menu = Submenu.objects.filter(mainmenu=pk[0]).get(order=int(pk[1:]))
+        notice_list = Post.objects.filter(div=now_menu).filter(notice=True).order_by('-upload_date')
         if now_menu.m_type == 'fixed_uneditable':
             content_type = 'fixedboard/fixedboard_' + pk + '.html'
             if now_menu.name == '교회연혁':
@@ -50,6 +51,7 @@ class Board(ListView, BoardMixin):
         else:
             content_type = now_menu.m_type + '.html'
             fixed_data = FixedMenu.objects.filter(menu=now_menu).last()
+        context['notice_list'] = notice_list
         context['page_range'] = self.page_range(paginator, page)
         context['pk'] = pk
         context['menu'] = Mainmenu.objects.all().order_by('order')

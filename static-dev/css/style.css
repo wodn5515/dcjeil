@@ -1,6 +1,6 @@
 /* base style */
 #wrap{margin:0 auto;}
-#main_wrap{margin-top:40px; border-top:1px solid #e3e3e3; background-image:url(../img/bg.png);}
+#main_wrap{margin-top:40px; border-top:1px solid #e3e3e3; padding-bottom:10px; background-image:url(../img/bg.png);}
 
 /* top */
 #top_wrap{position:relative; top:0; margin-bottom:5px;}
@@ -36,9 +36,9 @@
 
 /* home style */
 #home_wrap{width:1200px; margin:0 auto; padding:30px 0;}
-#main_left{float:left; width:400px; height:800px; background-color:white;}
+#main_left{box-shadow:0px 0px 5px 3px #e3e3e3; float:left; width:400px; height:800px; background-color:white;}
 #main_right{float:left; margin-left:10px; width:790px;}
-#maintabevent{position:relative; height:300px; border:1px solid #e3e3e3; background-color:white;}
+#maintabevent{position:relative; height:300px; box-shadow:0px 0px 5px 3px #e3e3e3; background-color:white;}
 #tabbtnlist{z-index:8; position:absolute; bottom:15px; left:50%; transform:translateX(-50%);}
 #tabbtnlist > div{user-select:none; background-color:white; float:left; line-height:13px; font-size:13px; color:#6b6b6b; font-weight:bold; border:1px solid #e3e3e3; margin:0 10px; padding:10px 15px; cursor:pointer;}
 #tabbtnlist > div:hover{color:#0093e9;}
@@ -61,7 +61,7 @@
 #maingrid > #main1{-ms-grid-row:1; -ms-grid-column:1; -ms-grid-column-span:3; grid-row:1; grid-column:1 / span 2;}
 #maingrid > #main2{-ms-grid-row:3; -ms-grid-column:1; grid-row:2; grid-column:1;}
 #maingrid > #main3{-ms-grid-row:3; -ms-grid-column:3; grid-row:2; grid-column:2;}
-#maingrid > #main4{-ms-grid-row:1; -ms-grid-column:5; grid-row:1; grid-column:3;}
+#maingrid > #main4{-ms-grid-row:1; -ms-grid-column:5; grid-row:1; grid-column:3; position:relative;}
 #maingrid > #main5{-ms-grid-row:3; -ms-grid-column:5; grid-row:2; grid-column:3; position:relative;}
 #maingrid > div{box-shadow:0px 0px 5px 3px #e3e3e3; border-radius:5px; background-color:white; overflow:hidden;}
 #main5 > #map{height:calc(100% - 50px)}
@@ -99,7 +99,7 @@
 
 
 /* board style - list */
-#content{min-height:500px; box-shadow:0px 0px 5px 3px #e3e3e3; background-color:white;}
+#content{min-height:500px; box-shadow:0px 0px 5px 3px #e3e3e3; background-color:white; overflow:hidden;}
 #content.list{padding:10px 30px; float:left; margin-left:80px; width:calc(100% - 300px);}
 #title_wrap{width:100%; height:100px; background-image:url(../img/title_bg.png); border-top:1px double #e3e3e3; position:relative;}
 #title{margin:35px 0; line-height:30px; color:white; text-align:center;}
@@ -129,9 +129,8 @@
 #list_table .th_date{width:90px;}
 #list_table .th_views{width:55px;}
 #list_table .td_title #mob_list_info{display:none;}
-#list_table .td_title a{width:100%; display:block;}
-#list_table .td_title > a:hover .td_title_title > div{text-decoration:underline; color:#6b6b6b;}
-#list_table .td_title .td_title_title div:first-child{float:left; max-width:calc(100% - 100px); text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
+#list_table .td_title a{display:block; float:left; max-width:calc(100% - 100px); text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
+#list_table .td_title a:hover{text-decoration:underline; color:#6b6b6b;}
 #list_table .icon_wrap{margin-left:5px; float:left;}
 #list_table .icon{vertical-align:sub; float:left;}
 #list_table .cmt_count{float:left; vertical-align:sub; margin-left:5px; color:#aaaaaa;}
@@ -312,6 +311,7 @@
 
 /* board style - write */
 #content.write{width:700px; margin:0 auto;}
+#write_wrap{padding:50px 0;}
 #write_wrap h2{text-align:center;}
 #write_wrap select{border:1px solid #c5c5c5; height:40px; font-size:14px; line-height:14px; background-color:white; width:80px; margin-right:20px;}
 #write_wrap .field_wrap input{padding:8px; border:1px solid #c5c5c5; width:420px; height:40px; font-size:14px; line-height:14px;}
@@ -429,6 +429,7 @@ body.mob_menu_on{overflow:hidden;}
     #mob_menu_top_wrap{height:80px; background-color:#0093e9}
     #mob_menu_top_wrap .container_01{user-select:none; color:white; font-size:12px; padding:2px; background-color:#00598d; text-align:center;}
     #mob_menu_top_wrap .container_02{height:calc(100% - 22px)}
+    #mob_menu_top_wrap img{vertical-align:middle;}
     #mob_menu_close{float:right; height:100%; width:58px; line-height:54px; background-color:#818181; text-align:center;}
     #mob_login_wrap{float:left; width:calc(100% - 58px);}
     #mob_login_wrap > ul > li{float:left; font-size:10px;}
@@ -496,6 +497,7 @@ body.mob_menu_on{overflow:hidden;}
     #content.detail{width:100%;}
     #content.write{width:100%;}
     #wrapper{padding-top:0;}
+    #list_table{table-layout:fixed;}
     #list_table > thead,
     #list_table .td_no,
     #list_table .td_writer,
