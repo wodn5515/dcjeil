@@ -84,7 +84,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(_('스태프'), default=False, help_text=_('◈ 관리자페이지 접속권한'))
     is_superuser = models.BooleanField(_('관리자'), default=False, help_text=_('◈ 최고등급의 관리자권한'))
     is_social = models.BooleanField(_('소셜로그인'), default=False)
-    is_registered = models.BooleanField(_('교인여부'), default=False, help_text=_('◈ 본 교회 교인만 체크해주세요.'))
+    is_registered = models.BooleanField(_('교인여부'), default=False, help_text=_('◈ 본 교회 교인이시면 체크해주세요.'))
     date_joined = models.DateTimeField(_('가입날짜'), default=timezone.now)
     uid = models.CharField(
         _('ID'),
@@ -114,7 +114,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     duty = models.ForeignKey(
         Duty,
-        verbose_name=_('교구'),
+        verbose_name=_('직분'),
         on_delete=models.SET_NULL,
         null=True
     )

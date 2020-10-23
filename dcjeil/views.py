@@ -31,21 +31,17 @@ def home(request):
         tab2 = Post.objects.filter(div__mainmenu__order=3).last()
     except:
         tab2 = None
-    main1 = Post.objects.order_by('-upload_date')[:8]
-    main2_menu = Submenu.objects.filter(exposure_home=1).first()
-    main3_menu = Submenu.objects.filter(exposure_home=2).first()
-    main5_menu = Submenu.objects.filter(exposure_home=3).first()
-    main6_menu = Submenu.objects.filter(exposure_home=4).first()
+    main_recent = Post.objects.order_by('-upload_date')[:8]
+    main1_menu = Submenu.objects.filter(exposure_home=1).first()
+    main2_menu = Submenu.objects.filter(exposure_home=2).first()
     photo_menu = Submenu.objects.filter(name='교회앨범').first()
     context = {
         'carousel_list' : carousel_list,
         'tab1' : tab1,
         'tab2' : tab2,
-        'main1' : main1,
+        'main_recent' : main_recent,
+        'main1_menu' : main1_menu,
         'main2_menu' : main2_menu,
-        'main3_menu' : main3_menu,
-        'main5_menu' : main5_menu,
-        'main6_menu' : main6_menu,
         'photo_menu' : photo_menu,
         'menu' : menu
         }

@@ -18,7 +18,7 @@ url_target_blank = register.filter(url_target_blank, is_safe = True)
 @register.filter
 def youtube_embed(link):
     if link.find('.com') == -1:
-            link = link.split('/')[-1]
+        link = link.split('/')[-1]
     else:
         start = link.find('v=') + 2
         link = link[start:start+11]
@@ -63,3 +63,12 @@ def is_mobile(user_agent):
 @register.filter
 def get_query_home(submenu):
     return Post.objects.filter(div=submenu).order_by('-upload_date')[:8]
+
+@register.filter
+def thumbnail(link):
+    if link.find('.com') == -1:
+        link = link.split('/')[-1]
+    else:
+        start = link.find('v=') + 2
+        link = link[start:start+11]
+    return "https://img.youtube.com/vi/" + link + "/maxresdefault.jpg"
