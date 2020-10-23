@@ -56,14 +56,15 @@ body#login{width:480px; margin:0 auto;}
 .btn_confirm{text-align:center; margin-top:30px;}
 .btn_confirm input{background-color:#0093e9; padding:8px; border:1px solid #0187d4; height:40px; font-size:14px; line-height:14px; width:100px; cursor:pointer; color:white;}
 .btn_confirm input.main{background-color:#a1a1a1; border: 1px solid #a1a1a1;}
-.reg_form{margin:10px 0 30px 0;}
+.reg_form{margin:10px 0 30px 0; border-top:2px solid #c5c5c5; border-bottom:2px solid #c5c5c5;}
 .sec_title{margin-left:10px;}
-.field_wrap{border-top:1px solid #c5c5c5; padding:10px;}
-.field_wrap:last-child{border-bottom:1px solid #c5c5c5;}
+.field_wrap{border-bottom:1px solid #c5c5c5; padding:10px;}
+.field_wrap:last-child{border-bottom:none;}
 .field_wrap.error_label label{color:#fa5555; font-weight:bold;}
-.field_wrap label{width:90px; padding:5px 0; display:inline-block; font-size:13px; border-right:1px solid #c5c5c5; vertical-align:top;}
-.field_wrap .input_wrap{display:inline-block}
-.field_wrap input{padding:8px; border:1px solid #c5c5c5; height:30px; font-size:14px; line-height:14px; margin-left:10px;}
+.field_wrap label{width:80px; padding:5px 0; display:inline-block; font-size:13px; border-right:1px solid #c5c5c5; vertical-align:top;}
+.field_wrap .input_wrap{display:inline-block; margin-left:10px;}
+.field_wrap input{padding:8px; border:1px solid #c5c5c5; height:30px; font-size:14px; line-height:14px;}
+.field_wrap input[type='checkbox']{width:15px; height:15px;}
 .field_wrap select[name='office']{border:1px solid #c5c5c5; height:30px; font-size:14px; line-height:14px; margin-left:10px; width:100px;}
 .field_wrap select{border:1px solid #c5c5c5; height:30px; font-size:14px; line-height:14px; margin-left:10px; background-color:white;}
 .field_wrap .error{font-size:12px; color:#fa5555; font-weight:bold; word-break:keep-all;}
@@ -83,7 +84,7 @@ body#login{width:480px; margin:0 auto;}
 
 @media screen and (max-width:480px){
     body#login{width:90%;}
-    #reg_wrapper{width:95%!important; padding:30px 20px;}
+    #reg_wrapper{width:95%!important; padding:30px 10px;}
     #reg_wrapper h4{font-size:13px;}
     #private_table{font-size:11px;}
     #login_wrap{margin-top:20px;}

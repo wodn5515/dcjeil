@@ -106,12 +106,12 @@ class RegisterForm(forms.ModelForm):
         kwargs.setdefault('label_suffix', '')
         super(RegisterForm, self).__init__(*args, **kwargs)
 
-    password = forms.CharField(label="비밀번호", widget=forms.PasswordInput(), help_text="◈영문,숫자조합 8-20자")
+    password = forms.CharField(label="비밀번호", widget=forms.PasswordInput(), help_text="◈ 영문,숫자조합 8-20자")
     confirm_password = forms.CharField(label="비밀번호 확인", widget=forms.PasswordInput())
 
     class Meta:
         model = User
-        fields = ('name', 'uid', 'email', 'password')
+        fields = ('uid', 'password', 'confirm_password', 'name', 'email', 'tp', 'is_registered')
         widget = {
             'uid' : forms.TextInput(attrs={
                 'autofocus' : 'on'

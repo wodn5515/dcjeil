@@ -20,7 +20,7 @@
 <div id="reg_wrapper">
     <form action="" method="POST" autocomplete="off">
         {% csrf_token %}
-        <h2 class="sec_title">회원정보</h2>
+        <h2 class="sec_title">회원정보 / 개인정보</h2>
         <section class="reg_form">
             {% for field in forms %}
             <div class="field_wrap{% if field.errors %} error_label{% endif %}">
