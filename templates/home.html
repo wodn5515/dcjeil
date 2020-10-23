@@ -67,14 +67,31 @@
         </div>
         {% load board_tag %}
         <div id="maingrid">
-            <div id="main1" class="listbox">
+            <div id="main_recent" class="listbox">
                 <p class="after">최근게시글</p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
-                    {% for post in main1 %}
+                    {% for post in main_recent %}
                     <li>
                         <a href="{{post.get_absolute_url}}">[{{post.div.name}}{% if post.tag %}<em>-{{post.tag}}</em>{% endif %}] {% if post.date %}{{post.date|date:"Y-m-d"}} {% endif %}{{post.title}}{% if post.preacher %} - {{post.preacher}}{% endif %}</a>
+                        {% if post.upload_date|post_new %}
+                        <span>
+                            <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
+                        </span>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div id="main1" class="listbox">
+                <p class="after">{{main1_menu.name}}<a href="{{main1_menu.get_absolute_url}}">더보기 +</a></p>
+                <ul>
+                    {% now "y-m-d" as todays_date %}
+                    {% now "y" as this_year %}
+                    {% for post in main1_menu|get_query_home %}
+                    <li>
+                        <a href="{{post.get_absolute_url}}">{% if post.tag %}[{{post.tag}}]{% endif %}{% if post.date %}{{post.date|date:"Y-m-d"}} {% endif %}{{post.title}}</a>
                         {% if post.upload_date|post_new %}
                         <span>
                             <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
@@ -101,27 +118,10 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div id="main3" class="listbox">
-                <p class="after">{{main3_menu.name}}<a href="{{main3_menu.get_absolute_url}}">더보기 +</a></p>
-                <ul>
-                    {% now "y-m-d" as todays_date %}
-                    {% now "y" as this_year %}
-                    {% for post in main3_menu|get_query_home %}
-                    <li>
-                        <a href="{{post.get_absolute_url}}">{% if post.tag %}[{{post.tag}}]{% endif %}{% if post.date %}{{post.date|date:"Y-m-d"}} {% endif %}{{post.title}}</a>
-                        {% if post.upload_date|post_new %}
-                        <span>
-                            <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
-                        </span>
-                        {% endif %}
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div id="main4" class="link worship">
+            <div id="main3" class="link worship">
                 <a href="/board/207"><img src="{% static 'img/worship_home.png' %}" width="100%" height="100%"></a>
             </div>
-            <div id="main5" class="link map">
+            <div id="main4" class="link map">
                 <div id="map"></div>
                 <div class="map_desc">
                     <div class="container">
