@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load board_tag %}
 {% block head %}
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
@@ -45,7 +46,7 @@
             <div id="tabevent_inner">
                 <div id="tabevent_01" class="tab_item active" title="{{tab1.title}}">
                     <a href="{{tab1.get_absolute_url}}">
-                        <img src="" height="100%" alt="Tab Event_01">
+                        <img src="{{ tab1.video|thumbnail }}" height="100%" alt="Tab Event_01">
                         <div class="container">
                             <p class="tab_title">{{tab1.title}}</p>
                             <p class="tab_date">{{tab1.date|date:"Y-m-d"}}</p>
