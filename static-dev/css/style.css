@@ -472,11 +472,11 @@ body.mob_menu_on{overflow:hidden;}
         -ms-grid-columns:49% 2% 49%; grid-template-columns:260px calc(48% - 260px) 48%;
         gap:10px 2%;
     }
-    #maingrid > #main1{-ms-grid-row:1;-ms-grid-column:1; grid-row:1; grid-column:1 / span 3;}
-    #maingrid > #main2{-ms-grid-row:1;-ms-grid-column:3; grid-row:2; grid-column:1 / span 2;}
-    #maingrid > #main3{-ms-grid-row:3;-ms-grid-column:1; grid-row:2; grid-column:3;}
-    #maingrid > #main4{-ms-grid-row:3;-ms-grid-column:3; grid-row:3; grid-column:1;}
-    #maingrid > #main5{-ms-grid-row:5;-ms-grid-column:1; grid-row:3; grid-column:2/ span 2;}
+    #maingrid > #main_recent{-ms-grid-row:1;-ms-grid-column:1; grid-row:1; grid-column:1 / span 3;}
+    #maingrid > #main1{-ms-grid-row:1;-ms-grid-column:3; grid-row:2; grid-column:1 / span 2;}
+    #maingrid > #main2{-ms-grid-row:3;-ms-grid-column:1; grid-row:2; grid-column:3;}
+    #maingrid > #main3{-ms-grid-row:3;-ms-grid-column:3; grid-row:3; grid-column:1;}
+    #maingrid > #main4{-ms-grid-row:5;-ms-grid-column:1; grid-row:3; grid-column:2/ span 2;}
     #main_photo{width:100%;}
         /* board */
     #crtmap{display:none;}
@@ -540,11 +540,11 @@ body.mob_menu_on{overflow:hidden;}
         -ms-grid-columns:100%; grid-template-columns:100%;
         gap:10px 0;
     }
-    #maingrid > #main1{-ms-grid-row:1;-ms-grid-column:1; grid-row:1; grid-column:1;}
-    #maingrid > #main2{-ms-grid-row:5;-ms-grid-column:1; grid-row:2; grid-column:1;}
-    #maingrid > #main3{-ms-grid-row:7;-ms-grid-column:1; grid-row:4; grid-column:1;}
-    #maingrid > #main4{-ms-grid-row:7;-ms-grid-column:1; grid-row:3; grid-column:1;}
-    #maingrid > #main5{-ms-grid-row:7;-ms-grid-column:1; grid-row:5; grid-column:1; height:300px;}
+    #maingrid > #main_recent{-ms-grid-row:1;-ms-grid-column:1; grid-row:1; grid-column:1;}
+    #maingrid > #main1{-ms-grid-row:5;-ms-grid-column:1; grid-row:2; grid-column:1;}
+    #maingrid > #main2{-ms-grid-row:7;-ms-grid-column:1; grid-row:4; grid-column:1;}
+    #maingrid > #main3{-ms-grid-row:7;-ms-grid-column:1; grid-row:3; grid-column:1;}
+    #maingrid > #main4{-ms-grid-row:7;-ms-grid-column:1; grid-row:5; grid-column:1; height:300px;}
     #maingrid > div{min-height:100px;}
     #mob_menu_btn,
     #mob_home_btn{transform:scale(0.8); margin:15px 5px;}
