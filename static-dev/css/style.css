@@ -47,11 +47,13 @@
 .tab_item{opacity:0; width:100%; position:absolute; height:100%; transition:opacity .5s;}
 .tab_item.active{opacity:1; z-index:7;}
 .tab_item > a{position:relative; display:block; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.8)}
-.tab_item > a > img{position:absolute; left:50%; transform:translateX(-50%);}
-.tab_item > a > .container{min-height:204px; position:absolute; background-color:rgba(0,0,0,0.5); color:#ffffff; width:80%; margin:0 auto; margin-top:30px; left:50%; transform:translateX(-50%); text-shadow:0px 0px 10px #000000; text-align:center;}
-.tab_item > a > .container > .tab_title{width:80%; font-size:24px; font-weight:bold; margin:0 auto; margin-top:20px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
-.tab_item > a > .container > .tab_date{margin-top:90px; font-weight:bold;}
-.tab_item > a > .container > .tab_words{margin-bottom:10px; font-weight:bold;}
+.tab_item > a > img.worship{float:right;}
+.tab_item > a > img.praise{position:absolute;}
+.tab_item > a > .container.worship{width:auto; overflow: hidden;}
+.tab_item > a > .container.worship > .tab_title{text-align:right; color:white; padding:50px 10px 0 10px; font-size:24px; text-shadow:0px 0px 10px #000000; word-break:keep-all;}
+.tab_item > a > .container.praise{min-height:204px; position:absolute; background-color:rgba(0,0,0,0.5); color:#ffffff; width:80%; margin:0 auto; margin-top:30px; left:50%; transform:translateX(-50%); text-shadow:0px 0px 10px #000000; text-align:center;}
+.tab_item > a > .container.praise > .tab_title{width:80%; font-size:24px; font-weight:bold; margin:0 auto; margin-top:20px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
+.tab_item > a > .container.praise > .tab_date{margin-top:120px; font-weight:bold;}
 #maingrid{
     display:-ms-grid; display:grid;
     -ms-grid-rows:240px 10px 240px; grid-template-rows:240px 240px;
@@ -512,6 +514,8 @@ body.mob_menu_on{overflow:hidden;}
     #file_wrap{padding-right:10px;}
     #comment_write_wrap{margin:20px 10px;}
     #comment_opener_wrap{margin:0 10px 20px 10px;}
+    .tab_item > a > img.worship{position:absolute; left:50%; transform: translateX(-50%);}
+    .tab_item > a > .container.worship{display:none;}
     #tabbtnlist > div{margin:0 5px;}
     #history_wrap{width:95%; margin:0 auto;}
     #server{margin-top:20px;}
@@ -522,7 +526,7 @@ body.mob_menu_on{overflow:hidden;}
 }
 
 @media screen and (max-width:600px){
-    #tabbtnlist{bottom:-8px; width:100%; left:0px; transform:none;}
+    #tabbtnlist{bottom:0px; width:100%; left:0px; transform:none;}
     #tabbtnlist > div{width:50%; margin:0px; text-align:center; padding:10px 5px;}
     #home_wrap{padding-top:0;}
     #main_photo{display:none;}
@@ -550,10 +554,11 @@ body.mob_menu_on{overflow:hidden;}
     #mob_home_btn{transform:scale(0.8); margin:15px 5px;}
     #home_wrap,
     #wrapper{max-height:100%;}
-    #maintabevent{height:200px;}
-    .tab_item > a > .container{height:160px; margin-top:0px;}
-    .tab_item > a > .container > .tab_title{font-size:18px; margin-top:10px; width:90%;}
-    .tab_item > a > .container > .tab_date{margin-top:50px;}
+    #maintabevent{height:235px;}
+    #tabevent_inner{height:200px;}
+    .tab_item > a > .container.praise{height:160px; margin-top:0px;}
+    .tab_item > a > .container.praise > .tab_title{font-size:18px; width:90%;}
+    .tab_item > a > .container.praise > .tab_date{margin-top:120px;}
     #title > h1{font-size:22px;}
     #to_write{position:static;}
     #to_write a{width:142px; margin:5px auto;}
