@@ -46,18 +46,16 @@
             <div id="tabevent_inner">
                 <div id="tabevent_01" class="tab_item active" title="{{tab1.title}}">
                     <a href="{{tab1.get_absolute_url}}">
-                        <img src="{{ tab1.video|thumbnail }}" height="100%" alt="Tab Event_01">
-                        <div class="container">
+                        <img class="worship" src="{{ tab1.video|thumbnail }}" height="100%" alt="Tab Event_01">
+                        <div class="container worship">
                             <p class="tab_title">{{tab1.title}}</p>
-                            <p class="tab_date">{{tab1.date|date:"Y-m-d"}}</p>
-                            <p class="tab_words">{{tab1.words}}</p>
                         </div>
                     </a>
                 </div>
                 <div id="tabevent_02" class="tab_item" title="{{tab2.title}}">
                     <a href="{{tab2.get_absolute_url}}">
-                        <img src="{% static 'img/home_worship.png' %}" height="100%" alt="Tab Event_02">
-                        <div class="container">
+                        <img class="praise" src="{% static 'img/home_worship.png' %}" height="100%" alt="Tab Event_02">
+                        <div class="container praise">
                             <p class="tab_title">{{tab2.title}}</p>
                             <p class="tab_date">{{tab2.date|date:"Y-m-d"}}</p>
                         </div>
