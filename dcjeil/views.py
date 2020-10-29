@@ -46,7 +46,7 @@ def home(request):
         'menu' : menu
         }
     popup_cookies = request.COOKIES.get("popup", False)
-    popup_list = Popup.objects.filter(Q(start_date__lt=datetime.datetime.now())|Q(end_date__gt=datetime.datetime.now()))
+    popup_list = Popup.objects.filter(Q(start_date__lt=datetime.datetime.now()),Q(end_date__gt=datetime.datetime.now()))
     if popup_cookies:
         popup_cookies_list = popup_cookies.split('|')
         popup_list = popup_list.exclude(pk__in=popup_cookies_list)
