@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
+{% block head %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+{% endblock head %}
 {% block title %}
 {{post.title}} | 덕천제일교회
 {% endblock title %}
@@ -14,3 +18,7 @@
     </div>
 </div>
 {% endblock content %}
+{% block js %}
+{{ block.super }}
+<script type="text/javascript" src="{% static 'js/photopopup.js' %}"></script>
+{% endblock js %}
