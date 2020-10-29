@@ -56,6 +56,7 @@ class Carousel(models.Model):
     title = models.CharField(_('한줄설명'), max_length=15)
     image = models.ImageField(_('사진'), upload_to=carousel_image_save)
     order = models.IntegerField(_('순서'), help_text='낮을수록 먼저나옵니다.', default=0)
+    link = models.TextField(_('링크'), default="")
 
     def __str__(self):
         return f'{self.title}'
