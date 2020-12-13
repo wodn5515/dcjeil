@@ -15,7 +15,7 @@ class PostWriteForm(forms.ModelForm):
         super(PostWriteForm, self).__init__(*args, **kwargs)
 
     title = forms.CharField(label="제목", widget=forms.TextInput(attrs={'class':'required full'}))
-    content = forms.CharField(widget=CKEditorUploadingWidget(attrs={'class':'required'}), label="내용", required=False)
+    content = forms.CharField(widget=forms.Textarea(attrs={'class':'required'}), label="내용", required=False)
 
     class Meta:
         model = Post
@@ -40,7 +40,7 @@ class PostSuperuserForm(forms.ModelForm):
 
     title = forms.CharField(label="제목", widget=forms.TextInput(attrs={'class':'required'}))
     tag = forms.ModelChoiceField(label="태그", queryset=Posttag.objects.all(), widget=forms.Select(attrs={'class':'tag'}), required=False)
-    content = forms.CharField(widget=CKEditorUploadingWidget(attrs={'class':'required'}), label="내용", required=False)
+    content = forms.CharField(widget=forms.Textarea(attrs={'class':'required', 'id':'editor'}), label="내용", required=False)
     date = forms.DateField(label="일시", required=False, widget=forms.SelectDateWidget(empty_label=("-년도-", "--월--", "--일--"), years=range(datetime.datetime.now().year, 2000, -1)), help_text='◈ 설교, 찬양, 기도에만 작성하세요.')
     preacher = forms.CharField(label="설교자", required=False, widget=forms.TextInput(attrs={'class':'half', 'placeholder':'ex)김대환 목사'}), help_text='◈ 설교에만 작성하세요.')
     words = forms.CharField(label="말씀", required=False, widget=forms.TextInput(attrs={'class':'half', 'placeholder':'ex)창세기 1:1~10'}), help_text='◈ 설교에만 작성하세요.')
