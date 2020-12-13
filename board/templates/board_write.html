@@ -3,8 +3,13 @@
 {% block title %}
 글쓰기 | {% if title %}{{title}} |{% endif %}덕천제일교회
 {% endblock title %}
+{% block head %}
+{{ block.super }}
+<script src="https://cdn.ckeditor.com/ckeditor5/24.0.0/classic/ckeditor.js"></script>
+{% endblock head %}
 {% block content %}
 {% include "board_title.html" %}
+<div id="check">check</div>
 <div id="wrapper" class="after" v-bind:class="{mob_menu_on:menu_token}">
     <div id="content" class="write">
         <div id="write_wrap">
@@ -98,5 +103,21 @@ $("#fileform_wrap").on('click', '.file_delete', function(e){
         $(this).html($(this).html().replace(/(#\d+)/g, "#" + count));
     })
 })
+</script>
+<script>
+ClassicEditor
+    .create( document.querySelector( '#editor' ), {
+        plugins: [ MediaEmbed ],
+    } )
+    .then( editor => {
+        console.log( editor );
+    } )
+    .catch( error => {
+        console.error( error );
+    } );
+
+$("#check").click(function(event){
+    console.log($("#editor").html());
+});
 </script>
 {% endblock js %}
