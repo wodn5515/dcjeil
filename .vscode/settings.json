@@ -1,6 +1,0 @@
-{
-    "python.pythonPath": "venvdcjeil\\Scripts\\python.exe",
-    "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true,
-    "python.linting.pylintArgs": ["--load-plugins=pylint_django", "--errors-only"]
-}
