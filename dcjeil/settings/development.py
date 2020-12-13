@@ -23,8 +23,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dcjeil_local',
-        'USER': 'dcjeil_local',
-        'PASSWORD': 'dcjeil_local',
+        'USER': 'root',
+        'PASSWORD': 'local',
         'HOST': 'localhost',
         'PORT': '3306'
     }
