@@ -5,6 +5,7 @@
 __pycache__
 venvdcjeil
 venv
+development.py
 *.sqlite3
 /static
 /uploads
