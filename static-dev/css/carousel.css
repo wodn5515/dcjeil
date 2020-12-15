@@ -133,7 +133,10 @@ img {
 }
 .carousel-control-prev-icon > i,
 .carousel-control-next-icon > i{
-  vertical-align:-11px;
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
   width:25px;
   font-size:25px;
   }
