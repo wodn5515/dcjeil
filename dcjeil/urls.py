@@ -63,5 +63,11 @@ urlpatterns = [
     path("usercheck", views.usercheck, name="usercheck"),
     path("userupdate", views.userupdate, name="userupdate"),
     path("userresult", views.userresult, name="userresult"),
+    path("upload", login_required(ckeditor_views.upload), name="ckeditor_upload"),
+    path(
+        "browse",
+        never_cache(login_required(ckeditor_views.browse)),
+        name="ckeditor_browse",
+    ),
     path("summernote/", include("django_summernote.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
