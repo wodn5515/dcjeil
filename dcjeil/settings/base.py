@@ -196,6 +196,22 @@ CKEDITOR_CONFIGS = {
     }
 }
 
+X_FRAME_OPTIONS = "SAMEORIGIN"
+
+SUMMERNOTE_THEME = "bs4"
+
+SUMMERNOTE_CONFIG = {
+    "iframe": True,
+    "summernote": {
+        "airmode": False,
+        "width": "100%",
+        "height": "600px",
+        "lang": "ko-KR",
+    },
+    "attachment_require_authentication": True,
+}
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
