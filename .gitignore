@@ -1,9 +1,11 @@
 *.pyc
 *~
 *.zip
+.vscode
 __pycache__
 venvdcjeil
 venv
+development.py
 *.sqlite3
 /static
 /uploads
@@ -14,5 +16,4 @@ uwsgi.sock
 django.log
 mysql
 social_login_secret_keys.json
-.vscode
 .ebextensions

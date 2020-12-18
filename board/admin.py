@@ -1,11 +1,12 @@
 from django.contrib import admin
+from django_summernote.admin import SummernoteModelAdmin
 from .models import Post, PostFile, Comment, Posttag
 
 class PostFileInline(admin.StackedInline):
     model = PostFile
     extra = 0
 
-class Postadmin(admin.ModelAdmin):
+class Postadmin(SummernoteModelAdmin):
     list_display = ['title', 'get_div', 'upload_date', 'views']
     exclude = ['image',]
     list_filter = ['div__name', 'published']
