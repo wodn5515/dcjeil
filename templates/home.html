@@ -124,32 +124,43 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div id="main3" class="link worship">
-                <a href="/board/207"><img src="{% static 'img/worship_home.png' %}" width="100%" height="100%"></a>
+            <div id="main3" class="link community">
+                <p class="title"><i class="fab fa-youtube"></i>Youtube</p>
+                <ul>
+                    <li><a target="_blank" href="https://www.youtube.com/channel/UCZYQiJFdOTlQ6jnoif2kPQQ">덕천제일교회</a></li>
+                    <li><a target="_blank" href="https://www.youtube.com/channel/UCT8m6L4AA8TgmL3lXr5-hOA">덕천제일교회 청년부</a></li>
+                    <li><a target="_blank" href="https://www.youtube.com/channel/UCI8e7JChtiXoFmB12gsQQTA">덕천제일교회 고등부</a></li>
+                    <li><a target="_blank" href="https://www.youtube.com/channel/UCoAOljmQQw0MSZ_b8JFY57w">덕천제일교회 중등부</a></li>
+                </ul>
             </div>
-            <div id="main4" class="link map">
-                <div id="map"></div>
-                <div class="map_desc">
-                    <div class="container">
-                        <img src="{% static 'img/map_home.png' %}">
-                    </div>
-                </div>
+            <div id="main4" class="link worship">
+                <a href="/board/207"><img src="{% static 'img/worship_home.png' %}" width="100%" height="100%"></a>
             </div>
         </div>
     </div>
-    <div id="main_photo" class="after">
-        <p>{{photo_menu.name}}<a href="{{photo_menu.get_absolute_url}}">더보기 +</a></p>
-        <div id="photowrap">
-            {% for post in photo_menu|get_query_home %}
-            <div class="photobox">
-                <a href="{{post.get_absolute_url}}">
-                    <div class="photo">
-                        <img src="{{ post.image }}" alt="photo" width="100%" height="150px">
-                    </div>
-                    <p>{{post.title}}</p>
-                </a>
+    <div id="main_bottom">
+        <div id="main_photo" class="after">
+            <p>{{photo_menu.name}}<a href="{{photo_menu.get_absolute_url}}">더보기 +</a></p>
+            <div id="photowrap">
+                {% for post in photo_menu|get_query_home %}
+                <div class="photobox">
+                    <a href="{{post.get_absolute_url}}">
+                        <div class="photo">
+                            <img src="{{ post.image }}" alt="photo">
+                        </div>
+                        <p>{{post.title}}</p>
+                    </a>
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
+        </div>
+        <div id="way_to">
+            <div id="map"></div>
+            <div class="map_desc">
+                <div class="container">
+                    <img src="{% static 'img/map_home.png' %}">
+                </div>
+            </div>
         </div>
     </div>
 </div>

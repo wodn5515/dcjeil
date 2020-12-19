@@ -209,6 +209,7 @@ SUMMERNOTE_CONFIG = {
         "lang": "ko-KR",
     },
     "attachment_require_authentication": True,
+    'attachment_filesize_limit': 1024 * 1024 * 100,
 }
 
 
