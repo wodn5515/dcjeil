@@ -37,6 +37,7 @@
   background-color: #fff;
 }
 .carousel-inner {
+  height:800px;
   position: relative;
   width: 100%;
   overflow: hidden;
