@@ -177,12 +177,16 @@
             {% for popup in popup_list %}
             top = "{{popup.location}}".split("/")[1]
             left = "{{popup.location}}".split("/")[0]
-            wrap.innerHTML += "<div class='container popup{{popup.id}}' style='top:" + top + "px; left:" + left + "px;'><img src='{{popup.image.url}}''>\
-            <div class='pop_close_box'><label class='pop_never_chk_wrap'>\
-            <input class='pop_never_chk_{{popup.id}}' type='checkbox'>24시간 동안 창을 띄우지 않음.</label>\
-            <div class='pop_close_btn' onclick='popupClose({{popup.id}})'>닫기</div></div></div>"
+            wrap.innerHTML += '<div class="container popup{{popup.id}}" style="top:' + top + 'px; left:' + left + 'px;"><img src="{{popup.image.url}}"\
+            onclick="popupLink(' + "'{{popup.link}}'" + ')"><div class="pop_close_box"><label class="pop_never_chk_wrap">\
+            <input class="pop_never_chk_{{popup.id}}" type="checkbox">24시간 동안 창을 띄우지 않음.</label>\
+            <div class="pop_close_btn" onclick="popupClose({{popup.id}})">닫기</div></div></div>'
             {% endfor %}
         })
+
+        function popupLink(link){
+            window.open(link);
+        }
 
         function popupClose(id){
             let is_pop_never_check = document.querySelector('.pop_never_chk_'+id).checked;
