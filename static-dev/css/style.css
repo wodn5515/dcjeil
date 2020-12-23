@@ -221,7 +221,7 @@
 
 /* board style - detail */
 #content.detail{padding:10px 80px; float:left; margin-left:30px; width:1010px; position:relative;}
-#content.detail p > img{cursor:pointer;}
+#content.detail p > img{cursor:pointer; margin:0 auto;}
 #detail_header{border-bottom:2px solid #666666; padding:5px 10px; margin-top:10px;}
 #post_info{float:right; font-size:12px; color:#999999;}
 #post_additional_info{font-size:14px;}
@@ -294,7 +294,7 @@
 #prev_next_wrap .date{float:right; font-size:12px; color:#aaaaaa; margin-right:10px;}
 
 /* board style - write */
-#content.write{width:700px; margin:0 auto;}
+#content.write{width:1010px; margin:0 auto; padding:10px 80px;}
 #write_wrap{padding:50px 0;}
 #write_wrap h2{text-align:center;}
 #write_wrap select{border:1px solid #c5c5c5; height:40px; font-size:14px; line-height:14px; background-color:white; width:80px; margin-right:20px;}
@@ -393,6 +393,7 @@ body.mob_menu_on{overflow:hidden;}
     #crtmap{width:95%;}
     #content.list{padding:0px; width:70%;}
     #content.detail{padding:0px; width:70%;}
+    #content.write{width:95%; padding:0px;}
     #wrapper{margin:0;}
     #side_nav_wrap{width:20%; margin:0 0 0 2%;}
                 /* list */
