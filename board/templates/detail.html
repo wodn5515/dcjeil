@@ -10,7 +10,7 @@
     </div>
     <div id="post_info">
         <span style="margin-right:10px;">{% if post.writer.is_superuser %}관리자{% else %}{{post.writer}}{% endif %}</span>
-        <span style="margin-right:10px;">{{post.upload_date|date:"Y.m.d   H:m"}}</span>
+        <span style="margin-right:10px;">{{post.upload_date|date:"Y.m.d   H:i"}}</span>
         <span>조회</span>
         <span>{{post.views}}</span>
     </div>
