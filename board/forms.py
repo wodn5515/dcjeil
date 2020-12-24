@@ -51,10 +51,10 @@ class PostSuperuserForm(forms.ModelForm):
         label="제목", widget=forms.TextInput(attrs={"class": "required"})
     )
     is_reserved = forms.BooleanField(label="예약여부", required=False)
-    reservation = forms.DateTimeField(
+    reservation = forms.SplitDateTimeField(
         label="업로드일시",
         widget=forms.SplitDateTimeWidget(
-            attrs={"class": "reservation", "disabled": "true"}
+            attrs={"class": "reservation", "readonly": "true"}
         ),
     )
     tag = forms.ModelChoiceField(
