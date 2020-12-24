@@ -1,0 +1,47 @@
+{% load static %}
+<div id="prev_next_wrap">
+    {% now "y-m-d" as todays_date %}
+    {% now "y" as this_year %}
+    <div id="next_wrap" class="after">
+        <div class="next desc"><img src="{% static 'img/up_arrow.png' %}"></div>
+            <div class="next title">
+                {% if next_post %}
+                <a href="{{next_post.get_absolute_url}}">
+                {{next_post.title}}
+                </a>
+                {% else %}
+                <em class="disabled">가장 최신글입니다.</em>
+                {% endif %}
+            </div>
+        <div class="next date">
+            {% if todays_date == next_post.upload_date|date:"y-m-d" %}
+            {{ next_post.upload_date|date:"H:i" }}
+            {% elif this_year == next_post.upload_date|date:"y" %}
+            {{ next_post.upload_date|date:"m-d"}}
+            {% else %}
+            {{ next_post.upload_date|date:"Y-m-d" }}
+            {% endif %}
+        </div>
+    </div>
+    <div id="prev_wrap" class="after">
+        <div class="prev desc"><img src="{% static 'img/down_arrow.png' %}"></div>
+        <div class="prev title">
+            {% if prev_post %}
+            <a href="{{prev_post.get_absolute_url}}">
+                {{prev_post.title}}
+            </a>
+            {% else %}
+            <em class="disabled">마지막 글입니다.</em>
+            {% endif %}
+        </div>
+        <div class="prev date">
+            {% if todays_date == prev_post.upload_date|date:"y-m-d" %}
+            {{ prev_post.upload_date|date:"H:i" }}
+            {% elif this_year == prev_post.upload_date|date:"y" %}
+            {{ prev_post.upload_date|date:"m-d"}}
+            {% else %}
+            {{ prev_post.upload_date|date:"Y-m-d" }}
+            {% endif %}
+        </div>
+    </div>
+</div>

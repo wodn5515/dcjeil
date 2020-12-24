@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from dcjeil.util import get_social_login_secret_key
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -19,48 +20,59 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # Application definition
 
 INSTALLED_APPS = [
-    'account.apps.AccountConfig',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'board.apps.BoardConfig',
+    "member.apps.MemberConfig",
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "data.apps.DataConfig",
+    "board.apps.BoardConfig",
+    "menu.apps.MenuConfig",
+    "rest_framework",
+    "ckeditor",
+    "ckeditor_uploader",
+    "django_summernote",
+]
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "member.oauth.backends.SocialLoginBackend",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'dcjeil.urls'
+ROOT_URLCONF = "dcjeil.urls"
 
 SETTINGS_PATH = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(SETTINGS_PATH, 'templates')],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(SETTINGS_PATH, "templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+                "django.template.context_processors.media",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'dcjeil.wsgi.application'
+WSGI_APPLICATION = "dcjeil.wsgi.application"
 
 
 # Password validation
@@ -68,27 +80,145 @@ WSGI_APPLICATION = 'dcjeil.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
-AUTH_USER_MODEL = 'account.User'
+# AUTH SETTINGS
+
+AUTH_USER_MODEL = "member.User"
+LOGIN_URL = "/login/"
+SITE_ID = 1
+
+SECRET_KEYS = get_social_login_secret_key("secret_keys")
+
+NAVER_CLIENT_ID = "e4ZsoJAd0lfPVJQldldH"
+NAVER_SECRET_KEY = SECRET_KEYS["NAVER_SECRET_KEY"]
+
+KAKAO_CLIENT_ID = "67e7757fd4460f510db528b575e0fa0d"
+KAKAO_SECRET_KEY = SECRET_KEYS["KAKAO_SECRET_KEY"]
+
+GOOGLE_CLIENT_ID = (
+    "24302309163-58kin7d8rn88pb8tj8k07srg71cgg9fg.apps.googleusercontent.com"
+)
+GOOGLE_SECRET_KEY = SECRET_KEYS["GOOGLE_SECRET_KEY"]
+
+FACEBOOK_CLIENT_ID = "330925454976805"
+FACEBOOK_SECRET_KEY = SECRET_KEYS["FACEBOOK_SECRET_KEY"]
+
+# Session management
+# https://docs.djangoproject.com/en/3.0/ref/settings/#settings-sessions
+
+SESSION_COOKIE_AGE = 60 * 60
+SESSION_SAVE_EVERY_REQUEST = True
+
+# CKEDITOR SETTINGS
+
+CKEDITOR_UPLOAD_PATH = "ckimage/"
+CKEDITOR_FILENAME_GENERATOR = "dcjeil.util.get_filename"
+CKEDITOR_RESTRICT_BY_USER = True
+CKEDITOR_CONFIGS = {
+    "default": {
+        "skin": "moono-lisa",
+        "toolbar_Basic": [["Source", "-", "Bold", "Italic"]],
+        "toolbar_YourCustomToolbarConfig": [
+            {"name": "document", "items": ["Source", "NewPage"]},
+            {"name": "clipboard", "items": ["Undo", "Redo"]},
+            {"name": "editing", "items": ["Find", "Replace"]},
+            {
+                "name": "basicstyles",
+                "items": [
+                    "Bold",
+                    "Italic",
+                    "Underline",
+                    "Strike",
+                ],
+            },
+            {
+                "name": "paragraph",
+                "items": [
+                    "NumberedList",
+                    "BulletedList",
+                    "-",
+                    "JustifyLeft",
+                    "JustifyCenter",
+                    "JustifyRight",
+                    "JustifyBlock",
+                ],
+            },
+            {
+                "name": "insert",
+                "items": ["Link", "Image", "Table", "HorizontalRule", "Smiley"],
+            },
+            "/",
+            {"name": "styles", "items": ["Font", "FontSize"]},
+            {"name": "colors", "items": ["TextColor", "BGColor"]},
+            {"name": "tools", "items": ["Maximize"]},
+            {"name": "about", "items": ["About"]},
+        ],
+        "toolbar": "YourCustomToolbarConfig",  # put selected toolbar config here
+        # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
+        "height": 300,
+        "width": "100%",
+        "contentsCss": "/assets/css/contents.css",
+        # 'filebrowserWindowHeight': 725,
+        # 'filebrowserWindowWidth': 940,
+        # 'toolbarCanCollapse': True,
+        # 'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
+        "tabSpaces": 4,
+        "extraPlugins": ",".join(
+            [
+                "uploadimage",  # the upload image feature
+                # your extra plugins here
+                "div",
+                "autolink",
+                "autoembed",
+                "embedsemantic",
+                "autogrow",
+                # 'devtools',
+                "widget",
+                "lineutils",
+                "clipboard",
+                "dialog",
+                "dialogui",
+                "elementspath",
+            ]
+        ),
+    }
+}
+
+X_FRAME_OPTIONS = "SAMEORIGIN"
+
+SUMMERNOTE_THEME = "bs4"
+
+SUMMERNOTE_CONFIG = {
+    "iframe": True,
+    "summernote": {
+        "airmode": False,
+        "width": "100%",
+        "height": "600px",
+        "lang": "ko-KR",
+    },
+    "attachment_require_authentication": True,
+    'attachment_filesize_limit': 1024 * 1024 * 100,
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'ko-kr'
+LANGUAGE_CODE = "ko-kr"
 
-TIME_ZONE = 'Asia/Seoul'
+TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 
@@ -100,10 +230,8 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_URL = '/assets/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static-dev'),
-    )
-MEDIA_URL = '/upload_files/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+STATIC_URL = "/assets/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static-dev"),)
+MEDIA_URL = "/upload_files/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")

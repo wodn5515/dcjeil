@@ -8,26 +8,34 @@
 <link rel="stylesheet" href="{% static 'css/login.css' %}">
 {% endblock head %}
 {% block content %}
-<div id="title">
-    <div>
-        <h1>회원가입약관</h1>
+<div id="title_wrap">
+    <div id="mob_menu_btn">
+        <img @click="menuShowHide" src="{% static 'img/mob_menu.png' %}">
     </div>
+    <div id="mob_home_btn">
+        <a href="/"><img src="{% static 'img/mob_home.png' %}"></a>
+    </div>
+    <div id="title"><h1>회원가입약관</h1></div>
 </div>
-<div id="wrapper">
+<div id="reg_wrapper">
     <h2>회원가입약관</h2>
-    <form action="" method="POST" name="register_term">
-    <h4 style="color:#0093e9; margin-top:30px;">회원가입약관에 동의하셔야만 회원가입을 하실 수 있습니다.</h4>
-    <div class="register_term">
-        <textarea readonly>{% include "registration/register_term.html" %}</textarea>
-        <div class="agree_wrap">
-            {% csrf_token %}
-            <input type="checkbox" name="agree" id="term_agree" value="agree">
-            <label for="term_agree">회원가입약관의 내용에 동의합니다.</label>
-        </div>
-    </div>
+    <form action="" method="POST" name="register_term" onsubmit="return register_submit(this)">
+    <h4>회원가입약관 및 개인정보처리방침안내의 내용에 동의하셔야 회원가입을 하실 수 있습니다.</h4>
+    {% include "registration/register_term.html" %}
+    {% include "registration/private_table.html" %}
     <div class="btn_confirm">
         <input type="submit" value="다음">
     </div>
     </form>
 </div>
+<script>
+    function register_submit(f){
+        if(!f.agree.checked){
+            alert('회원가입약관에 동의하셔야 회원가입을 하실수 있습니다.');
+            return false;
+        }
+        
+        return true;
+    }
+</script>
 {% endblock content %}

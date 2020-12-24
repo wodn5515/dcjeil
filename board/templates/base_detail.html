@@ -1,18 +1,24 @@
 {% extends "base.html" %}
 {% load static %}
-
+{% block head %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+{% endblock head %}
+{% block title %}
+{{post.title}} | 덕천제일교회
+{% endblock title %}
 {% block content %}
-<div id="title">
-    <div>
-        {{title}}
-    </div>
-</div>
-<div id="wrapper" class="after">
+{% include "board_title.html" %}
+<div id="wrapper" class="after" v-bind:class="{mob_menu_on:menu_token}">
     <div id="side_nav_wrap">
-        {% include sidenav %}
+        {% include 'side_nav.html' %}
     </div>
-    <div id="content">
+    <div id="content" class="detail">
         {% include content %}
     </div>
 </div>
 {% endblock content %}
+{% block js %}
+{{ block.super }}
+<script type="text/javascript" src="{% static 'js/photopopup.js' %}"></script>
+{% endblock js %}

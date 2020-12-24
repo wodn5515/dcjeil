@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+글쓰기 | {% if title %}{{title}} |{% endif %}덕천제일교회
+{% endblock title %}
+{% block content %}
+{% include "board_title.html" %}
+<div id="wrapper" class="after" v-bind:class="{mob_menu_on:menu_token}">
+    <div id="content" class="write">
+        <div id="write_wrap">
+            <h2>글쓰기</h2>
+            <form id="post_write" autocomplete='off' method="POST" enctype="multipart/form-data">
+            {{forms.media}}
+            {% csrf_token %}
+            {% for field in forms %}
+            <div class="field_wrap{% if field.label == '내용' %} content{% endif %}{% if field.errors %} error_label{% endif %}">
+                {% if not field.is_hidden %}
+                {{ field.label_tag }}
+                {% endif %}
+                {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
+                <div class="input_wrap">
+                    {{ field }}
+                </div>
+                {% if field.help_text %}
+                <div class="help_text">{{ field.help_text }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            {% if fileforms %}
+            <div id="fileform_wrap">
+                {{ fileforms.management_form }}
+                <label>첨부파일</label>
+                <input id="file_add" type="button" value="추가">
+                {% for field in fileforms %}
+                <div class="field_wrap file">
+                    <div class="input_wrap"><span class="filecount">#{{ forloop.counter }}</span>{{ field.file }}</div>
+                    <span class="delete">
+                        {{ field.DELETE }}
+                        <label class="delete_label" for="id_form-{{forloop.counter0}}-DELETE">삭제</label>
+                    </span>
+                    {{ field.id }}
+                    <input type="hidden" name="form-{{forloop.counter0}}-post" value="{{ field.instance.post.id }}" id="id_form-{{forloop.counter0}}-post">
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <div id="button_wrap">
+                <input type="submit" value="등록">
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+var UpdateElementIndex = function(el, prefix, ndx){
+    var id_regex = new RegExp("(" + prefix + "-(\\d+))");
+    var replacement = prefix + "-" + ndx;
+    if(el.id){
+        el.id = el.id.replace(id_regex, replacement);
+    }
+    if(el.name){
+        el.name = el.name.replace(id_regex, replacement);
+    }
+};
+
+$("#file_add").click(function(e){
+    total = $('input[name=form-TOTAL_FORMS]').val()
+    delete_icon = "{% static 'img/cmt_delete.png' %}"
+    if(total == 5){
+        alert('첨부파일은 최대 5개입니다.')
+        return false;
+        }
+    newElement = '<div class="field_wrap file"><div class="input_wrap">\
+                <span class="filecount">#'+(parseInt(total)+1)+'</span><input type="file" name="form-'+ total +'-file" id="id_form-'+ total +'-file"></div>\
+                <input type="hidden" name="form-'+ total +'-id" id="id_form-'+ total +'-id">\
+                <img class="file_delete" src=' + delete_icon + '></div>'
+    total++;
+    $('input[name=form-TOTAL_FORMS]').val(total);
+    $('#fileform_wrap').append(newElement)
+});
+
+$("#fileform_wrap").on('click', '.file_delete', function(e){
+    $(e.currentTarget).closest('.field_wrap').remove();
+    var forms = $('.field_wrap.file');
+    $('input[name=form-TOTAL_FORMS]').val(forms.length);
+    var i;
+    var UpdateElementCallback = function() {
+        UpdateElementIndex(this, 'form', i);
+    };
+    for(i = 0; i < forms.length; i++){
+        $(forms.get(i)).find("*").each(UpdateElementCallback);
+    }
+    $("#fileform_wrap").find(".filecount").each(function(i){
+        var count = i + 1;
+        $(this).html($(this).html().replace(/(#\d+)/g, "#" + count));
+    })
+})
+
+$("#id_is_reserved").click(function(e){
+    if($("#id_is_reserved").is(":checked")){
+        $(".reservation").prop('disabled', false);
+    }else{
+        $(".reservation").prop('disabled', true);
+    }
+})
+</script>
+{% endblock js %}

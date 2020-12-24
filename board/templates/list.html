@@ -6,40 +6,89 @@
             <th class="th_no">번호</th>
             <th class="th_title">제목</th>
             <th class="th_writer">작성자</th>
-            <th class="th_date">등록일</th>
             <th class="th_views">조회수</th>
         </tr>
     </thead>
     <tbody>
         {% now "y-m-d" as todays_date %}
         {% now "y" as this_year %}
+        {% if notice_list %}
+        {% for post in notice_list %}
+        <tr class="notice">
+            <td class="td_no">공지</td>
+            <td class="td_title">
+                <div class="td_title_title after">
+                    <a href="{{ post.get_absolute_url }}">{% if post.date %}{{post.date|date:"Y-m-d"}} | {% endif %}{% if post.tag %}[{{post.tag}}]{% endif %}{{post.title}}{% if post.preacher %} - {{post.preacher}}{% endif %}</a>
+                    <span class="icon_wrap after"><!--
+                    -->{% if post.upload_date|post_new %}<!--
+                    --><img class="icon" src="{% static 'img/newicon.png' %}" height="16px"><!--
+                    -->{% endif %}<!--
+                    -->{% if post.video %}<!--
+                    --><img class="icon" src="{% static 'img/videoicon.png' %}" height="16px"><!--
+                    -->{% endif %}<!--
+                    -->{% if post.image %}<!--
+                    --><img class="icon" src="{% static 'img/picicon.png' %}" height="16px"><!--
+                    -->{% endif %}<!--
+                    -->{% if post.file.first %}<!--
+                    --><img class="icon" src="{% static 'img/fileicon.png' %}" height="16px"><!--
+                    -->{% endif %}<!--
+                --></span>
+                    {% if post.comment.all|length %}
+                    <span class="cmt_count">[{{post.comment.count}}]</span>
+                    {% endif %}
+                </div>
+                <div id="mob_list_info">
+                    <em>{% if post.writer.is_superuser %}관리자{% else %}{{post.writer}}{% endif %}</em>
+                    <span class="bar">|</span>
+                    <em>조회수 : {{post.views}}</em>
+                </div>
+            </td>
+            <td class="td_writer">{% if post.writer.is_superuser %}관리자{% else %}{{post.writer}}{% endif %}</td>
+            <td class="td_views">{{post.views}}</td>
+        </tr>
+        {% endfor%}
+        {% endif %}
+        {% if post_list %}
         {% for post in post_list %}
         <tr>
-            <td class="td_no">{% td_no forloop.counter0 total post_list.start_index%}</td>
+            <td class="td_no">{% td_no forloop.counter0 page_obj.start_index %}</td>
             <td class="td_title">
-                <a href="/board/{{post.div}}/{{post.id}}">
-                    {{post.title}}
-                    {% if todays_date == post.upload_date|date:"y-m-d" %}
-                    <img class="newicon" src="{% static 'img/newicon.gif' %}" height="14px">
+                <div class="td_title_title after">
+                    <a href="{{ post.get_absolute_url }}">{% if post.date %}{{post.date|date:"Y-m-d"}} | {% endif %}{% if post.tag %}[{{post.tag}}]{% endif %}{{post.title}}{% if post.preacher %} - {{post.preacher}}{% endif %}</a>
+                    <span class="icon_wrap after"><!--
+                    -->{% if post.upload_date|post_new %}<!--
+                    --><img class="icon" src="{% static 'img/newicon.png' %}" height="16px"><!--
+                    -->{% endif %}<!--
+                    -->{% if post.video %}<!--
+                    --><img class="icon" src="{% static 'img/videoicon.png' %}" height="16px"><!--
+                    -->{% endif %}<!--
+                    -->{% if post.image %}<!--
+                    --><img class="icon" src="{% static 'img/picicon.png' %}" height="16px"><!--
+                    -->{% endif %}<!--
+                    -->{% if post.file.first %}<!--
+                    --><img class="icon" src="{% static 'img/fileicon.png' %}" height="16px"><!--
+                    -->{% endif %}<!--
+                --></span>
+                    {% if post.comment.all|length %}
+                    <span class="cmt_count">[{{post.comment.count}}]</span>
                     {% endif %}
-                    {% if post.video %}
-                    <img class="videoicon" src="{% static '' %}">
-                    {% endif %}
-                </a>
+                </div>
+                <div id="mob_list_info">
+                    <em>{% if post.writer.is_superuser %}관리자{% else %}{{post.writer}}{% endif %}</em>
+                    <span class="bar">|</span>
+                    <em>조회수 : {{post.views}}</em>
+                </div>
             </td>
-            <td class="td_writer">{{post.writer}}</td>
-            <td class="td_date">
-            {% if todays_date == post.upload_date|date:"y-m-d" %}
-            {{ post.upload_date|date:"H:i" }}
-            {% elif this_year == post.upload_date|date:"y" %}
-            {{ post.upload_date|date:"m-d"}}
-            {% else %}
-            {{ post.upload_date|date:"Y-m-d" }}
-            {% endif %}
-            </td>
+            <td class="td_writer">{% if post.writer.is_superuser %}관리자{% else %}{{post.writer}}{% endif %}</td>
             <td class="td_views">{{post.views}}</td>
         </tr>
         {% endfor %}
+        {% else %}
+        <tr>
+            <td class="no_list" colspan="5">등록된 글이 없습니다.</td>
+        </tr>
+        {% endif %}
     </tbody>
 </table>
 {% include "pagination.html" %}
+{% include "search.html" %}

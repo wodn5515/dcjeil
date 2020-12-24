@@ -1,0 +1,36 @@
+덕천제일교회 웹사이트 Commit Message
+
+20191228
+-django-admin 회원가입
+-username >> uid 변경
+-비디오 유튜브 연계로 변경
+-작성자 user FK로 연결
+-detail 창 50%구현
+-new,video,picture icon 변경
+
+20191229
+-detail 창 유튜브연동, 사진,사진설명 구현
+
+20191230
+-detail 창 조회수표시
+-user 삭제시 연동된 Post.writer is_superuser 로 변경
+-comment vue.js를 이용한 비동기처리
+
+20191231
+-comment 화면 구현
+-다음글,이전글 구현
+-comment 삭제 구현
+
+20200101
+-detail 첨부파일 구현
+-session expire age 10분 설정
+-user group으로 묶어서 권한 부여
+
+20200102
+-회원가입 구현
+
+20200103
+20200104
+-세션을 통해 단계별 회원가입 구현
+-comment, prev_next 템플릿 include로 구현
+-

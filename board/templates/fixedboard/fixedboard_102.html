@@ -1,0 +1,27 @@
+{% load static %}
+<!--교회연혁-->
+<div id="fixed_pics">
+    <img src="{% static 'img/history.jpg' %}" width="100%" height="100%;">
+</div>
+<div id="history" class="fixedview">
+    <div id="history_btn_wrap">
+        {% for decade in history_decade %}
+        <div class="container decade_btn decade0{{forloop.counter}} {% if forloop.first %}on{% endif %}" onclick="historyDecade('0{{forloop.counter}}')">{{decade}}</div>
+        {% endfor %}
+    </div>
+    <div id="history_wrap">
+        {% for decade in fixed_data %}
+        <div class="history_table tb0{{forloop.counter}} {% if forloop.first %}on{% endif %}">
+            <table>
+                {% for data in decade %}
+                <tr>
+                    <td class="year">{{data.year}}</td>
+                    <td class="date">{{data.date}}</td>
+                    <td class="content">{{data.content|safe}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endfor %}
+    </div>
+</div>

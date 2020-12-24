@@ -1,0 +1,15 @@
+{% load static %}
+<div id="search_wrap">
+    <div>
+        <form>
+            <select name="s_kind">
+                <option value="title" {% if s_kind == 'title' %}selected="seleted"{% endif %}>제목</option>
+                <option value="content" {% if s_kind == 'content' %}selected="seleted"{% endif %}>내용</option>
+                <option value="title_content" {% if s_kind == 'title_content' %}selected="seleted"{% endif %}>제목 + 내용</option>
+                <option value="writer" {% if s_kind == 'writer' %}selected="seleted"{% endif %}>작성자</option>
+            </select>
+            <input type="text" name="s_keyword" value="{{s_keyword}}">
+            <input type="submit" value="검색">
+        </form>
+    </div>
+</div>

@@ -17,19 +17,57 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.decorators import login_required
 from django.urls import path, include
+from django.views.decorators.cache import never_cache
+from ckeditor_uploader import views as ckeditor_views
 from . import views
+from board import views as board_views
+from member import views as account_views
+
+admin.site.site_header = "덕천제일교회 관리"
+admin.site.site_title = "덕천제일교회 관리"
+admin.site.index_title = "Home"
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
-    path('board/', include('board.urls')),
-    path('login/', auth_views.LoginView.as_view(), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('login/findusername', views.findusername, name='findusername'),
-    path('login/findusername2', views.findusername2, name='findusername2'),
-    path('login/findpassword', views.findpassword, name='findpassword'),
-    path('login/findpassword2', views.findpassword2, name='findpassword2'),
-    path('register', views.register, name='register'),
-    path('registerform', views.registerform, name='registerform')
+    path("admin/", admin.site.urls),
+    path("", views.home, name="home"),
+    path("board/", include("board.urls")),
+    path("data/", include("data.urls")),
+    path("login/", account_views.login_view, name="login"),
+    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path("login/finduid", account_views.finduid, name="finduid"),
+    path("login/finduid2", account_views.finduid2, name="finduid2"),
+    path("login/findpassword", account_views.findpassword, name="findpassword"),
+    path("login/findpassword2", account_views.findpassword2, name="findpassword2"),
+    path(
+        "login/social/naver/callback",
+        account_views.NaverLoginCallbackView.as_view(),
+        name="naverlogincallback",
+    ),
+    path(
+        "login/social/kakao/callback",
+        account_views.KakaoLoginCallbackView.as_view(),
+        name="kakaologincallback",
+    ),
+    path(
+        "login/social/google/callback",
+        account_views.GoogleLoginCallbackView.as_view(),
+        name="Googlelogincallback",
+    ),
+    path("register", account_views.register, name="register"),
+    path("registerform", account_views.registerform, name="registerform"),
+    path("registersubmit", account_views.registersubmit, name="registersubmit"),
+    path("comments/<str:pk>", board_views.comments, name="comments"),
+    path("comments/<str:pk>/delete", board_views.comment_delete, name="comment_delete"),
+    path("usercheck", views.usercheck, name="usercheck"),
+    path("userupdate", views.userupdate, name="userupdate"),
+    path("userresult", views.userresult, name="userresult"),
+    path("upload", login_required(ckeditor_views.upload), name="ckeditor_upload"),
+    path(
+        "browse",
+        never_cache(login_required(ckeditor_views.browse)),
+        name="ckeditor_browse",
+    ),
+    path("summernote/", include("django_summernote.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

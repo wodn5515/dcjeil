@@ -1,0 +1,23 @@
+{% load static %}
+<comment-com inline-template v-bind='comment_data' v-on:addcmt="addComment" v-on:delcmt="deleteComment" v-on:cmtopn="commentOpener" v-on:getcmt="getComments">
+<div id="comment_wrap">
+    <div id="comment_write_wrap" class="after">
+        {% csrf_token %}
+        <textarea v-model="content" id="comment_write" type="text" placeholder="{% if user.is_authenticated %}댓글을 입력해주세요.{% else %}로그인 후 이용해주세요.{% endif %}"></textarea>
+        <button id="comment_submit" @click="addComment">등 록</button>
+    </div>
+    <div id="comment_opener_wrap">
+        <button @click="commentOpener" id="comment_opener">
+            <em>댓글 [[comments.length]]</em><span><img id="cmt_toggle" src="{% static 'img/cmt_opener.png' %}"></span>
+        </button>
+    </div>
+    <ul v-if="comment_token" id="comment_list_wrap">
+        <li v-for="comment in comments" class="container">
+            <div class="cmt name">[[comment.name]]</div>
+            <div class="cmt content"><p>[[comment.content]]</p></div>
+            <div class="cmt date_del"><span style="margin-right:10px;">[[comment.date|dateFilter]]</span><img @click="deleteComment(comment.id)" src="{% static 'img/cmt_delete.png' %}"></div>
+        </li>
+        <li class="no_comment" v-if="!comments.length">등록된 댓글이 없습니다.</li>
+    </ul>
+</div>
+</comment-com>

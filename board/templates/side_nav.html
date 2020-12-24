@@ -1,0 +1,12 @@
+{% load board_tag %}
+<div id="side_title">{{ menu_nav|get_main_title }}
+</div>
+<div id="side_nav">
+    <ul>
+        {% for sub in menu_nav|subquery %}
+        <li{% if menu_no == sub.order|submenu_idx %} class="on"{% endif %}>
+            <a href="{{sub.get_absolute_url}}">{{ sub.name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+회원확인 | 덕천제일교회
+{% endblock title%}
+{% block head %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock head %}
+{% block content %}
+<div id="title_wrap">
+    <div id="mob_menu_btn">
+        <img @click="menuShowHide" src="{% static 'img/mob_menu.png' %}">
+    </div>
+    <div id="mob_home_btn">
+        <a href="/"><img src="{% static 'img/mob_home.png' %}"></a>
+    </div>
+    <div id="title"><h1>내 정보</h1></div>
+</div>
+<div id="reg_wrapper" class="usercheck">
+    <h2>비밀번호 확인</h2>
+    <form method="POST" name="user_check" autocomplete="off">
+    <h4>비밀번호를 한번 더 입력해주세요.</h4>
+    <h5>회원님의 정보를 안전하게 보호하기 위해 비밀번호를 한번 더 확인합니다.</h5>
+    {% for field in form %}
+        <div class="field_wrap">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if error %}<p style="margin:10px 0px 0px 80px;" class="error">{{error}}</span>{% endif %}
+            {% if field.help_text %}
+            <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+        {% csrf_token %}
+        <div class="btn_confirm">
+            <input type="submit" value="확인">
+        </div>
+    </form>
+</div>
+{% endblock content %}
