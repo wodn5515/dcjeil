@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.admin.widgets import AdminSplitDateTime
 from django_summernote.widgets import SummernoteWidget
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from .models import Comment, Post, PostFile, Posttag
@@ -19,9 +20,7 @@ class PostWriteForm(forms.ModelForm):
     title = forms.CharField(
         label="제목", widget=forms.TextInput(attrs={"class": "required full"})
     )
-    content = forms.CharField(
-        widget=SummernoteWidget(), label="내용", required=False
-    )
+    content = forms.CharField(widget=SummernoteWidget(), label="내용", required=False)
 
     class Meta:
         model = Post
@@ -50,6 +49,13 @@ class PostSuperuserForm(forms.ModelForm):
 
     title = forms.CharField(
         label="제목", widget=forms.TextInput(attrs={"class": "required"})
+    )
+    is_reserved = forms.BooleanField(label="예약여부", required=False)
+    reservation = forms.DateTimeField(
+        label="업로드일시",
+        widget=forms.SplitDateTimeWidget(
+            attrs={"class": "reservation", "disabled": "true"}
+        ),
     )
     tag = forms.ModelChoiceField(
         label="태그",
@@ -95,8 +101,10 @@ class PostSuperuserForm(forms.ModelForm):
         model = Post
         fields = (
             "notice",
-            "tag",
+            "is_reserved",
+            "reservation",
             "title",
+            "tag",
             "date",
             "preacher",
             "words",
