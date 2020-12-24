@@ -83,7 +83,8 @@ class Post(models.Model):
     )
     content = models.TextField(verbose_name="내용", blank=True, null=True)
     views = models.IntegerField(_("조회수"), default=0)
-    published = models.BooleanField(_("공개여부"), default=True)
+    is_reserved = models.BooleanField(_("예약게시글"), default=False)
+    reservation = models.DateTimeField(_("예약일시"))
     notice = models.BooleanField(_("공지사항"), default=False)
     image = models.TextField(_("사진"), blank=True)
     tag = models.ForeignKey(
