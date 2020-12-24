@@ -99,11 +99,19 @@ $("#fileform_wrap").on('click', '.file_delete', function(e){
     })
 })
 
+$(document).ready(function(e){
+    if($("#id_is_reserved").is(":checked")){
+        $(".reservation").prop('readonly', false);
+    }else{
+        $(".reservation").prop('readonly', true);
+    }
+})
+
 $("#id_is_reserved").click(function(e){
     if($("#id_is_reserved").is(":checked")){
-        $(".reservation").prop('disabled', false);
+        $(".reservation").prop('readonly', false);
     }else{
-        $(".reservation").prop('disabled', true);
+        $(".reservation").prop('readonly', true);
     }
 })
 </script>

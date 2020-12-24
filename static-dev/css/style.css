@@ -304,7 +304,7 @@
 #write_wrap .field_wrap input.half{width:300px;}
 #write_wrap .field_wrap input.required{background-image:url(../img/required.png); background-repeat:no-repeat; background-position:right top;}
 #write_wrap .field_wrap input.reservation{width:200px; margin-right:10px;}
-#write_wrap .field_wrap input.reservation:disabled{background-color:rgba(119, 119, 119, 0.5);}
+#write_wrap .field_wrap input.reservation:read-only{background-color:rgba(119, 119, 119, 0.5);}
 #write_wrap #button_wrap{text-align:center;}
 #write_wrap input[type="submit"]{width:200px; margin-top:20px; cursor:pointer; height:50px;}
 #write_wrap .field_wrap{margin:10px 10px; display:inline-block; white-space:nowrap;}
