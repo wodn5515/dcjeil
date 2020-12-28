@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "data.apps.DataConfig",
     "board.apps.BoardConfig",
     "menu.apps.MenuConfig",
+    "event.apps.EventConfig",
     "rest_framework",
     "ckeditor",
     "ckeditor_uploader",

@@ -2,7 +2,7 @@
 body#login{width:480px; margin:0 auto;}
 #header, #login_wrap, #social_login_wrap, #footer{width:100%;}
 #header{padding-top:50px;}
-#header > h1{width:288px; margin:0 auto;}
+#header > h1{width:400px; margin:0 auto;}
 
 #login_wrap{margin-top:70px;}
 #login_wrap > .wrap{width:100%; margin:0 auto; border:2px solid #0093e9; border-radius:10px; padding:30px 30px 10px 30px;}
@@ -84,6 +84,7 @@ body#login{width:480px; margin:0 auto;}
 
 @media screen and (max-width:480px){
     body#login{width:90%;}
+    #header > h1{width:90%;}
     #reg_wrapper{width:95%!important; padding:30px 10px;}
     #reg_wrapper h4{font-size:13px;}
     #private_table{font-size:11px;}

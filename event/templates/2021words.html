@@ -1,0 +1,30 @@
+{% extends 'base_event.html' %}
+{% load static %}
+{% block title %}송구영신예배 말씀{% endblock title %}
+{% block content %}
+<div id="event" class="words-2021">
+    <div id="header">
+        <h1>
+            <a style="display:block;" href="/">
+                <img src="{% static 'img/new_logo.png' %}" alt="메인탑로고" width="100%" height="auto">
+            </a>
+        </h1>
+    </div>
+    <div id="form-wrap">
+        <h1 class="title">송구영신예배 말씀뽑기</h1>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="field-wrap">
+                {{ field.label_tag }}
+                {{ field }}
+                <div class="error">
+                {{ field.errors.0 }}
+                </div>
+            </div>
+            {% endfor %}
+            <input class="form-submit" type="submit" value="확인">
+        </form>
+    </div>
+</div>
+{% endblock content %}
