@@ -34,6 +34,7 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("board/", include("board.urls")),
     path("data/", include("data.urls")),
+    path("event/", include("event.urls")),
     path("login/", account_views.login_view, name="login"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("login/finduid", account_views.finduid, name="finduid"),

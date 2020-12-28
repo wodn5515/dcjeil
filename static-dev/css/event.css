@@ -1,0 +1,29 @@
+#event{margin:0 auto;}
+
+/*  2021 송구영신예배 말씀뽑기 이벤트  */
+#event.words-2021{width:700px; color:#131313}
+#event.words-2021 #header{margin-top:100px;}
+#event.words-2021 #header > h1{width:70%; margin:0 auto;}
+
+#event.words-2021 #form-wrap{width:70%; margin:0 auto; margin-top:50px; border:2px solid #0093e9; border-radius:10px; padding:30px;}
+#event.words-2021 #form-wrap .title{text-align: center; margin-bottom:10px;}
+#event.words-2021 #form-wrap .field-wrap{margin-bottom:20px;}
+#event.words-2021 #form-wrap .field-wrap label{display:block; font-size:20px; font-weight:bold; }
+#event.words-2021 #form-wrap .field-wrap input,
+#event.words-2021 #form-wrap .field-wrap select{width:100%; padding:6px; font-size:20px; border:1px solid #c5c5c5; background-color:white;}
+#event.words-2021 #form-wrap .field-wrap input:focus,
+#event.words-2021 #form-wrap .field-wrap select:focus{border:1px solid #0093e9;}
+#event.words-2021 #form-wrap .field-wrap .error{font-size:12px; color:#fa5555; word-break:keep-all; text-align:center;}
+#event.words-2021 #form-wrap .form-submit{width:50%; display:block; margin:0 auto; padding:6px; font-size:20px; background-color:#0093e9; cursor:pointer; border:1px solid #0187d4; font-weight: bold; color:#ffffff}
+
+
+@media screen and (max-width:700px){
+    #event.words-2021{width:95%;}
+    #event.words-2021 #header{margin-top:50px;}
+    #event.words-2021 #header > h1{width:70%;}
+    #event.words-2021 #form-wrap{width:100%; margin-top:20px;}
+    #event.words-2021 #form-wrap .title{font-size:24px;}
+    #event.words-2021 #form-wrap .field-wrap label,
+    #event.words-2021 #form-wrap .field-wrap input,
+    #event.words-2021 #form-wrap .field-wrap select{font-size:16px;}
+}
