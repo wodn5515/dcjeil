@@ -1,8 +1,8 @@
 {% extends 'base_event.html' %}
 {% load static %}
-{% block title %}송구영신예배 말씀{% endblock title %}
+{% block title %}{{ title }}{% endblock title %}
 {% block content %}
-<div id="event" class="words-2021">
+<div id="event" class="form">
     <div id="header">
         <h1>
             <a style="display:block;" href="/">
@@ -11,7 +11,7 @@
         </h1>
     </div>
     <div id="form-wrap">
-        <h1 class="title">송구영신예배 말씀뽑기</h1>
+        <h1 class="title">{{ title }}</h1>
         <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {% for field in form %}
