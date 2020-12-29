@@ -12,7 +12,7 @@ def new_year_eve_word_upload(instance, filename):
 
 class NewYearEveWord(models.Model):
     name = models.CharField(_("이름"), max_length=5, default="")
-    parish = models.CharField(_("교구"), max_length=10, choices=PARISH)
+    parish = models.CharField(_("소속"), max_length=10, choices=PARISH)
     words = models.ImageField(_("말씀"), upload_to=new_year_eve_word_upload)
 
     class Meta:
