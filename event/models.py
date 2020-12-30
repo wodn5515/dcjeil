@@ -31,7 +31,7 @@ class NewYearEveWord(models.Model):
 class NewYearSpirit(models.Model):
     name = models.CharField(_("이름"), max_length=5, default="")
     parish = models.CharField(_("소속"), max_length=10, choices=PARISH)
-    words = models.ImageField(_("말씀"), upload_to=new_year_spirit_upload)
+    words = models.ImageField(_("인증사진"), upload_to=new_year_spirit_upload)
 
     class Meta:
         verbose_name = _("새해 새마음 세이레 말씀뽑기")
