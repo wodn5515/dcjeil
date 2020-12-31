@@ -24,11 +24,13 @@ def home(request):
     carousel_list = Carousel.objects.all().order_by("order")
     menu = Mainmenu.objects.all().order_by("order")
     try:
-        tab1 = Post.objects.filter(div__mainmenu__order=2).last()
+        tab1 = Post.objects.filter(Q(div__mainmenu__order=2), Q(
+        reservation__lte=datetime.datetime.now())).last()
     except:
         tab1 = None
     try:
-        tab2 = Post.objects.filter(div__mainmenu__order=3).last()
+        tab2 = Post.objects.filter(Q(div__mainmenu__order=3), Q(
+        reservation__lte=datetime.datetime.now())).last()
     except:
         tab2 = None
     main_recent = Post.objects.filter(
