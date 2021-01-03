@@ -70,9 +70,9 @@
 #maingrid > div{box-shadow:0px 0px 5px 3px #e3e3e3; border-radius:5px; background-color:white; overflow:hidden;}
 #main3 .title{height:60px; padding:10px; background-color:#1e2022; text-align:center; color:#f0f5f9; font-size:20pt;}
 #main3 .title i{color:red; padding-right:10px; vertical-align:middle;}
-#main3 li{border-top:1px solid #f0f5f9; height:45px;}
-#main3 li a{padding:10px; display:block; height:100%; font-weight:bold; background-color:#52616b; color:#f0f5f9; transition:all .3s;}
-#main3 li a:hover{padding:10px 10px 10px 20px;}
+#main3 li{border-top:1px solid #f0f5f9; height:60px;}
+#main3 li a{padding:20px 10px; display:block; height:100%; font-weight:bold; background-color:#52616b; color:#f0f5f9; transition:all .3s;}
+#main3 li a:hover{padding:20px 10px 20px 20px;}
 .listbox{padding:10px 10px 0 10px;}
 .listbox a:hover{color:#6b6b6b; text-decoration:underline;}
 .listbox > p{font-weight:600; border-bottom:1px solid #e3e3e3;}
