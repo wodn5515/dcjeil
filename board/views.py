@@ -40,7 +40,7 @@ class Board(ListView, BoardMixin):
         keyword = self.request.GET.get("s_keyword", "")
         paginator = context["paginator"]
         page = self.request.GET.get("page", "1")
-        now_menu = Submenu.objects.filter(mainmenu=pk[0]).get(order=int(pk[1:]))
+        now_menu = Submenu.objects.get(pk=pk)
         notice_list = (
             Post.objects.filter(div=now_menu)
             .filter(notice=True)
@@ -61,8 +61,8 @@ class Board(ListView, BoardMixin):
         context["menu"] = Mainmenu.objects.all().order_by("order")
         context["s_kind"] = kind
         context["s_keyword"] = keyword
-        context["menu_nav"] = pk[0]
-        context["menu_no"] = pk[1:]
+        context["menu_nav"] = now_menu.mainmenu.id
+        context["menu_no"] = now_menu.order
         context["now_menu"] = now_menu
         context["content_type"] = content_type
         context["fixed_data"] = fixed_data
@@ -70,7 +70,7 @@ class Board(ListView, BoardMixin):
 
     def get_queryset(self):
         pk = self.kwargs["pk"]
-        now_menu = Submenu.objects.filter(mainmenu=pk[0]).get(order=int(pk[1:]))
+        now_menu = Submenu.objects.get(pk=pk)
         kind = self.request.GET.get("s_kind", "")
         keyword = self.request.GET.get("s_keyword", "")
         post_list = Post.objects.filter(
@@ -99,12 +99,12 @@ class Board(ListView, BoardMixin):
 
 
 # 게시판 - 디테일
-def detail(request, board_pk, pk):
+def detail(request, pk):
     post = Post.objects.get(pk=pk)
     menu = Mainmenu.objects.all().order_by("order")
-    menu_nav = board_pk[0]
-    menu_no = board_pk[1:]
-    now_menu = Submenu.objects.filter(mainmenu=menu_nav).get(order=int(menu_no))
+    now_menu = Submenu.objects.get(pk=post.div.id)
+    menu_nav = now_menu.mainmenu.id
+    menu_no = now_menu.order
     try:
         prev_post = Post.objects.filter(
             div=now_menu, reservation__lt=post.reservation
@@ -125,7 +125,6 @@ def detail(request, board_pk, pk):
             "menu_nav": menu_nav,
             "menu_no": menu_no,
             "post": post,
-            "board_pk": board_pk,
             "pk": pk,
             "prev_post": prev_post,
             "next_post": next_post,
