@@ -4,7 +4,7 @@
 <div id="side_nav">
     <ul>
         {% for sub in menu_nav|subquery %}
-        <li{% if menu_no == sub.order|submenu_idx %} class="on"{% endif %}>
+        <li{% if menu_no == sub.order %} class="on"{% endif %}>
             <a href="{{sub.get_absolute_url}}">{{ sub.name }}</a>
         </li>
         {% endfor %}
