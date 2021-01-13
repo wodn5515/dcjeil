@@ -19,24 +19,27 @@ from menu.models import Mainmenu, Submenu
 from .forms import UserCheckForm, UpdateForm, SocialUpdateForm
 import string, os, datetime
 
+def get_menu():
+    return Mainmenu.objects.all().order_by("order").prefetch_related("submenu")
+
 # 홈화면
 def home(request):
     carousel_list = Carousel.objects.all().order_by("order")
-    menu = Mainmenu.objects.all().order_by("order")
+    menu = get_menu()
     try:
-        tab1 = Post.objects.filter(div__mainmenu__order=2).last()
+        tab1 = Post.objects.filter(div__mainmenu__order=2).select_related("div").only("div__mainmenu", "div__mainmenu__order", "div__order", "div__name", "preacher", "tag", "date", "title", "upload_date").last()
     except:
         tab1 = None
     try:
-        tab2 = Post.objects.filter(div__mainmenu__order=3).last()
+        tab2 = Post.objects.filter(div__mainmenu__order=3).select_related("div").only("div__mainmenu", "div__mainmenu__order", "div__order", "div__name", "preacher", "tag", "date", "title", "upload_date").last()
     except:
         tab2 = None
     main_recent = Post.objects.filter(
         reservation__lte=datetime.datetime.now()
-    ).order_by("-upload_date")[:8]
-    main1_menu = Submenu.objects.filter(exposure_home=1).first()
-    main2_menu = Submenu.objects.filter(exposure_home=2).first()
-    photo_menu = Submenu.objects.filter(name="교회앨범").first()
+    ).order_by("-upload_date")[:8].select_related("div").only("div__mainmenu", "div__mainmenu__order", "div__order", "div__name", "preacher", "tag", "date", "title", "upload_date")
+    main1_menu = Submenu.objects.filter(exposure_home=1).select_related("mainmenu").only("mainmenu__id", "name", "order").first()
+    main2_menu = Submenu.objects.filter(exposure_home=2).select_related("mainmenu").only("mainmenu__id", "name", "order").first()
+    photo_menu = Submenu.objects.filter(name="교회앨범").select_related("mainmenu").only("mainmenu__id", "name", "order").first()
     context = {
         "carousel_list": carousel_list,
         "tab1": tab1,

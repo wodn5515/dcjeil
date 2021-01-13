@@ -95,7 +95,8 @@
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
-                    {% for post in main1_menu|get_query_home %}
+                    {% with post_list=main1_menu|get_query_home %}
+                    {% for post in post_list %}
                     <li>
                         <a href="{{post.get_absolute_url}}">{% if post.tag %}[{{post.tag}}]{% endif %}{% if post.date %}{{post.date|date:"Y-m-d"}} {% endif %}{{post.title}}</a>
                         {% if post.upload_date|post_new %}
@@ -105,6 +106,7 @@
                         {% endif %}
                     </li>
                     {% endfor %}
+                    {% endwith %}
                 </ul>
             </div>
             <div id="main2" class="listbox">
