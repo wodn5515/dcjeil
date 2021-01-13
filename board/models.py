@@ -96,7 +96,7 @@ class Post(models.Model):
         return f"{self.div.name} / {self.title}"
 
     def get_absolute_url(self):
-        return f"/board/{self.div.get_full_menu()}/detail/{self.id}"
+        return f"/board/detail/{self.id}"
 
     @property
     def viewsup(self):
