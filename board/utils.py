@@ -1,4 +1,5 @@
 from data.models import History, Community
+from menu.models import Mainmenu
 
 class BoardMixin:
     def get_history(self):
@@ -37,3 +38,7 @@ class BoardMixin:
         if end_index >= max_index:
             end_index = max_index
         return paginator.page_range[start_index:end_index]
+
+
+def get_menu():
+    return Mainmenu.objects.all().order_by("order").prefetch_related("submenu")
