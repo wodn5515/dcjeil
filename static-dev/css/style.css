@@ -297,11 +297,11 @@
 #content.write{width:1010px; margin:0 auto; padding:10px 80px;}
 #write_wrap{padding:50px 0;}
 #write_wrap h2{text-align:center;}
-#write_wrap select{border:1px solid #c5c5c5; height:40px; font-size:14px; line-height:14px; background-color:white; width:80px; margin-right:20px;}
-#write_wrap .field_wrap input{padding:8px; border:1px solid #c5c5c5; width:420px; height:40px; font-size:14px; line-height:14px;}
+#write_wrap select{border:1px solid #c5c5c5; height:40px; font-size:14px; line-height:14px; background-color:white; width:90px; margin-right:20px;}
+#write_wrap .field_wrap input{padding:8px; border:1px solid #c5c5c5; width:684px; height:40px; font-size:14px; line-height:14px;}
 #write_wrap .field_wrap input.full{width:600px;}
 #write_wrap .field_wrap .tag{margin:0px;}
-#write_wrap .field_wrap input.half{width:300px;}
+#write_wrap .field_wrap input.half{width:330px;}
 #write_wrap .field_wrap input.required{background-image:url(../img/required.png); background-repeat:no-repeat; background-position:right top;}
 #write_wrap .field_wrap input.reservation{width:200px; margin-right:10px;}
 #write_wrap .field_wrap input.reservation:read-only{background-color:rgba(119, 119, 119, 0.5);}
@@ -395,7 +395,7 @@ body.mob_menu_on{overflow:hidden;}
     #crtmap{width:95%;}
     #content.list{padding:0px; width:70%;}
     #content.detail{padding:0px; width:70%;}
-    #content.write{width:95%; padding:0px;}
+    #content.write{width:95%;}
     #wrapper{margin:0;}
     #side_nav_wrap{width:20%; margin:0 0 0 2%;}
                 /* list */
@@ -478,6 +478,7 @@ body.mob_menu_on{overflow:hidden;}
     #crtmap{display:none;}
     #content.list,
     #content.detail{width:90%; margin:0 auto; float:none;}
+    #content.write{padding:0px;}
     #title_wrap{position:sticky; top:0px; box-shadow:0px 1px 3px 1px #8f8f8f; height:80px; border:none; z-index:10;}
     #title{margin:0 auto!important; vertical-align:middle; line-height:80px;}
     #list_table{margin:0 auto;}
@@ -528,7 +529,11 @@ body.mob_menu_on{overflow:hidden;}
     #history_btn_wrap > .container{padding:10px 0px; margin:0 5px; font-size:18px;}
     #history_wrap > .history_table > table td{padding:10px 5px; font-size:12px;}
     #history_wrap > .history_table > table .date{width:50px;}
-    #content.write .input_wrap input{width:300px;}
+    #content.write .input_wrap input{width:100%;}
+    #content.write .input_wrap select{width:calc(33% - 20px)}
+    #write_wrap .field_wrap{width:calc(100% - 20px);}
+    #write_wrap .field_wrap.is_reserved,
+    #write_wrap .field_wrap.notice{width:auto;}
     #write_wrap .field_wrap input.reservation{width:120px;}
     #content.write .input_wrap input[type="checkbox"]{width:40px;}
     #fileform_wrap .field_wrap input[type='file']{width:220px;}
