@@ -12,13 +12,13 @@ from django.views.generic import ListView, DetailView, TemplateView
 from django.utils import timezone
 from django.utils.dateparse import parse_date
 from django.db import IntegrityError
-from django.db.models import Q
+from django.db.models import Q, Count
 from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
 from menu.models import Mainmenu, Submenu, FixedMenu
 from data.models import History, Community
-from .utils import *
+from .utils import BoardMixin, get_menu
 from .models import Post, Comment, PostFile
 from .forms import AddCommentForm, PostWriteForm, PostSuperuserForm, PostFileFormset
 import string, os, json, re, datetime
@@ -33,49 +33,46 @@ class Board(ListView, BoardMixin):
     paginate_by = 10
     context_object_name = "post_list"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, now_menu, **kwargs):
         context = super().get_context_data(**kwargs)
         pk = self.kwargs["pk"]
         kind = self.request.GET.get("s_kind", "")
         keyword = self.request.GET.get("s_keyword", "")
         paginator = context["paginator"]
         page = self.request.GET.get("page", "1")
-        now_menu = Submenu.objects.get(pk=pk)
+        now_main = now_menu.mainmenu
         notice_list = (
             Post.objects.filter(div=now_menu)
             .filter(notice=True)
             .order_by("-reservation")
-        )
+        ).select_related("writer").annotate(comments=Count("comment")).only("writer__is_superuser", "writer__name", "title", "views")
         if now_menu.m_type == "fixed_uneditable":
-            content_type = "fixedboard/fixedboard_" + pk + ".html"
             if now_menu.name == "교회연혁":
-                context["history_decade"], fixed_data = self.get_history()
+                content_type = "fixedboard/history.html"
+                context["history_decade"], context["fixed_data"] = self.get_history()
             else:
-                fixed_data = self.get_community(pk)
-        else:
-            content_type = now_menu.m_type + ".html"
-            fixed_data = FixedMenu.objects.filter(menu=now_menu).last()
+                content_type = "fixedboard/community.html"
+                context["fixed_data"] = self.get_community(pk)
+        elif now_menu.m_type == "fixed":
+            context["fixed_data"] = FixedMenu.objects.filter(menu=now_menu).last()
+        content_type = now_menu.m_type + ".html"
         context["notice_list"] = notice_list
         context["page_range"] = self.page_range(paginator, page)
         context["pk"] = pk
-        context["menu"] = Mainmenu.objects.all().order_by("order")
+        context["menu"] = get_menu()
         context["s_kind"] = kind
         context["s_keyword"] = keyword
-        context["menu_nav"] = now_menu.mainmenu.id
-        context["menu_no"] = now_menu.order
         context["now_menu"] = now_menu
+        context["now_main"] = now_main
         context["content_type"] = content_type
-        context["fixed_data"] = fixed_data
         return context
 
-    def get_queryset(self):
-        pk = self.kwargs["pk"]
-        now_menu = Submenu.objects.get(pk=pk)
+    def get_queryset(self, now_menu):
         kind = self.request.GET.get("s_kind", "")
         keyword = self.request.GET.get("s_keyword", "")
         post_list = Post.objects.filter(
             Q(div=now_menu), Q(reservation__lte=datetime.datetime.now())
-        )
+        ).select_related("writer")
         if kind == "title":
             post_list = post_list.filter(
                 Q(title__contains=keyword) | Q(date__contains=keyword)
@@ -90,31 +87,31 @@ class Board(ListView, BoardMixin):
             )
         elif kind == "writer":
             post_list = post_list.filter(writer__name__contains=keyword)
-        return post_list.order_by("-reservation")
+        return post_list.order_by("-reservation").select_related("tag").annotate(comments=Count("comment"), files=Count("file"))
 
     def get(self, request, *args, **kwargs):
-        self.object_list = self.get_queryset()
-        context = self.get_context_data()
+        pk = self.kwargs["pk"]
+        now_menu = Submenu.objects.get(pk=pk)
+        self.object_list = self.get_queryset(now_menu)
+        context = self.get_context_data(now_menu)
         return self.render_to_response(context)
 
 
 # 게시판 - 디테일
 def detail(request, pk):
     post = Post.objects.get(pk=pk)
-    menu = Mainmenu.objects.all().order_by("order")
-    now_menu = Submenu.objects.get(pk=post.div.id)
-    menu_nav = now_menu.mainmenu.id
-    menu_no = now_menu.order
+    menu = get_menu()
+    now_menu = post.div
     try:
         prev_post = Post.objects.filter(
             div=now_menu, reservation__lt=post.reservation
-        ).order_by("-reservation")[0]
+        ).order_by("-reservation").only("title", "reservation")[0]
     except:
         prev_post = None
     try:
         next_post = Post.objects.filter(
             div=now_menu, reservation__gt=post.reservation
-        ).order_by("reservation")[0]
+        ).order_by("reservation").only("title", "reservation")[0]
     except:
         next_post = None
     return render(
@@ -122,9 +119,9 @@ def detail(request, pk):
         "base_detail.html",
         {
             "content": "detail.html",
-            "menu_nav": menu_nav,
-            "menu_no": menu_no,
+            "now_main" : now_menu.mainmenu,
             "post": post,
+            "board_pk": now_menu.id,
             "pk": pk,
             "prev_post": prev_post,
             "next_post": next_post,
@@ -178,10 +175,8 @@ def post_write(request, board_pk):
     if not user.is_authenticated:
         messages.info(request, "로그인 후 이용해주세요.")
         return redirect("/login?next=" + request.path)
-    menu = Mainmenu.objects.all().order_by("order")
-    menu_nav = board_pk[0]
-    menu_no = board_pk[1:]
-    now_menu = Submenu.objects.filter(mainmenu=menu_nav).get(order=int(menu_no))
+    menu = get_menu()
+    now_menu = Submenu.objects.get(pk=board_pk)
     permission_menus = []
     for permissions_group in user.boardpermissiongroups.all():
         for permission in permissions_group.permissions.all():
@@ -193,9 +188,7 @@ def post_write(request, board_pk):
             if forms.is_valid() and fileforms.is_valid():
                 reg = re.compile("/upload_files\S*[jpg,png,gif]")
                 new_post = forms.save(commit=False)
-                new_post.div = Submenu.objects.filter(mainmenu=int(board_pk[0])).get(
-                    order=int(board_pk[1:])
-                )
+                new_post.div = now_menu
                 new_post.writer = request.user
                 try:
                     new_post.image = reg.search(new_post.content).group()
@@ -267,24 +260,19 @@ def post_write(request, board_pk):
 
 
 # 게시글 수정
-def post_update(request, board_pk, pk):
+def post_update(request, pk):
     user = request.user
     post = Post.objects.get(pk=pk)
     if not user.is_authenticated:
         messages.info(request, "로그인 후 이용해주세요.")
         return redirect(post)
-    menu = Mainmenu.objects.all().order_by("order")
+    menu = get_menu()
     files = PostFile.objects.filter(post=post)
-    menu_nav = board_pk[0]
-    menu_no = board_pk[1:]
-    now_menu = Submenu.objects.filter(mainmenu=menu_nav).get(order=int(menu_no))
+    now_menu = post.div
     permission_menus = []
-    for permissions_group in user.boardpermissiongroups.all():
-        for permission in permissions_group.permissions.all():
-            permission_menus.append(permission.get_full_menu())
     if post.writer == user:
         if request.method == "POST":
-            if board_pk in permission_menus or user.is_superuser:
+            if user.is_superuser:
                 forms = PostSuperuserForm(request.POST, instance=post)
                 fileforms = PostFileFormset(request.POST, request.FILES)
                 if forms.is_valid() and fileforms.is_valid():
@@ -307,7 +295,6 @@ def post_update(request, board_pk, pk):
                     request,
                     "board_write.html",
                     {
-                        "board_pk": board_pk,
                         "forms": forms,
                         "fileforms": fileforms,
                         "menu": menu,
@@ -329,21 +316,19 @@ def post_update(request, board_pk, pk):
                     request,
                     "board_write.html",
                     {
-                        "board_pk": board_pk,
                         "forms": forms,
                         "menu": menu,
                         "now_menu": now_menu,
                     },
                 )
         else:
-            if board_pk in permission_menus or user.is_superuser:
+            if user.is_superuser:
                 forms = PostSuperuserForm(instance=post)
                 fileforms = PostFileFormset(queryset=files)
                 return render(
                     request,
                     "board_write.html",
                     {
-                        "board_pk": board_pk,
                         "forms": forms,
                         "fileforms": fileforms,
                         "menu": menu,
@@ -356,7 +341,6 @@ def post_update(request, board_pk, pk):
                     request,
                     "board_write.html",
                     {
-                        "board_pk": board_pk,
                         "forms": forms,
                         "menu": menu,
                         "now_menu": now_menu,
