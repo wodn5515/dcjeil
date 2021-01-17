@@ -90,12 +90,13 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div id="main1" class="listbox">
-                <p class="after">{{main1_menu.name}}<a href="{{main1_menu.get_absolute_url}}">더보기 +</a></p>
+            {% for query in main_menu_set %}
+            <div id="main{{ forloop.counter }}" class="listbox">
+                <p class="after">{{query.name}}<a href="{{query.get_absolute_url}}">더보기 +</a></p>
                 <ul>
                     {% now "y-m-d" as todays_date %}
                     {% now "y" as this_year %}
-                    {% with post_list=main1_menu|get_query_home %}
+                    {% with post_list=query|get_query_home %}
                     {% for post in post_list %}
                     <li>
                         <a href="{{post.get_absolute_url}}">{% if post.tag %}[{{post.tag}}]{% endif %}{% if post.date %}{{post.date|date:"Y-m-d"}} {% endif %}{{post.title}}</a>
@@ -109,23 +110,7 @@
                     {% endwith %}
                 </ul>
             </div>
-            <div id="main2" class="listbox">
-                <p class="after">{{main2_menu.name}}<a href="{{main2_menu.get_absolute_url}}">더보기 +</a></p>
-                <ul>
-                    {% now "y-m-d" as todays_date %}
-                    {% now "y" as this_year %}
-                    {% for post in main2_menu|get_query_home %}
-                    <li>
-                        <a href="{{post.get_absolute_url}}">{% if post.tag %}[{{post.tag}}]{% endif %}{% if post.date %}{{post.date|date:"Y-m-d"}} {% endif %}{{post.title}}</a>
-                        {% if post.upload_date|post_new %}
-                        <span>
-                            <img class="icon" src="{% static 'img/newicon.png' %}" height="16px">
-                        </span>
-                        {% endif %}
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
+            {% endfor %}
             <div id="main3" class="link community">
                 <p class="title"><i class="fab fa-youtube"></i>Youtube</p>
                 <ul>
