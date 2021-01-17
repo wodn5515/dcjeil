@@ -1,5 +1,5 @@
 from .base import *
-from dcjeil.util import get_server_info_value
+from dcjeil.utils import get_server_info_value
 
 SETTING_PRD_DIC = get_server_info_value("production")
 
