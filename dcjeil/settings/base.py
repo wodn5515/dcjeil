@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "data.apps.DataConfig",
     "board.apps.BoardConfig",
     "menu.apps.MenuConfig",
+    "event.apps.EventConfig",
     "rest_framework",
     "ckeditor",
     "ckeditor_uploader",
@@ -198,7 +199,7 @@ CKEDITOR_CONFIGS = {
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
-SUMMERNOTE_THEME = "bs4"
+SUMMERNOTE_THEME = "bs3"
 
 SUMMERNOTE_CONFIG = {
     "iframe": True,

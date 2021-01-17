@@ -25,11 +25,21 @@ def home(request):
     carousel_list = Carousel.objects.all().order_by("order")
     menu = get_menu()
     try:
+<<<<<<< HEAD
         tab1 = Post.objects.filter(Q(div__mainmenu__order=2), Q(reservation__lte=datetime.datetime.now())).select_related("div").only("div__name", "video", "date", "title", "words").order_by("-reservation").first()
     except:
         tab1 = None
     try:
         tab2 = Post.objects.filter(Q(div__mainmenu__order=3), Q(reservation__lte=datetime.datetime.now())).select_related("div").only("div__name", "date", "title").order_by("-reservation").first()
+=======
+        tab1 = Post.objects.filter(Q(div__mainmenu__order=2), Q(
+        reservation__lte=datetime.datetime.now())).last()
+    except:
+        tab1 = None
+    try:
+        tab2 = Post.objects.filter(Q(div__mainmenu__order=3), Q(
+        reservation__lte=datetime.datetime.now())).last()
+>>>>>>> c89ebfa26d7034aef3da96841ba485f322f05120
     except:
         tab2 = None
     main_recent = Post.objects.filter(
