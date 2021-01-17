@@ -57,12 +57,6 @@ class PostSuperuserForm(forms.ModelForm):
             attrs={"class": "reservation", "readonly": "true"}
         ),
     )
-    tag = forms.ModelChoiceField(
-        label="태그",
-        queryset=Posttag.objects.all(),
-        widget=forms.Select(attrs={"class": "tag"}),
-        required=False,
-    )
     content = forms.CharField(
         widget=SummernoteWidget(),
         label="내용",
@@ -104,7 +98,6 @@ class PostSuperuserForm(forms.ModelForm):
             "is_reserved",
             "reservation",
             "title",
-            "tag",
             "date",
             "preacher",
             "words",

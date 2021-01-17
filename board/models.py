@@ -65,6 +65,7 @@ class Post(models.Model):
         verbose_name=_("게시판"),
         on_delete=models.CASCADE,
         limit_choices_to={"m_type__contains": "list"},
+        related_name="post"
     )
     upload_date = models.DateTimeField(_("등록일"), default=timezone.now)
     date = models.DateField(
@@ -96,7 +97,7 @@ class Post(models.Model):
         return f"{self.div.name} / {self.title}"
 
     def get_absolute_url(self):
-        return f"/board/{self.div.get_full_menu()}/detail/{self.id}"
+        return f"/board/detail/{self.id}"
 
     @property
     def viewsup(self):

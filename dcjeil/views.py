@@ -17,35 +17,32 @@ from board.models import Post
 from data.models import Carousel, Popup
 from menu.models import Mainmenu, Submenu
 from .forms import UserCheckForm, UpdateForm, SocialUpdateForm
+from board.utils import get_menu
 import string, os, datetime
 
 # 홈화면
 def home(request):
     carousel_list = Carousel.objects.all().order_by("order")
-    menu = Mainmenu.objects.all().order_by("order")
+    menu = get_menu()
     try:
-        tab1 = Post.objects.filter(Q(div__mainmenu__order=2), Q(
-        reservation__lte=datetime.datetime.now())).last()
+        tab1 = Post.objects.filter(Q(div__mainmenu__order=2), Q(reservation__lte=datetime.datetime.now())).select_related("div").only("div__name", "video", "date", "title", "words").order_by("-reservation").first()
     except:
         tab1 = None
     try:
-        tab2 = Post.objects.filter(Q(div__mainmenu__order=3), Q(
-        reservation__lte=datetime.datetime.now())).last()
+        tab2 = Post.objects.filter(Q(div__mainmenu__order=3), Q(reservation__lte=datetime.datetime.now())).select_related("div").only("div__name", "date", "title").order_by("-reservation").first()
     except:
         tab2 = None
     main_recent = Post.objects.filter(
         reservation__lte=datetime.datetime.now()
-    ).order_by("-upload_date")[:8]
-    main1_menu = Submenu.objects.filter(exposure_home=1).first()
-    main2_menu = Submenu.objects.filter(exposure_home=2).first()
-    photo_menu = Submenu.objects.filter(name="교회앨범").first()
+    ).order_by("-reservation")[:8].select_related("div").only("div__mainmenu", "div__mainmenu__order", "div__order", "div__name", "preacher", "tag", "date", "title", "upload_date")
+    main_menu_set = Submenu.objects.filter(exposure_home__gt=0).only("name", "order")
+    photo_menu = Submenu.objects.filter(name="교회앨범").only("name", "order").first()
     context = {
         "carousel_list": carousel_list,
         "tab1": tab1,
         "tab2": tab2,
         "main_recent": main_recent,
-        "main1_menu": main1_menu,
-        "main2_menu": main2_menu,
+        "main_menu_set": main_menu_set,
         "photo_menu": photo_menu,
         "menu": menu,
     }

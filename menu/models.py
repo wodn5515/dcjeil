@@ -17,6 +17,7 @@ class Mainmenu(models.Model):
 
     def __str__(self):
         return f'{self.name}'
+    
 
 class Submenu(models.Model):
 
@@ -35,10 +36,10 @@ class Submenu(models.Model):
         return f'{self.mainmenu.name} - {self.name}'
 
     def get_absolute_url(self):
-        return f'/board/{self.mainmenu.order}0{self.order}' if len(str(self.order)) == 1 else f'/board/{self.mainmenu.order}{self.order}'
+        return f'/board/board/{self.id}'
 
     def get_full_menu(self):
-        return f'{self.mainmenu.order}0{self.order}' if len(str(self.order)) == 1 else f'{self.mainmenu.order}{self.order}'
+        return f'{self.mainmenu.id}0{self.order}' if len(str(self.order)) == 1 else f'{self.mainmenu.id}{self.order}'
 
 class FixedMenu(models.Model):
     menu = models.ForeignKey(Submenu, limit_choices_to={'m_type':'fixed'}, on_delete=models.CASCADE)
