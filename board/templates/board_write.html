@@ -13,7 +13,7 @@
             {{forms.media}}
             {% csrf_token %}
             {% for field in forms %}
-            <div class="field_wrap{% if field.label == '내용' %} content{% endif %}{% if field.errors %} error_label{% endif %}">
+            <div class="field_wrap {{field.name}}{% if field.errors %} error_label{% endif %}">
                 {% if not field.is_hidden %}
                 {{ field.label_tag }}
                 {% endif %}
