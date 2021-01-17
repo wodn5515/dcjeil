@@ -18,23 +18,9 @@
             <td class="td_no">공지</td>
             <td class="td_title">
                 <div class="td_title_title after">
-                    <a href="{{ post.get_absolute_url }}">{% if post.date %}{{post.date|date:"Y-m-d"}} | {% endif %}{% if post.tag %}[{{post.tag}}]{% endif %}{{post.title}}{% if post.preacher %} - {{post.preacher}}{% endif %}</a>
-                    <span class="icon_wrap after"><!--
-                    -->{% if post.upload_date|post_new %}<!--
-                    --><img class="icon" src="{% static 'img/newicon.png' %}" height="16px"><!--
-                    -->{% endif %}<!--
-                    -->{% if post.video %}<!--
-                    --><img class="icon" src="{% static 'img/videoicon.png' %}" height="16px"><!--
-                    -->{% endif %}<!--
-                    -->{% if post.image %}<!--
-                    --><img class="icon" src="{% static 'img/picicon.png' %}" height="16px"><!--
-                    -->{% endif %}<!--
-                    -->{% if post.file.first %}<!--
-                    --><img class="icon" src="{% static 'img/fileicon.png' %}" height="16px"><!--
-                    -->{% endif %}<!--
-                --></span>
-                    {% if post.comment.all|length %}
-                    <span class="cmt_count">[{{post.comment.count}}]</span>
+                    <a href="{{ post.get_absolute_url }}">{{post.title}}</a>
+                    {% if post.comments %}
+                    <span class="cmt_count">[{{post.comments}}]</span>
                     {% endif %}
                 </div>
                 <div id="mob_list_info">
@@ -65,12 +51,12 @@
                     -->{% if post.image %}<!--
                     --><img class="icon" src="{% static 'img/picicon.png' %}" height="16px"><!--
                     -->{% endif %}<!--
-                    -->{% if post.file.first %}<!--
+                    -->{% if post.files %}<!--
                     --><img class="icon" src="{% static 'img/fileicon.png' %}" height="16px"><!--
                     -->{% endif %}<!--
                 --></span>
-                    {% if post.comment.all|length %}
-                    <span class="cmt_count">[{{post.comment.count}}]</span>
+                    {% if post.comments %}
+                    <span class="cmt_count">[{{post.comments}}]</span>
                     {% endif %}
                 </div>
                 <div id="mob_list_info">
