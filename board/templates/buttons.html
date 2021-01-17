@@ -1,15 +1,15 @@
 {% load static %}
 <div id="buttons_wrap" class="after">
 <div class="left">
-    <a href="/board/{{board_pk}}" class="btn blue">목록으로</a>
+    <a href="/board/board/{{board_pk}}" class="btn blue">목록으로</a>
 </div>
 <div class="right">
     {% if user == post.writer %}
-    <a href="/board/{{board_pk}}/update/{{pk}}" class="btn grey">수정</a>
+    <a href="/board/update/{{pk}}" class="btn grey">수정</a>
     {% endif %}
     {% if user == post.writer or user.is_superuser %}
-    <a href="/board/{{board_pk}}/delete/{{pk}}" onclick="return confirm('정말 삭제하시겠습니까?')" class="btn grey">삭제</a>
+    <a href="/board/delete/{{pk}}" onclick="return confirm('정말 삭제하시겠습니까?')" class="btn grey">삭제</a>
     {% endif %}
-    <a href="/board/{{board_pk}}/write" class="btn blue">글쓰기</a>
+    <a href="/board/write/{{board_pk}}" class="btn blue">글쓰기</a>
 </div>
 </div>
