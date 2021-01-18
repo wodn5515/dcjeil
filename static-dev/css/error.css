@@ -1,0 +1,5 @@
+/*로그인, common*/
+body{width:480px; margin:0 auto;}
+#header, #login_wrap, #social_login_wrap, #footer{width:100%;}
+#header{padding-top:50px;}
+#header > h1{width:400px; margin:0 auto;}
