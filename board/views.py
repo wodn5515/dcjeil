@@ -48,14 +48,15 @@ class Board(ListView, BoardMixin):
         ).select_related("writer").annotate(comments=Count("comment")).only("writer__is_superuser", "writer__name", "title", "views")
         if now_menu.m_type == "fixed_uneditable":
             if now_menu.name == "교회연혁":
-                content_type = "fixedboard/history.html"
+                html = "fixedboard/history.html"
                 context["history_decade"], context["fixed_data"] = self.get_history()
             else:
-                content_type = "fixedboard/community.html"
+                html = "fixedboard/community.html"
                 context["fixed_data"] = self.get_community(pk)
-        elif now_menu.m_type == "fixed":
-            context["fixed_data"] = FixedMenu.objects.filter(menu=now_menu).last()
-        content_type = now_menu.m_type + ".html"
+        else:
+            if now_menu.m_type == "fixed":
+                context["fixed_data"] = FixedMenu.objects.filter(menu=now_menu).last()
+            html = now_menu.m_type + ".html"
         context["notice_list"] = notice_list
         context["page_range"] = self.page_range(paginator, page)
         context["pk"] = pk
@@ -64,7 +65,7 @@ class Board(ListView, BoardMixin):
         context["s_keyword"] = keyword
         context["now_menu"] = now_menu
         context["now_main"] = now_main
-        context["content_type"] = content_type
+        context["html"] = html
         return context
 
     def get_queryset(self, now_menu):
@@ -91,7 +92,10 @@ class Board(ListView, BoardMixin):
 
     def get(self, request, *args, **kwargs):
         pk = self.kwargs["pk"]
-        now_menu = Submenu.objects.get(pk=pk)
+        try:
+            now_menu = Submenu.objects.get(pk=pk)
+        except Submenu.DoesNotExist:
+            raise Http404("게시판이 존재하지 않습니다.")
         self.object_list = self.get_queryset(now_menu)
         context = self.get_context_data(now_menu)
         return self.render_to_response(context)
@@ -99,7 +103,10 @@ class Board(ListView, BoardMixin):
 
 # 게시판 - 디테일
 def detail(request, pk):
-    post = Post.objects.get(pk=pk)
+    try:
+        post = Post.objects.select_related("writer").get(pk=pk)
+    except Post.DoesNotExist:
+        raise Http404("게시글이 존재하지 않습니다.")
     menu = get_menu()
     now_menu = post.div
     try:
