@@ -1,5 +1,15 @@
-/*로그인, common*/
+/* Error Page */
 body{width:480px; margin:0 auto;}
 #header, #login_wrap, #social_login_wrap, #footer{width:100%;}
 #header{padding-top:50px;}
 #header > h1{width:400px; margin:0 auto;}
+
+#error-wrap{margin-top:100px; border:2px solid #0093e9; border-radius:10px; text-align: center; padding:40px;}
+#error-wrap .to-home a{width:100px; display:block; margin:0 auto; padding:10px 20px; background-color: #0093e9; margin-top:30px;}
+
+
+@media screen and (max-width:480px){
+    body{width:90%;}
+    #header > h1{width:90%;}
+    #error-wrap{padding:20px;}
+}

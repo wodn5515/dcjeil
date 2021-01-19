@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="subject" content="덕천제일교회">
+        <meta name="title" content="덕천제일교회">
+        <meta name="author" content="덕천제일교회">
+        <meta name="description" content="부산시 북구 덕천동 위치, 김대환 담임목사, 예배안내, 설교자료 등 제공">
+        <meta name="keywords" content="교회, 덕천동교회, 덕천동 교회, 김대환 목사, 덕천동, 북구">
+        <meta name="copyright" content="덕천제일교회">
+        <title>{% block title %}{% endblock title %} | 덕천제일교회</title>
+        <link rel="icon"href="{% static 'img/favicon.png' %}">
+        <link rel="stylesheet" href="{% static 'css/common.css' %}">
+        <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+        <link rel="stylesheet" href="{% static 'css/error.css' %}">
+    </head>
+    <body>
+        <div id="header">
+            <h1>
+                <a style="display:block;" href="/">
+                    <img src="{% static 'img/new_logo.png' %}" alt="메인탑로고" width="100%" height="auto">
+                </a>
+            </h1>
+        </div>
+        <div id="error-wrap">
+            {% block text %}
+            {% endblock text %}
+            <div class="to-home">
+                <a href="/">홈으로</a>
+            </div>
+        </div>
+    </body>
+</html>
