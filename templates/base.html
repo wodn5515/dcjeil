@@ -279,7 +279,7 @@
                 // 댓글화면 methods
                 getComments:function(){
                     var self = this;
-                    axios.get('/comments/{{post.id}}')
+                    axios.get('/data/comments/{{post.id}}')
                     .then(function(response){
                         self.comment_data.comments = response.data;
                         //console.log(this.comments[0].date);
@@ -312,7 +312,7 @@
                         }
                     })
                     .catch(function(err){
-                        alert('알수없는 오류가 발생했습니다. 관리자에게 문의해주세요.');
+                        alert('오류가 발생했습니다. 관리자에게 문의해주세요.');
                         //alert(err.data);
                         //console.log(err);
                         //console.log(this.content);

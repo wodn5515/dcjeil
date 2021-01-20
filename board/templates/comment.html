@@ -13,7 +13,7 @@
     </div>
     <ul v-if="comment_token" id="comment_list_wrap">
         <li v-for="comment in comments" class="container">
-            <div class="cmt name">[[comment.name]]</div>
+            <div class="cmt name">[[comment.writer]]</div>
             <div class="cmt content"><p>[[comment.content]]</p></div>
             <div class="cmt date_del"><span style="margin-right:10px;">[[comment.date|dateFilter]]</span><img @click="deleteComment(comment.id)" src="{% static 'img/cmt_delete.png' %}"></div>
         </li>

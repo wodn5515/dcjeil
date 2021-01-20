@@ -1,9 +1,9 @@
 from django.urls import path, include
-from . import views
+from rest_framework import routers
+from . import views, api
 
 app_name = 'data'
 
 urlpatterns = [
-    path('history', views.history, name="history"),
-    path('community/<str:div>', views.community, name='community'),
+    path("comments/<str:post>", api.CommentList.as_view()),
 ]
