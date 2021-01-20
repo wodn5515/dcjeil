@@ -9,6 +9,7 @@ from imagekit.processors import Thumbnail
 from imagekit.utils import get_cache
 from random import choice
 from member.choice import OFFICE_CHOICES
+from menu.models import Submenu
 from .choice import COMMUNITY
 import string
 
@@ -88,7 +89,7 @@ class Community(models.Model):
         verbose_name = "교육부서 관리"
         verbose_name_plural = "교육부서 관리"
 
-    div = models.CharField(_("구분"), max_length=10, choices=COMMUNITY, blank=True)
+    div = models.ForeignKey(Submenu, verbose_name="교육부서", on_delete=models.CASCADE, limit_choices_to={"mainmenu__name":"다음세대"}, null=True)
     image = models.ImageField(_("사진"), blank=True, upload_to=community_image_save)
     title = models.TextField(_("표어"), blank=True)
     goal = RichTextUploadingField(verbose_name=("교육목표"), blank=True)
@@ -97,7 +98,7 @@ class Community(models.Model):
     youtube = models.CharField(_("유튜브링크"), max_length=255, blank=True, default="")
 
     def __str__(self):
-        return f"{self.get_div_display()}"
+        return f"{self.div}"
 
 
 # 직분 #
