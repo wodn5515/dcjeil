@@ -79,7 +79,7 @@ def is_mobile(user_agent):
 def get_query_home(submenu):
     return Post.objects.filter(
         Q(div=submenu), Q(reservation__lte=datetime.datetime.now())
-    ).order_by("-upload_date").select_related("div").only("div__order", "div__mainmenu", "preacher", "tag", "date", "title", "upload_date", "image")[:8]
+    ).order_by("-reservation").select_related("div").only("div__order", "div__mainmenu", "preacher", "tag", "date", "title", "upload_date", "image")[:8]
 
 
 @register.filter
