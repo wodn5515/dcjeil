@@ -131,8 +131,8 @@ class Comment(models.Model):
     writer = models.ForeignKey(
         account, on_delete=models.CASCADE, verbose_name="작성자", related_name="writer"
     )
-    content = models.TextField(_("내용"), blank=True)
-    date = models.DateTimeField(_("등록일"), default=timezone.now)
+    content = models.TextField(_("내용"))
+    date = models.DateTimeField(_("등록일"), auto_now_add=True)
 
     def __str__(self):
         return f"{self.post.title} - {self.writer}"
