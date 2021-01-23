@@ -158,7 +158,7 @@
                             {% with subs=main.submenu.all %}
                             {% for sub in subs %}
                             <li>
-                                <a href="/board/{{main.order}}{{sub.order|submenu_idx}}">{{sub.name}}</a>
+                                <a href="{{sub.get_absolute_url}}">{{sub.name}}</a>
                             </li>
                             {% endfor %}
                             {% endwith %}
@@ -293,9 +293,13 @@
                 addComment:function(message){
                     var self = this;
                     var postData = {content:message};
-                    console.log(postData);
-                    axios.post('/comments/{{post.id}}', postData, {xsrfCookieName: 'csrftoken', xsrfHeaderName: 'X-CSRFToken'})
+                    if(message==""){
+                        alert("댓글을 입력해주세요.")
+                        return false;
+                    }
+                    axios.post('/data/comments/{{post.id}}/', postData, {xsrfCookieName: 'csrftoken', xsrfHeaderName: 'X-CSRFToken'})
                     .then(function(response){
+                        console.log(response.data)
                         var str = response.data.split('||')
                         if(str[0]=='true'){
                             self.getComments();
