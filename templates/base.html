@@ -300,23 +300,13 @@
                     axios.post('/data/comments/{{post.id}}/', postData, {xsrfCookieName: 'csrftoken', xsrfHeaderName: 'X-CSRFToken'})
                     .then(function(response){
                         console.log(response.data)
-                        var str = response.data.split('||')
-                        if(str[0]=='true'){
-                            self.getComments();
-                            document.getElementById('comment_write').value = '';
-                            //console.log(response.data);
-                            //console.log(this.content);
-                        }else{
-                            if(str[1]=='redirect'){
-                                alert(str[2])
-                                location.href=str[3]
-                            }else{
-                                alert(str[2])
-                            }
-                        }
+                        self.getComments();
+                        document.getElementById('comment_write').value = '';
+                        //console.log(response.data);
+                        //console.log(this.content);
                     })
                     .catch(function(err){
-                        alert('오류가 발생했습니다. 관리자에게 문의해주세요.');
+                        alert("로그인 후 이용해주세요.");
                         //alert(err.data);
                         //console.log(err);
                         //console.log(this.content);
@@ -327,18 +317,13 @@
                     var self = this;
                     console.log('delete')
                     if(confirm('삭제하시겠습니까?')){
-                        axios.post('/comments/' + id + '/delete', {}, {xsrfCookieName: 'csrftoken', xsrfHeaderName: 'X-CSRFToken'})
+                        axios.delete('/data/comments/{{post.id}}/'+id, {xsrfCookieName: 'csrftoken', xsrfHeaderName: 'X-CSRFToken'})
                         .then(function(response){
-                            var str = response.data.split('||')
-                            if(str[0]=='false'){
-                                alert(str[1])
-                            }else{
+                            alert("삭제되었습니다.")
                             self.getComments();
-                            alert(response.data);
-                            }
                         })
                         .catch(function(err){
-                            alert('알수없는 오류가 발생했습니다. 관리자에게 문의해주세요.');
+                            alert("권한이 없습니다.");
                         })
                     }
                 },
