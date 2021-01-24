@@ -9,6 +9,7 @@ class CommentPermission(permissions.BasePermission):
         elif request.method == "POST":
             self.message = "로그인 후 이용해주세요."
             return request.user.is_authenticated
+        return True
 
     def has_object_permission(self, request, view, obj):
         return request.user.is_superuser or obj.writer == request.user
