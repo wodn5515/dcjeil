@@ -5,11 +5,11 @@
 </div>
 <div class="right">
     {% if user == post.writer %}
-    <a href="/board/update/{{pk}}" class="btn grey">수정</a>
+    <a href="/board/update/{{ pk }}" class="btn grey">수정</a>
     {% endif %}
     {% if user == post.writer or user.is_superuser %}
-    <a href="/board/delete/{{pk}}" onclick="return confirm('정말 삭제하시겠습니까?')" class="btn grey">삭제</a>
+    <a href="/board/delete/{{ board_pk }}/{{ pk }}" onclick="return confirm('정말 삭제하시겠습니까?')" class="btn grey">삭제</a>
     {% endif %}
-    <a href="/board/write/{{board_pk}}" class="btn blue">글쓰기</a>
+    <a href="/board/write/{{ board_pk }}" class="btn blue">글쓰기</a>
 </div>
 </div>
