@@ -109,6 +109,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         help_text=_("◈ ' - '를 제외하고 입력해주세요."),
         unique=True,
         null=True,
+        blank=True,
         error_messages = {
             'unique' : _("이미 가입된 연락처입니다."),
         }
@@ -117,12 +118,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         Duty,
         verbose_name=_('직분'),
         on_delete=models.SET_NULL,
+        blank=True,
         null=True
     )
     belong = models.ForeignKey(
         Belong,
         verbose_name=_('소속'),
         on_delete=models.SET_NULL,
+        blank=True,
         null=True
     )
     adminpermissiongroups = models.ManyToManyField(
