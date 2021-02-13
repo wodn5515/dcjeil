@@ -96,6 +96,14 @@ class Board(ListView, BoardMixin):
             now_menu = Submenu.objects.get(pk=pk)
         except Submenu.DoesNotExist:
             raise Http404("게시판이 존재하지 않습니다.")
+        if now_menu.mainmenu.hide:
+            if not request.user.is_authenticated:
+                messages.info(request, "로그인 후 이용해주세요.")
+                return redirect("/login/?next=/")
+            else:
+                if not request.user.is_media:
+                    messages.info(request, "권한이 없습니다.")
+                    return redirect("/")
         self.object_list = self.get_queryset(now_menu)
         context = self.get_context_data(now_menu)
         return self.render_to_response(context)
