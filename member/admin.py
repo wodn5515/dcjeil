@@ -25,7 +25,7 @@ class UserAdmin(BaseUserAdmin):
         (_('회원정보'), {'fields': ('uid', 'password',)}),
         (_('Personal info'), {'fields': ('name', 'email', 'tp',)}),
         (_('추가정보'), {'fields': ('is_registered', 'belong', 'duty',)}),
-        (_('Permissions'), {'fields': ('is_active', 'is_superuser', 'is_staff', 'adminpermissiongroups', 'boardpermissiongroups',)}),
+        (_('Permissions'), {'fields': ('is_active', 'is_superuser', 'is_staff', 'is_media', 'adminpermissiongroups', 'boardpermissiongroups',)}),
     )
     add_fieldsets = (
         (None, {'fields': ('uid', 'password',)}),

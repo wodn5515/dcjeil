@@ -14,6 +14,7 @@ class Mainmenu(models.Model):
 
     name = models.CharField(_('메뉴명'), max_length=100)
     order = models.IntegerField(_('순서'), unique=True, help_text="낮을수록 먼저 배치됩니다")
+    hide = models.BooleanField(_("숨김메뉴"), default=False)
 
     def __str__(self):
         return f'{self.name}'

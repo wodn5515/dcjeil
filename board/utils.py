@@ -41,4 +41,4 @@ class BoardMixin:
 
 
 def get_menu():
-    return Mainmenu.objects.all().order_by("order").prefetch_related("submenu")
+    return Mainmenu.objects.filter(hide=False).order_by("order").prefetch_related("submenu")

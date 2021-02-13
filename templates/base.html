@@ -51,6 +51,11 @@
                                     <em style="text-decoration: underline; font-weight:bold;">{{user.name}}</em><em> 님, 반갑습니다.</em>
                                 </li>
                                 {% endif %}
+                                {% if user.is_media %}
+                                <li>
+                                    <a href="/board/board/48"><img src="{% static 'img/media.png' %}" width="30px" height="30px"><p>미디어팀</p></a>
+                                </li>
+                                {% endif %}
                                 {% if user.is_superuser %}
                                 <li>
                                     <a href="/admin"><img src="{% static 'img/settings.png' %}" width="30px" height="30px"><p>관리자 페이지로..</p></a>

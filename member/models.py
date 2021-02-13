@@ -80,6 +80,7 @@ class BoardPermissionGroup(models.Model):
         
 class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(_('이름'), max_length=5, default='')
+    is_media = models.BooleanField(_("미디어팀"), default=False)
     is_active = models.BooleanField(_('승인'), default=False)
     is_staff = models.BooleanField(_('스태프'), default=False, help_text=_('◈ 관리자페이지 접속권한'))
     is_superuser = models.BooleanField(_('관리자'), default=False, help_text=_('◈ 최고등급의 관리자권한'))
