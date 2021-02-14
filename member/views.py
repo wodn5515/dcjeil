@@ -43,6 +43,10 @@ def login_view(request):
         user = forms.login(request)
         if user:
             login(request, user)
+            if "@example.com" in user.email or not user.email:
+                messages.info(request, "이메일을 등록해주세요.")
+                request.session["usercheck"] = True
+                return redirect("/userupdate")
             return HttpResponseRedirect(request.GET.get('next') if request.GET.get('next') else '/')
     return render(request, 'registration/login.html', {
         'forms': forms,
