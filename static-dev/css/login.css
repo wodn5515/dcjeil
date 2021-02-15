@@ -25,16 +25,18 @@ body#login{width:480px; margin:0 auto;}
 #find_header{padding:20px; border-bottom:1px solid #c5c5c5; box-shadow:0px 0px 3px 1px #c5c5c5;}
 #find_header > h1{font-size:16px;}
 #find_container{padding:20px;}
-#find_container .field_wrap{margin-bottom:20px;}
 #find_container .field_wrap:first-child{border:none;}
 #find_container input{border:1px solid #c5c5c5; padding:8px; height:40px; font-size:14px; line-height:14px; width:100%;}
 #find_container input:focus{border:1px solid #0093e9;}
 #find_container input.button{cursor:pointer;}
-#find_container #button_wrap{text-align:center;}
+#find_container #button_wrap{text-align:center; margin-top:50px;}
 #find_container #find_submit{background-color:#0093e9; border:1px solid #0187d4; width:20%; margin-right:8%;}
 #find_container #find_close{width:20%; background-color:#818181; border:none;}
-#find_container .error{display:inline-block; margin-left:20px; font-size:12px; color:#fa5555}
-#find_container .help{font-size:12px; color:#939393; margin-top:10px;}
+#find_container .error{display:inline-block; font-size:12px; color:#fa5555}
+#find_container .help{font-size:12px; color:#939393; margin:10px 0 0 5px;}
+#find_container table{width:80%; margin:0 auto; text-align:center;}
+#find_container table th,
+#find_container table td{padding:10px; border:1px solid #c5c5c5;}
 
 /*회원가입*/
 #reg_wrapper{width:800px; margin:0 auto; padding:30px 50px; margin:30px auto; min-height:500px; box-shadow:0px 0px 5px 3px #e3e3e3; background-color:white;}
