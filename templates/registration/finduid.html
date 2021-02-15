@@ -37,7 +37,6 @@
         <form action="" method="POST" name="finduid" autocomplete="off">
         {% for field in forms %}
         <div class="field_wrap">
-            {{ field.label_tag }}
             {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
             {{ field }}
             {% if field.help_text %}

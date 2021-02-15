@@ -38,9 +38,7 @@ urlpatterns = [
     path("login/", account_views.login_view, name="login"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("login/finduid", account_views.finduid, name="finduid"),
-    path("login/finduid2", account_views.finduid2, name="finduid2"),
     path("login/findpassword", account_views.findpassword, name="findpassword"),
-    path("login/findpassword2", account_views.findpassword2, name="findpassword2"),
     path(
         "login/social/naver/callback",
         account_views.NaverLoginCallbackView.as_view(),

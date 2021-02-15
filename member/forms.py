@@ -7,6 +7,12 @@ from .choice import *
 from .models import User, UserManager
 
         
+def uid_check(value):
+    try:
+        User.objects.get(uid=value)
+    except:
+        raise forms.ValidationError("존재하지않는 회원입니다.")
+        
 def email_user_check(value):
     try:
         User.objects.get(email=value)
@@ -87,7 +93,8 @@ class FinduidForm(forms.Form):
         super(FinduidForm, self).__init__(*args, **kwargs)
 
     email = forms.EmailField(label='이메일', help_text="회원가입시 입력한 이메일을 입력해주세요.", validators=[email_user_check], widget=forms.EmailInput(attrs={
-        'autofocus' : 'on'
+        'autofocus' : 'on',
+        'placeholder' : '이메일'
     }))
 
 class FindPasswordForm(forms.Form):
@@ -95,10 +102,12 @@ class FindPasswordForm(forms.Form):
         kwargs.setdefault('label_suffix', '')
         super(FindPasswordForm, self).__init__(*args, **kwargs)
 
-    uid = forms.CharField(label="아이디", widget=forms.TextInput(attrs={
-        'autofocus' : 'on'
+    uid = forms.CharField(label="아이디", validators=[uid_check], widget=forms.TextInput(attrs={
+        'autofocus' : 'on',
+        'placeholder' : '아이디'
     }))
-    email = forms.EmailField(label='이메일', validators=[email_user_check], widget=forms.EmailInput(attrs={
+    email = forms.EmailField(label='이메일', help_text="회원가입시 입력한 이메일을 입력해주세요.", validators=[email_user_check], widget=forms.EmailInput(attrs={
+        'placeholder' : '이메일'
     }))
 
 class RegisterForm(forms.ModelForm):
