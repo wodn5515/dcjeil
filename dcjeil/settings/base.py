@@ -42,6 +42,10 @@ AUTHENTICATION_BACKENDS = [
     "member.oauth.backends.SocialLoginBackend",
 ]
 
+EMAIL_BACKEND = "django_ses.SESBackend"
+AWS_SES_REGION_NAME = 'ap-northeast-2'
+AWS_SES_REGION_ENDPOINT = 'email.ap-northeast-2.amazonaws.com'
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
