@@ -1,5 +1,7 @@
 import logging
 from django.conf import settings
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -8,6 +10,7 @@ from django.views.decorators.http import require_POST, require_GET
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404
 from django.views.generic import ListView, DetailView, View
+from django.utils.html import strip_tags
 from django.utils.dateparse import parse_date
 from django.db import IntegrityError
 from el_pagination.views import AjaxListView
@@ -22,6 +25,7 @@ from board.models import Post
 from menu.models import Mainmenu
 from member.models import User
 from dcjeil.forms import SocialUpdateForm
+from random import choice
 import string, os
 
 # Create your views here.
@@ -72,6 +76,17 @@ def findpassword(request):
     if request.method == "POST":
         forms = FindPasswordForm(request.POST)
         if forms.is_valid():
+            user = User.objects.get(email=request.POST.get("email"))
+            num = "".join([choice(string.digits) for _ in range(6)])
+            html_message = render_to_string('messages/authentication.html', {'num': num})
+            plain_message = strip_tags(html_message)
+            send_mail(
+                f"{user.name}님, 비밀번호 변경 인증번호 입니다.",
+                plain_message,
+                "덕천제일교회 <noreply@dcjeil.net>",
+                ["wodn5515@naver.com"],
+                html_message=html_message
+            )
             return render(request, 'registration/findpassword2.html')
     else:
         forms = FindPasswordForm()
