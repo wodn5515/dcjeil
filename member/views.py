@@ -5,6 +5,7 @@ from django.template.loader import render_to_string
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.forms import ValidationError
 from django.middleware.csrf import _compare_masked_tokens
 from django.views.decorators.http import require_POST, require_GET
 from django.shortcuts import render, get_object_or_404, redirect, reverse
@@ -17,7 +18,7 @@ from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
 from .models import User
-from .forms import FinduidForm, FindPasswordForm, RegisterForm, LoginForm
+from .forms import FinduidForm, FindPasswordForm, RegisterForm, LoginForm, CertificationNumberForm
 from .oauth.providers.naver import NaverLoginMixin
 from .oauth.providers.kakao import KakaoLoginMixin
 from .oauth.providers.google import GoogleLoginMixin
@@ -87,12 +88,28 @@ def findpassword(request):
                 ["wodn5515@naver.com"],
                 html_message=html_message
             )
-            return render(request, 'registration/findpassword2.html')
+            request.session["cert"] = num
+            return redirect("/login/certification")
     else:
         forms = FindPasswordForm()
     return render(request, 'registration/findpassword.html', {
         'forms' : forms
         })
+
+def certification(request):
+    if request.method == "POST":
+        forms = CertificationNumberForm(request.POST)
+        if request.POST.get("cert") == request.session.get("cert", False):
+            return HttpResponse("test")
+        return render(request, "registration/certification.html", {
+            "forms": forms,
+            "error": "일치하지 않습니다."
+        })
+    else:
+        forms = CertificationNumberForm()
+    return render(request, "registration/certification.html", {
+        "forms": forms
+    })
 
 # 회원가입 약관
 @user_passes_test(not_logged_in, 'home')

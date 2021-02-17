@@ -110,6 +110,16 @@ class FindPasswordForm(forms.Form):
         'placeholder' : '이메일'
     }))
 
+class CertificationNumberForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
+        super(CertificationNumberForm, self).__init__(*args, **kwargs)
+
+    cert = forms.CharField(label="인증번호", widget=forms.TextInput(attrs={
+        "placeholder": "인증번호"
+    }))
+
+
 class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label_suffix', '')

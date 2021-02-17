@@ -14,7 +14,7 @@
         <meta property="og:description" content="덕천제일교회에 오신 것을 환영합니다.">
         <meta property="og:image" content="">
         <meta property="og:url" content="http://www.dcjeil.net">
-        <title>비밀번호 찾기 | 덕천제일교회</title>
+        <title>인증번호 | 덕천제일교회</title>
         <link rel="stylesheet" href="{% static 'css/common.css' %}">
         <link rel="stylesheet" href="{% static 'css/reset.css' %}">
         <link rel="stylesheet" href="{% static 'css/login.css' %}">
@@ -24,13 +24,13 @@
     </head>
     <body>
     <div id="find_header">
-        <h1>비밀번호 찾기</h1>
+        <h1>인증번호</h1>
     </div>
     <div id="find_container">
         <form action="" method="POST" name="finduid" autocomplete="off">
         {% for field in forms %}
         <div class="field_wrap">
-            {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
+            {% if error %}<span class="error">{{ error }}</span>{% endif %}
             {{ field }}
             {% if field.help_text %}
             <p class="help">{{ field.help_text|safe }}</p>
