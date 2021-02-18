@@ -18,7 +18,7 @@ from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
 from .models import User
-from .forms import FinduidForm, FindPasswordForm, RegisterForm, LoginForm, CertificationNumberForm
+from .forms import FinduidForm, FindPasswordForm, RegisterForm, LoginForm, CertificationNumberForm, SetPasswordForm
 from .oauth.providers.naver import NaverLoginMixin
 from .oauth.providers.kakao import KakaoLoginMixin
 from .oauth.providers.google import GoogleLoginMixin
@@ -65,7 +65,7 @@ def finduid(request):
         forms = FinduidForm(request.POST)
         if forms.is_valid():
             user = User.objects.get(email=request.POST.get("email"))
-            return render(request, 'registration/finduid2.html', {"user":user})
+            return render(request, 'registration/finduid_result.html', {"user":user})
     else:
         forms = FinduidForm()
     return render(request, 'registration/finduid.html', {
@@ -89,7 +89,8 @@ def findpassword(request):
                 html_message=html_message
             )
             request.session["cert"] = num
-            return redirect("/login/certification")
+            request.session["uid"] = user.uid
+            return redirect("/certification")
     else:
         forms = FindPasswordForm()
     return render(request, 'registration/findpassword.html', {
@@ -100,14 +101,39 @@ def certification(request):
     if request.method == "POST":
         forms = CertificationNumberForm(request.POST)
         if request.POST.get("cert") == request.session.get("cert", False):
-            return HttpResponse("test")
+            del request.session["cert"]
+            request.session["certificated"] = True
+            return redirect("/setpassword")
         return render(request, "registration/certification.html", {
             "forms": forms,
             "error": "일치하지 않습니다."
         })
     else:
-        forms = CertificationNumberForm()
+        if request.session.get("cert", False):
+            forms = CertificationNumberForm()
+        else:
+            return redirect("/findpassword")
     return render(request, "registration/certification.html", {
+        "forms": forms
+    })
+
+def setpassword(request):
+    if request.method == "POST":
+        forms = SetPasswordForm(request.POST)
+        if forms.is_valid():
+            password = request.POST.get("password")
+            user = User.objects.get(uid=request.session.get("uid"))
+            user.set_password(password)
+            user.save()
+            del request.session["certificated"]
+            del request.session["uid"]
+            return render(request, "registration/setpassword_result.html")
+    else:
+        if request.session.get("certificated"):
+            forms = SetPasswordForm()
+        else:
+            return redirect("/findpassword")
+    return render(request, "registration/setpassword.html", {
         "forms": forms
     })
 

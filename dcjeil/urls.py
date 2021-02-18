@@ -37,9 +37,10 @@ urlpatterns = [
     path("event/", include("event.urls")),
     path("login/", account_views.login_view, name="login"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
-    path("login/finduid", account_views.finduid, name="finduid"),
-    path("login/findpassword", account_views.findpassword, name="findpassword"),
-    path("login/certification", account_views.certification, name="certification"),
+    path("finduid", account_views.finduid, name="finduid"),
+    path("findpassword", account_views.findpassword, name="findpassword"),
+    path("certification", account_views.certification, name="certification"),
+    path("setpassword", account_views.setpassword, name="setpassword"),
     path(
         "login/social/naver/callback",
         account_views.NaverLoginCallbackView.as_view(),

@@ -119,6 +119,37 @@ class CertificationNumberForm(forms.Form):
         "placeholder": "인증번호"
     }))
 
+class SetPasswordForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
+        super(SetPasswordForm, self).__init__(*args, **kwargs)
+
+    password = forms.CharField(label="비밀번호", widget=forms.PasswordInput(attrs={
+        "placeholder": "비밀번호",
+    }))
+    comfirm_password = forms.CharField(label="비밀번호 확인", widget=forms.PasswordInput(attrs={
+        "placeholder": "비밀번호 확인"
+    }))
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if password:
+            validate_password(password)
+        return password
+
+    def clean_confirm_password(self):
+        password = self.cleaned_data.get('password')
+        confirm_password = self.cleaned_data.get('confirm_password')
+        if password:
+            try:
+                validate_password(password)
+            except:
+                pass
+            else:
+                if password != confirm_password:
+                    raise forms.ValidationError('비밀번호가 일치하지 않습니다.')
+        return confirm_password
+
 
 class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
