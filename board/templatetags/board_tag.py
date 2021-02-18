@@ -90,3 +90,8 @@ def thumbnail(link):
         start = link.find("v=") + 2
         link = link[start : start + 11]
     return "https://img.youtube.com/vi/" + link + "/maxresdefault.jpg"
+
+@register.filter
+def finduid(uid):
+    cnt = len(uid)//2
+    return uid[:cnt] + ("*"*(len(uid)-cnt))

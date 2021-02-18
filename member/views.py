@@ -1,26 +1,32 @@
 import logging
 from django.conf import settings
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.forms import ValidationError
 from django.middleware.csrf import _compare_masked_tokens
 from django.views.decorators.http import require_POST, require_GET
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404
 from django.views.generic import ListView, DetailView, View
+from django.utils.html import strip_tags
 from django.utils.dateparse import parse_date
 from django.db import IntegrityError
 from el_pagination.views import AjaxListView
 from imagekit.utils import get_cache
 from random import choice
 from .models import User
-from .forms import FinduidForm, FindPasswordForm, RegisterForm, LoginForm
+from .forms import FinduidForm, FindPasswordForm, RegisterForm, LoginForm, CertificationNumberForm, SetPasswordForm
 from .oauth.providers.naver import NaverLoginMixin
 from .oauth.providers.kakao import KakaoLoginMixin
 from .oauth.providers.google import GoogleLoginMixin
 from board.models import Post
 from menu.models import Mainmenu
+from member.models import User
 from dcjeil.forms import SocialUpdateForm
+from random import choice
 import string, os
 
 # Create your views here.
@@ -58,32 +64,78 @@ def finduid(request):
     if request.method == "POST":
         forms = FinduidForm(request.POST)
         if forms.is_valid():
-            return redirect(reverse('finduid2'))
+            user = User.objects.get(email=request.POST.get("email"))
+            return render(request, 'registration/finduid_result.html', {"user":user})
     else:
         forms = FinduidForm()
     return render(request, 'registration/finduid.html', {
         'forms' : forms,
         })
 
-# 아이디 찾기 결과창
-def finduid2(request):
-    return render(request, 'registration/finduid2.html')
-
 # 비밀번호 찾기 입력창
 def findpassword(request):
     if request.method == "POST":
         forms = FindPasswordForm(request.POST)
         if forms.is_valid():
-            return redirect(reverse('findpassword2'))
+            user = User.objects.get(email=request.POST.get("email"))
+            num = "".join([choice(string.digits) for _ in range(6)])
+            html_message = render_to_string('messages/authentication.html', {'num': num})
+            plain_message = strip_tags(html_message)
+            send_mail(
+                f"{user.name}님, 비밀번호 변경 인증번호 입니다.",
+                plain_message,
+                "덕천제일교회 <noreply@dcjeil.net>",
+                ["wodn5515@naver.com"],
+                html_message=html_message
+            )
+            request.session["cert"] = num
+            request.session["uid"] = user.uid
+            return redirect("/certification")
     else:
         forms = FindPasswordForm()
     return render(request, 'registration/findpassword.html', {
         'forms' : forms
         })
 
-# 비밀번호 찾기 결과창
-def findpassword2(request):
-    return render(request, 'registration/findpassword2.html')
+def certification(request):
+    if request.method == "POST":
+        forms = CertificationNumberForm(request.POST)
+        if request.POST.get("cert") == request.session.get("cert", False):
+            del request.session["cert"]
+            request.session["certificated"] = True
+            return redirect("/setpassword")
+        return render(request, "registration/certification.html", {
+            "forms": forms,
+            "error": "일치하지 않습니다."
+        })
+    else:
+        if request.session.get("cert", False):
+            forms = CertificationNumberForm()
+        else:
+            return redirect("/findpassword")
+    return render(request, "registration/certification.html", {
+        "forms": forms
+    })
+
+def setpassword(request):
+    if request.method == "POST":
+        forms = SetPasswordForm(request.POST)
+        if forms.is_valid():
+            password = request.POST.get("password")
+            user = User.objects.get(uid=request.session.get("uid"))
+            user.set_password(password)
+            user.save()
+            del request.session["certificated"]
+            del request.session["uid"]
+            return render(request, "registration/setpassword_result.html")
+    else:
+        if request.session.get("certificated"):
+            forms = SetPasswordForm()
+        else:
+            return redirect("/findpassword")
+    return render(request, "registration/setpassword.html", {
+        "forms": forms
+    })
 
 # 회원가입 약관
 @user_passes_test(not_logged_in, 'home')

@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="subject" content="덕천제일교회">
+        <meta name="title" content="덕천제일교회">
+        <meta name="author" content="덕천제일교회">
+        <meta name="description" content="부산시 북구 덕천동 위치, 김대환 담임목사, 예배안내, 설교자료 등 제공">
+        <meta name="keywords" content="교회, 덕천동교회, 덕천동 교회, 김대환 목사, 덕천동, 북구">
+        <meta name="copyright" content="덕천제일교회">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="덕천제일교회">
+        <meta property="og:description" content="덕천제일교회에 오신 것을 환영합니다.">
+        <meta property="og:image" content="">
+        <meta property="og:url" content="http://www.dcjeil.net">
+        <title>이메일 인증 | 덕천제일교회</title>
+        <link rel="stylesheet" href="{% static 'css/common.css' %}">
+        <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+        <link rel="stylesheet" href="{% static 'css/login.css' %}">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://kit.fontawesome.com/41217280d3.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+    <div id="find_header">
+        <h1>이메일 인증</h1>
+    </div>
+    <div id="find_container">
+        <form action="" method="POST" name="finduid" autocomplete="off">
+        {% for field in forms %}
+        <div class="field_wrap">
+            {% if error %}<span class="error">{{ error }}</span>{% endif %}
+            {{ field }}
+            {% if field.help_text %}
+            <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+        {% csrf_token %}
+        <div id="button_wrap">
+            <input id="find_submit" class="button" type="submit" value="확인">
+            <input id="find_close" class="button" type="button" onclick="window.close();" value="창닫기">
+        </div>
+        </form>
+    </div>
+    </body>
+</html>

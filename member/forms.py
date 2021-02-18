@@ -7,6 +7,12 @@ from .choice import *
 from .models import User, UserManager
 
         
+def uid_check(value):
+    try:
+        User.objects.get(uid=value)
+    except:
+        raise forms.ValidationError("존재하지않는 회원입니다.")
+        
 def email_user_check(value):
     try:
         User.objects.get(email=value)
@@ -87,7 +93,8 @@ class FinduidForm(forms.Form):
         super(FinduidForm, self).__init__(*args, **kwargs)
 
     email = forms.EmailField(label='이메일', help_text="회원가입시 입력한 이메일을 입력해주세요.", validators=[email_user_check], widget=forms.EmailInput(attrs={
-        'autofocus' : 'on'
+        'autofocus' : 'on',
+        'placeholder' : '이메일'
     }))
 
 class FindPasswordForm(forms.Form):
@@ -95,11 +102,54 @@ class FindPasswordForm(forms.Form):
         kwargs.setdefault('label_suffix', '')
         super(FindPasswordForm, self).__init__(*args, **kwargs)
 
-    uid = forms.CharField(label="아이디", widget=forms.TextInput(attrs={
-        'autofocus' : 'on'
+    uid = forms.CharField(label="아이디", validators=[uid_check], widget=forms.TextInput(attrs={
+        'autofocus' : 'on',
+        'placeholder' : '아이디'
     }))
-    email = forms.EmailField(label='이메일', validators=[email_user_check], widget=forms.EmailInput(attrs={
+    email = forms.EmailField(label='이메일', help_text="회원가입시 입력한 이메일을 입력해주세요.", validators=[email_user_check], widget=forms.EmailInput(attrs={
+        'placeholder' : '이메일'
     }))
+
+class CertificationNumberForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
+        super(CertificationNumberForm, self).__init__(*args, **kwargs)
+
+    cert = forms.CharField(label="인증번호", widget=forms.TextInput(attrs={
+        "placeholder": "인증번호"
+    }))
+
+class SetPasswordForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
+        super(SetPasswordForm, self).__init__(*args, **kwargs)
+
+    password = forms.CharField(label="비밀번호", widget=forms.PasswordInput(attrs={
+        "placeholder": "비밀번호",
+    }))
+    comfirm_password = forms.CharField(label="비밀번호 확인", widget=forms.PasswordInput(attrs={
+        "placeholder": "비밀번호 확인"
+    }))
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if password:
+            validate_password(password)
+        return password
+
+    def clean_confirm_password(self):
+        password = self.cleaned_data.get('password')
+        confirm_password = self.cleaned_data.get('confirm_password')
+        if password:
+            try:
+                validate_password(password)
+            except:
+                pass
+            else:
+                if password != confirm_password:
+                    raise forms.ValidationError('비밀번호가 일치하지 않습니다.')
+        return confirm_password
+
 
 class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
