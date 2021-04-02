@@ -22,3 +22,10 @@ def get_social_login_secret_key(key: str):
                 return v
         raise ValueError('서버정보를 확인할 수 없습니다.')
 
+
+def get_filename(filename):
+    arr = [choice(string.ascii_letters) for _ in range(8)]
+    pid = ''.join(arr)
+    extension = filename.split('.')[-1]
+    return f'{pid}.{extension}'
+
