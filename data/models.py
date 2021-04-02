@@ -27,7 +27,7 @@ def popup_image_save(instance, filename):
 
 # 커뮤니티 이미지 저장 #
 def community_image_save(instance, filename):
-    return f"data/community/{instance.get_div_display()}"
+    return f"data/community/{instance.div}"
 
 
 ###############################################################
