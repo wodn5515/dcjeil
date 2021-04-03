@@ -71,9 +71,14 @@ class Board(ListView, BoardMixin):
     def get_queryset(self, now_menu):
         kind = self.request.GET.get("s_kind", "")
         keyword = self.request.GET.get("s_keyword", "")
-        post_list = Post.objects.filter(
-            Q(div=now_menu), Q(reservation__lte=datetime.datetime.now())
-        ).select_related("writer")
+        if self.request.user.is_staff:
+            post_list = Post.objects.filter(
+                div=now_menu
+            ).select_related("writer")
+        else:
+            post_list = Post.objects.filter(
+                Q(div=now_menu), Q(reservation__lte=datetime.datetime.now())
+            ).select_related("writer")
         if kind == "title":
             post_list = post_list.filter(
                 Q(title__contains=keyword) | Q(date__contains=keyword)

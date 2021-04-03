@@ -40,7 +40,7 @@
             <td class="td_no">{% td_no forloop.counter0 page_obj.start_index %}</td>
             <td class="td_title">
                 <div class="td_title_title after">
-                    <a href="{{ post.get_absolute_url }}">{% if post.date %}{{post.date|date:"Y-m-d"}} | {% endif %}{% if post.tag %}[{{post.tag}}]{% endif %}{{post.title}}{% if post.preacher %} - {{post.preacher}}{% endif %}</a>
+                    <a href="{{ post.get_absolute_url }}">{% if post.is_reserved %}{{ post.reservation|reservation_filter }}{% endif %}{% if post.date %}{{post.date|date:"Y-m-d"}} | {% endif %}{% if post.tag %}[{{post.tag}}]{% endif %}{{post.title}}{% if post.preacher %} - {{post.preacher}}{% endif %}</a>
                     <span class="icon_wrap after"><!--
                     -->{% if post.upload_date|post_new %}<!--
                     --><img class="icon" src="{% static 'img/newicon.png' %}" height="16px"><!--
