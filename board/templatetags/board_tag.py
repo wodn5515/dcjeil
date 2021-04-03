@@ -95,3 +95,8 @@ def thumbnail(link):
 def finduid(uid):
     cnt = len(uid)//2
     return uid[:cnt] + ("*"*(len(uid)-cnt))
+
+
+@register.filter
+def reservation_filter(value):
+    return "[예약게시글]" if value > datetime.datetime.now() else ""
