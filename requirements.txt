@@ -12,7 +12,7 @@ click==7.1.2
 colorama==0.4.0
 dataclasses==0.8
 defusedxml==0.6.0
-Django==3.1.2
+Django==3.1.8
 django-allauth==0.42.0
 django-appconf==1.0.3
 django-ckeditor==5.8.0
